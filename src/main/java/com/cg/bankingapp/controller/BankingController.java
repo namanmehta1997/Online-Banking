@@ -1,0 +1,546 @@
+package com.cg.bankingapp.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.cg.bankingapp.entities.AdminBean;
+import com.cg.bankingapp.entities.PayeeBean;
+import com.cg.bankingapp.entities.ServiceRequestBean;
+import com.cg.bankingapp.entities.TransactionBean;
+import com.cg.bankingapp.entities.UserBean;
+import com.cg.bankingapp.exception.BankingException;
+import com.cg.bankingapp.service.IBankingService;
+
+@Controller
+public class BankingController {
+
+	@Autowired
+	IBankingService bankingService;
+
+	UserBean user = null;
+
+	@RequestMapping("/home")
+	public String homePage() {
+		return "index";
+	}
+
+	@RequestMapping("/adminHomePage")
+	public String adminHomePage() {
+		return "AdminHomePage";
+	}
+
+	@RequestMapping("/userHomePage")
+	public ModelAndView UserHomePage() {
+		ModelAndView mv = null;
+		if (user != null) {
+			mv = new ModelAndView("UserHomePage");
+			mv.addObject("customerName", user.getCustomerName());
+		} else {
+			mv = new ModelAndView("UserHomePage");
+		}
+		return mv;
+	}
+
+	@RequestMapping("/LoginUserForm")
+	public ModelAndView getUserHomePage() {
+
+		return new ModelAndView("LoginUserForm", "user", new UserBean());
+	}
+
+	@RequestMapping("/LoginUserCheck")
+	public ModelAndView UserHomePage(
+			@ModelAttribute("user") @Valid UserBean userLogin, BindingResult result) {
+		ModelAndView mv = null;
+
+		try {
+
+			user = bankingService.checkUserCredentials(userLogin.getUsername(),
+					userLogin.getPassword());
+
+			if (user != null) {
+				mv = new ModelAndView("UserHomePage");
+				mv.addObject("customerName", user.getCustomerName());
+			} else {
+				mv = new ModelAndView("LoginUserForm", "user", user);
+				mv.addObject("flag", true);
+
+			}
+
+		} catch (BankingException e) {
+			e.printStackTrace();
+
+		}
+
+		return mv;
+
+	}
+
+	@RequestMapping("/userViewMiniStatement")
+	public String userViewMiniStatement() {
+		return "miniStatement";
+	}
+
+	@RequestMapping("/miniStatement")
+	public ModelAndView miniStatement() {
+
+		ModelAndView mv = null;
+
+		try {
+
+			List<TransactionBean> transactionList = bankingService
+					.getMiniStatement(user.getAccountId());
+			if (!transactionList.isEmpty()) {
+
+				mv = new ModelAndView("miniStatement");
+				mv.addObject("flag", "true");
+				mv.addObject("transactionList", transactionList);
+
+			} else {
+				mv = new ModelAndView("miniStatement");
+				mv.addObject("errmsg", "No transaction available!!!");
+			}
+		} catch (BankingException e) {
+			mv = new ModelAndView("miniStatement");
+			mv.addObject("errmsg", "No transaction available!!!");
+		}
+
+		return mv;
+	}
+
+	@RequestMapping("/detailedStatement")
+	public ModelAndView detailedStatement() {
+		return new ModelAndView("miniStatement", "check", "true");
+	}
+
+	@RequestMapping("/finalDetailedStatement")
+	public ModelAndView finalDetailedStatement(@RequestParam String startDate,
+			@RequestParam String endDate) {
+
+		ModelAndView mv = null;
+
+		try {
+			List<TransactionBean> transactionList = bankingService
+					.getDetailedStatement(startDate, endDate,
+							user.getAccountId());
+			if (!transactionList.isEmpty()) {
+				mv = new ModelAndView("miniStatement");
+				mv.addObject("flag", "true");
+				mv.addObject("transactionList", transactionList);
+
+			} else {
+				mv = new ModelAndView("miniStatement");
+				mv.addObject("errmsg", "No transaction available!!!");
+			}
+		} catch (BankingException e) {
+			mv = new ModelAndView("miniStatement");
+			mv.addObject("errmsg", "No transaction available!!!");
+		}
+
+		return mv;
+	}
+
+	@RequestMapping("/userChangeDetails")
+	public ModelAndView changeDetails() {
+
+		return new ModelAndView("changeUserDetails", "newUser", user);
+
+	}
+
+	@RequestMapping("/update")
+	public ModelAndView updateDetails(
+			@ModelAttribute("newUser") @Valid UserBean newUser, BindingResult result) {
+
+		ModelAndView mv = null;
+
+		try {
+			if (!result.hasErrors()) {
+				user = bankingService.changeUserDetails(newUser.getAddress(),
+						newUser.getPhoneNo(), user.getAccountId());
+				if (user != null) {
+					mv = new ModelAndView("changeUserDetails", "newUser", user);
+					mv.addObject("flag", true);
+
+				} else {
+					mv = new ModelAndView("changeUserDetails", "newUser", user);
+					mv.addObject("errmsg", "User not added internal error!!!");
+
+				}
+			} else {
+				mv = new ModelAndView("changeUserDetails", "newUser", newUser);
+			}
+		} catch (BankingException e) {
+			mv = new ModelAndView("changeUserDetails", "newUser", user);
+			mv.addObject("errmsg", "User not added internal error!!!");
+
+		}
+
+		return mv;
+
+	}
+
+	@RequestMapping("/userChangePassword")
+	public ModelAndView changePasswordPage() {
+		UserBean newUser = new UserBean();
+
+		return new ModelAndView("changePassword", "newUser", newUser);
+
+	}
+
+	@RequestMapping("/updatePassword")
+	public ModelAndView updatePassword(@RequestParam String password,
+			@RequestParam String newPassword1, @RequestParam String newPassword2) {
+		ModelAndView mv = null;
+
+		try {
+			if (user.getPassword().equals(password)) {
+				if (newPassword1.equals(newPassword2)) {
+					boolean flag = bankingService.changePassword(newPassword1,
+							user.getAccountId());
+					if (flag) {
+						mv = new ModelAndView("changePassword");
+
+						mv.addObject("flag", true);
+
+					} else {
+						mv = new ModelAndView("changePassword");
+						mv.addObject("errmsg",
+								"New password should be different!!!");
+					}
+				} else {
+					mv = new ModelAndView("changePassword");
+					mv.addObject("errmsg", "Passwords did not match!!!");
+				}
+			} else {
+				mv = new ModelAndView("changePassword");
+				mv.addObject("errmsg",
+						"Old Password is not correct,Please try again!!!");
+			}
+		} catch (BankingException e) {
+			mv = new ModelAndView("changePassword");
+			mv.addObject("errmsg", "Password didn't change,Please try again!!!");
+
+		}
+
+		return mv;
+
+	}
+
+	@RequestMapping("/userFundTransfer")
+	public ModelAndView userfundTransfer() {
+
+		ModelAndView mv = null;
+
+		try {
+			List<PayeeBean> userList = new ArrayList<PayeeBean>();
+			userList = bankingService.getAllUser(user.getAccountId());
+			mv = new ModelAndView("fundTransferPage", "userList", userList);
+		} catch (BankingException e) {
+
+		}
+		return mv;
+	}
+
+	@RequestMapping("/fundTransfer")
+	public ModelAndView fundTransfer(@RequestParam int accno,
+			@RequestParam double amt) {
+
+		ModelAndView mv = null;
+
+		try {
+			List<PayeeBean> userList = new ArrayList<PayeeBean>();
+			userList = bankingService.getAllUser(user.getAccountId());
+			if (accno == -1) {
+				mv = new ModelAndView("fundTransferPage", "userList", userList);
+				mv.addObject("errmsg", "Please select a payee!!! ");
+			} else {
+				if (bankingService.fundSub(user.getAccountId(), amt)) {
+
+					bankingService.fundTransfer(accno, amt);
+
+					mv = new ModelAndView("fundTransferPage", "userList",
+							userList);
+					mv.addObject("flag", true);
+					mv.addObject("msg", "money transferred successfully!!!");
+
+				} else {
+					mv = new ModelAndView("fundTransferPage");
+					mv.addObject("errmsg",
+							"transfer amount should be less than available balance");
+
+				}
+			}
+		} catch (BankingException e) {
+			mv = new ModelAndView("fundTransferPage");
+			mv.addObject("errmsg",
+					"transfer amount should be less than available balance");
+
+		}
+		return mv;
+	}
+
+	@RequestMapping("/addPayee")
+	public ModelAndView addPayee() {
+
+		ModelAndView mv = new ModelAndView("addPayee");
+		return mv;
+	}
+
+	@RequestMapping("/addPayeeDetails")
+	public ModelAndView addPayeeDetails(@RequestParam int paccId,
+			@RequestParam String pname) {
+
+		ModelAndView mv = null;
+
+		try {
+			PayeeBean payee = new PayeeBean();
+			payee.setPayeeAccountId(paccId);
+			payee.setPayeeName(pname);
+			if (paccId != user.getAccountId()) {
+				if (bankingService.checkPayee(paccId, user.getAccountId())) {
+					payee.setAccountId(user.getAccountId());
+					if (bankingService.addPayee(payee)) {
+						mv = new ModelAndView("addPayee");
+						mv.addObject("flag", true);
+						mv.addObject("msg",
+								"payee has been added successfully!!!");
+
+					}
+
+					else {
+						mv = new ModelAndView("addPayee");
+						mv.addObject("errmsg", "payee not added");
+
+					}
+				} else {
+					mv = new ModelAndView("addPayee");
+					mv.addObject("errmsg",
+							"No User available with this payee account Id");
+
+				}
+			} else {
+				mv = new ModelAndView("addPayee");
+				mv.addObject("errmsg", "User cannot add himself as payee");
+			}
+		} catch (BankingException e) {
+
+			mv = new ModelAndView("addPayee");
+			mv.addObject("errmsg",
+					"No payee available with this payee account Id");
+		}
+		return mv;
+	}
+
+	@RequestMapping("/userRequestChequeBook")
+	public ModelAndView userRequestChequebook() {
+		ModelAndView mv = null;
+
+		try {
+			String serviceStatus = bankingService.getChequeBookStatus(user
+					.getAccountId());
+
+			if (serviceStatus != null) {
+				if ("issued".equals(serviceStatus)) {
+					mv = new ModelAndView("userRequestChequeBookForm");
+					mv.addObject("check", "nDisplay");
+					mv.addObject("errmsg",
+							"Cheque book has been issued already!!!");
+				} else if ("dispatched".equals(serviceStatus)) {
+					mv = new ModelAndView("userRequestChequeBookForm");
+					mv.addObject("check", "nDisplay");
+					mv.addObject("errmsg",
+							"Cheque book has been dispatched and it will reach within 3 working days!!!");
+				} else if ("not issued".equals(serviceStatus)) {
+
+					mv = new ModelAndView("userRequestChequeBookForm");
+					mv.addObject("check", "display");
+				}
+
+			} else {
+				mv = new ModelAndView("userRequestChequeBookForm");
+				mv.addObject("errmsg", "No data available!!!");
+
+			}
+		} catch (BankingException e) {
+			mv = new ModelAndView("userRequestChequeBookForm");
+			mv.addObject("errmsg", "internal error!!!");
+		}
+		return mv;
+
+	}
+
+	@RequestMapping("/raiseRequestForChequeBook")
+	public ModelAndView raiseRequestForChequeBook(
+			@RequestParam String serviceDescription) {
+		ModelAndView mv = null;
+
+		try {
+			int serviceId = bankingService.raiseChequeBookRequest(
+					user.getAccountId(), serviceDescription);
+
+			if (serviceId != 0) {
+
+				mv = new ModelAndView("userRequestChequeBookForm");
+				mv.addObject("check", "display");
+				mv.addObject("flag", "true");
+				mv.addObject("serviceId", serviceId);
+
+				// view = "view/userRequestChequeBookForm.jsp";
+
+			} else {
+				mv = new ModelAndView("userRequestChequeBookForm");
+				mv.addObject("errmsg", "No data available!!!");
+			}
+		} catch (BankingException e) {
+			mv = new ModelAndView("userRequestChequeBookForm");
+			mv.addObject("errmsg", "internal error!!!");
+		}
+		return mv;
+
+	}
+
+	@RequestMapping("/userTrackServiceRequestForm")
+	public String userTrackServiceRequestForm() {
+		return "userTrackServiceRequestForm";
+	}
+
+	@RequestMapping("/userTrackServiceRequest")
+	public ModelAndView userTrackServiceRequest(@RequestParam int serviceId) {
+
+		ModelAndView mv = null;
+
+		try {
+			ServiceRequestBean serviceBean = bankingService
+					.checkServiceExist(serviceId);
+
+			if (serviceBean != null) {
+
+				mv = new ModelAndView("userTrackServiceRequestForm");
+				mv.addObject("flag", "2");
+				mv.addObject("serviceBean", serviceBean);
+
+			} else {
+
+				mv = new ModelAndView("userTrackServiceRequestForm");
+				mv.addObject("errmsg", "Request Service Id does not exit!!!");
+
+			}
+		} catch (BankingException e) {
+			mv = new ModelAndView("userTrackServiceRequestForm");
+			mv.addObject("errmsg", "internal error!!!");
+		}
+		return mv;
+	}
+
+	@RequestMapping("/LoginAdmin")
+	public ModelAndView getAdminHomePage() {
+		AdminBean admin = new AdminBean();
+
+		return new ModelAndView("LoginAdminForm", "admin", admin);
+	}
+
+	@RequestMapping("/LoginAdminCheck")
+	public ModelAndView AdminHomePage(
+			@ModelAttribute("admin") @Valid AdminBean admin, BindingResult result) {
+		ModelAndView mv = null;
+
+		try {
+
+			if (bankingService.checkAdminCredentials(admin)) {
+				mv = new ModelAndView("AdminHomePage");
+			} else {
+				mv = new ModelAndView("LoginAdminForm", "admin", admin);
+				mv.addObject("flag", true);
+			}
+
+		} catch (BankingException e) {
+			mv = new ModelAndView("LoginAdminForm", "admin", admin);
+			mv.addObject("flag", true);
+
+		}
+
+		return mv;
+
+	}
+
+	@RequestMapping("/createNewAccountForm")
+	public ModelAndView createNewUserPage() {
+		UserBean newUser = new UserBean();
+
+		return new ModelAndView("createNewAccountForm", "newUser", newUser);
+	}
+
+	@RequestMapping("/createNewAccount")
+	public ModelAndView addNewUserPage(
+			@ModelAttribute("newUser") @Valid UserBean newUser, BindingResult result) {
+		ModelAndView mv = null;
+
+		try {
+			if (!result.hasErrors()) {
+				int accId = bankingService.addUser(newUser);
+				if (accId != 0) {
+					mv = new ModelAndView("createNewAccountForm");
+					mv.addObject("accId", accId);
+					mv.addObject("flag", true);
+
+				} else {
+					mv = new ModelAndView("createNewAccountForm", "newUser",
+							newUser);
+					mv.addObject("errmsg", "Username already exist!!!");
+				}
+			} else {
+				mv = new ModelAndView("createNewAccountForm", "newUser",
+						newUser);
+			}
+
+		} catch (BankingException e) {
+			mv = new ModelAndView("createNewAccountForm", "newUser", newUser);
+			mv.addObject("errmsg", e.getMessage());
+
+		}
+
+		return mv;
+
+	}
+
+	@RequestMapping("/viewAllTransactionDetails")
+	public String viewTransctionDetails() {
+		return "transactionDetails";
+	}
+
+	@RequestMapping("/transactionDetails")
+	public ModelAndView displayTransctionDetails(
+			@RequestParam String startDate1, @RequestParam String endDate1) {
+
+		ModelAndView mv = null;
+
+		try {
+			List<TransactionBean> transactionDetails = bankingService
+					.getAllTransactions(startDate1, endDate1);
+			if (!transactionDetails.isEmpty()) {
+
+				mv = new ModelAndView("transactionDetails");
+				mv.addObject("flag", "true");
+				mv.addObject("transactionDetails", transactionDetails);
+
+			} else {
+				mv = new ModelAndView("transactionDetails");
+				mv.addObject("errmsg", "No transaction available!!!");
+			}
+		} catch (BankingException e) {
+			mv = new ModelAndView("transactionDetails");
+			mv.addObject("errmsg", "No transaction available!!!");
+		}
+
+		return mv;
+	}
+}
