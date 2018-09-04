@@ -73,7 +73,6 @@ public class BankingController {
 			} else {
 				mv = new ModelAndView("LoginUserForm", "user", user);
 				mv.addObject("flag", true);
-
 			}
 
 		} catch (BankingException e) {
