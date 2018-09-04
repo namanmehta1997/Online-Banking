@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,8 @@ import com.cg.bankingapp.service.IBankingService;
 
 @Controller
 public class BankingController {
+	
+	ArrayList<String> typeList;
 
 	@Autowired
 	IBankingService bankingService;
@@ -472,10 +475,17 @@ public class BankingController {
 	}
 
 	@RequestMapping("/createNewAccountForm")
-	public ModelAndView createNewUserPage() {
+	public String createNewUserPage(Model model) {
 		UserBean newUser = new UserBean();
-
-		return new ModelAndView("createNewAccountForm", "newUser", newUser);
+		typeList = new ArrayList<String>();
+		
+		typeList.add("Savings Account");
+		typeList.add("Current Account");
+		
+		model.addAttribute("typeList", typeList);
+		model.addAttribute("newUser", newUser);
+		
+		return "createNewAccountForm";
 	}
 
 	@RequestMapping("/createNewAccount")
@@ -485,9 +495,11 @@ public class BankingController {
 
 		try {
 			if (!result.hasErrors()) {
+				newUser.setAccStatus("active");
+				System.out.println("Account status active!");
 				int accId = bankingService.addUser(newUser);
 				if (accId != 0) {
-					mv = new ModelAndView("createNewAccountForm");
+					mv = new ModelAndView("createNewAccountForm","newUser",new UserBean());
 					mv.addObject("accId", accId);
 					mv.addObject("flag", true);
 
@@ -499,6 +511,10 @@ public class BankingController {
 			} else {
 				mv = new ModelAndView("createNewAccountForm", "newUser",
 						newUser);
+				typeList = new ArrayList<String>();
+				typeList.add("Savings Account");
+				typeList.add("Current Account");
+				mv.addObject("typeList", typeList);
 			}
 
 		} catch (BankingException e) {

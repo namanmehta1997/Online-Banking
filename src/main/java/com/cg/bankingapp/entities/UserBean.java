@@ -56,8 +56,19 @@ public class UserBean {
 	@Pattern(regexp="[A-Z]{5}\\d{4}[A-Z]{1}",message="Enter Valid PAN no.")
 	private String pancard;
 	
+	@Column(name="Account_Type")
+	@NotEmpty(message="Please select an account type")
+	private String accountType;
+	
 	@Column(name="Amount")
 	private double amount;
+	
+	@Column(name="security_answer")
+	@NotEmpty(message="Please answer the security question")
+	private String securityAns;
+	
+	@Column(name="Account_status")
+	private String accStatus;
 	
 	public UserBean() {
 		
@@ -116,6 +127,30 @@ public class UserBean {
 	}
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+
+	public String getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
+	}
+
+	public String getSecurityAns() {
+		return securityAns;
+	}
+
+	public void setSecurityAns(String securityAns) {
+		this.securityAns = securityAns;
+	}
+
+	public String getAccStatus() {
+		return accStatus;
+	}
+
+	public void setAccStatus(String accStatus) {
+		this.accStatus = accStatus;
 	}
 	
 	
