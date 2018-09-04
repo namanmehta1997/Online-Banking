@@ -52,17 +52,28 @@
 				<td align="left"><form:input path="phoneNo" /></td>
 				<td><form:errors path="phoneNo" cssStyle="color:red"></form:errors></td>
 			</tr>
+			
+			<tr>
+				<td>Account Type:</td>
+				<td align="left"><form:select path="accountType"> 
+				<form:option value="" label="Please Select"/>
+				<form:options items="${typeList}" />
+ 				</form:select>
+				<td><form:errors path="accountType" cssStyle="color:red"></form:errors></td>
+			</tr>
 
 			<tr>
 				<td>Pan Card:</td>
 				<td align="left"><form:input path="pancard" /></td>
 				<td><form:errors path="pancard" cssStyle="color:red"></form:errors></td>
 			</tr>
+			
 			<tr>
-				<td>Amount:</td>
-				<td align="left"><form:input path="amount" type="number" step="0.01"/></td>
-				<td><form:errors path="amount" cssStyle="color:red"></form:errors></td>
+				<td>Mother's Maiden Name (Security Question): </td>
+				<td align="left"><form:input path="securityAns" /></td>
+				<td><form:errors path="securityAns" cssStyle="color:red"></form:errors></td>
 			</tr>
+
 			<tr>
 				<td colspan="2" align="left"><input type="submit" value="Add" /></td>
 			</tr>
