@@ -33,9 +33,6 @@ public interface IBankingDao {
 	
 
 
-	public ServiceRequestBean checkServiceExist(int serviceId)
-			throws BankingException;
-
 
 
 	public List<PayeeBean> getAllUser(int accountId) throws BankingException;

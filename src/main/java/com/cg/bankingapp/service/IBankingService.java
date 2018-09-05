@@ -33,10 +33,6 @@ public interface IBankingService {
 
 
 
-	public ServiceRequestBean checkServiceExist(int serviceId)
-			throws BankingException;
-
-
 	public List<PayeeBean> getAllUser(int accountId) throws BankingException;
 
 	public boolean fundTransfer(int accno, double amount)

@@ -375,8 +375,7 @@ public class BankingDaoImpl implements IBankingDao {
 		return true;
 	}
 
-<<<<<<< HEAD
-=======
+
 	@Override
 	public boolean checkSecurity(String ans, String username)
 			throws BankingException {
@@ -413,5 +412,4 @@ public class BankingDaoImpl implements IBankingDao {
 		}
 		return true;
 	}
->>>>>>> 96366f514e5b4aa5cf18be1143de64a3bcbfaa51
 }

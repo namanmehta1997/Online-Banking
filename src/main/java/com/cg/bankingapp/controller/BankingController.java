@@ -59,7 +59,7 @@ public class BankingController {
 
 	@RequestMapping("/LoginUserForm")
 	public ModelAndView getUserHomePage() {
-
+		user = null;
 		return new ModelAndView("LoginUserForm", "user", new UserBean());
 	}
 
