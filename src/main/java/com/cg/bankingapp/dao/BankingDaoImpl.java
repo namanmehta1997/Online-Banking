@@ -1,6 +1,5 @@
 package com.cg.bankingapp.dao;
 
-
 import java.util.Date;
 import java.util.List;
 
@@ -17,127 +16,136 @@ import com.cg.bankingapp.entities.TransactionBean;
 import com.cg.bankingapp.entities.UserBean;
 import com.cg.bankingapp.exception.BankingException;
 
-
 @Repository
 public class BankingDaoImpl implements IBankingDao {
 
-
 	@PersistenceContext
 	private EntityManager entityManager;
-	
+
 	@Override
-	public UserBean checkUserCredentials(String username,String password) throws BankingException {
-		TypedQuery<UserBean>  query = entityManager.createQuery("SELECT u from UserBean u WHERE u.username= :username", UserBean.class);
-		query.setParameter("username",username);
-		
+	public UserBean checkUserCredentials(String username, String password)
+			throws BankingException {
+		TypedQuery<UserBean> query = entityManager.createQuery(
+				"SELECT u from UserBean u WHERE u.username= :username",
+				UserBean.class);
+		query.setParameter("username", username);
+
 		List<UserBean> list = query.getResultList();
-	
-		if(!list.isEmpty() && list.get(0).getPassword().equals(password)){
-				return list.get(0);
+
+		if (!list.isEmpty() && list.get(0).getPassword().equals(password)) {
+			return list.get(0);
 		}
 		return null;
 	}
 
-	
-
 	@Override
-	public List<TransactionBean> getMiniStatement(int accountId) throws BankingException {
+	public List<TransactionBean> getMiniStatement(int accountId)
+			throws BankingException {
 
 		System.out.println(accountId);
-		
-		TypedQuery<TransactionBean>  query = entityManager.createQuery("Select t from TransactionBean t WHERE t.accountNumber= :accno order by t.dateOfTransaction desc", TransactionBean.class);
-		query.setParameter("accno",accountId);
+
+		TypedQuery<TransactionBean> query = entityManager
+				.createQuery(
+						"Select t from TransactionBean t WHERE t.accountNumber= :accno order by t.dateOfTransaction desc",
+						TransactionBean.class);
+		query.setParameter("accno", accountId);
 		query = query.setMaxResults(10);
-		
+
 		return query.getResultList();
 	}
 
 	@Override
-	public List<TransactionBean> getDetailedStatement(String startDate,String endDate,int accountId) throws BankingException {
-		
+	public List<TransactionBean> getDetailedStatement(String startDate,
+			String endDate, int accountId) throws BankingException {
+
 		startDate = changeFormat(startDate);
 		endDate = changeFormat(endDate);
-		
-		TypedQuery<TransactionBean>  query = entityManager.createQuery("SELECT t FROM TransactionBean t "
-				+ "WHERE (t.dateOfTransaction BETWEEN to_date(:start,'dd-MON-yy') AND "
-				+ "to_date(:end,'dd-MON-yy')+(1-1/24/60/60)) AND t.accountNumber=:accno ORDER BY t.dateOfTransaction desc", TransactionBean.class);
-		query.setParameter("accno",accountId);
-		query.setParameter("start",startDate);
-		query.setParameter("end",endDate);
+
+		TypedQuery<TransactionBean> query = entityManager
+				.createQuery(
+						"SELECT t FROM TransactionBean t "
+								+ "WHERE (t.dateOfTransaction BETWEEN to_date(:start,'dd-MON-yy') AND "
+								+ "to_date(:end,'dd-MON-yy')+(1-1/24/60/60)) AND t.accountNumber=:accno ORDER BY t.dateOfTransaction desc",
+						TransactionBean.class);
+		query.setParameter("accno", accountId);
+		query.setParameter("start", startDate);
+		query.setParameter("end", endDate);
 		return query.getResultList();
-		
+
 	}
 
 	@Override
-	public String getChequeBookStatus(int accountNumber) throws BankingException {
+	public String getChequeBookStatus(int accountNumber)
+			throws BankingException {
 
-		TypedQuery<ServiceRequestBean>  query = entityManager.createQuery("SELECT s FROM ServiceRequestBean s WHERE s.accountId=:accno",ServiceRequestBean.class);
+		TypedQuery<ServiceRequestBean> query = entityManager.createQuery(
+				"SELECT s FROM ServiceRequestBean s WHERE s.accountId=:accno",
+				ServiceRequestBean.class);
 		query.setParameter("accno", accountNumber);
 		ServiceRequestBean serviceRequest = query.getSingleResult();
-		if(serviceRequest!=null)
+		if (serviceRequest != null)
 			return serviceRequest.getServiceStatus();
 		else
 			return null;
-				
+
 	}
-	
+
 	@Override
-	public int raiseChequeBookRequest(int accountId,String serviceDescription) throws BankingException {
-		
-		TypedQuery<ServiceRequestBean>  query = entityManager.createQuery("SELECT s FROM ServiceRequestBean s WHERE s.accountId=:accno",ServiceRequestBean.class);
+	public int raiseChequeBookRequest(int accountId, String serviceDescription)
+			throws BankingException {
+
+		TypedQuery<ServiceRequestBean> query = entityManager.createQuery(
+				"SELECT s FROM ServiceRequestBean s WHERE s.accountId=:accno",
+				ServiceRequestBean.class);
 		query.setParameter("accno", accountId);
 		ServiceRequestBean serviceRequest = query.getSingleResult();
-		
+
 		serviceRequest.setServiceDescription(serviceDescription);
 		serviceRequest.setServiceStatus("open");
 		entityManager.merge(serviceRequest);
-		
+
 		return serviceRequest.getServiceId();
-		
+
 	}
 
-	
 	@Override
-	public ServiceRequestBean checkServiceExist(int serviceId) throws BankingException {
+	public ServiceRequestBean checkServiceExist(int serviceId)
+			throws BankingException {
 
 		return entityManager.find(ServiceRequestBean.class, serviceId);
-		
-		
-		
-	}
-	
-	@Override
-	public UserBean changeUserDetails(String address,String phoneNo,int accountId) throws BankingException {
 
-		
+	}
+
+	@Override
+	public UserBean changeUserDetails(String address, String phoneNo,
+			int accountId) throws BankingException {
+
 		UserBean user = entityManager.find(UserBean.class, accountId);
 		user.setAddress(address);
 		user.setPhoneNo(phoneNo);
 		entityManager.merge(user);
-		if(entityManager.merge(user)!=null)
-		return user;
+		if (entityManager.merge(user) != null)
+			return user;
 		else
 			return null;
-		
+
 	}
-	
 
 	@Override
-	public boolean changePassword(String password, int accountId) throws BankingException {
-		
-	
-		
+	public boolean changePassword(String password, int accountId)
+			throws BankingException {
+
 		UserBean user = entityManager.find(UserBean.class, accountId);
-		if(user!=null && !user.getPassword().equals(password)){
+		if (user != null && !user.getPassword().equals(password)) {
 			user.setPassword(password);
 			entityManager.merge(user);
 			return true;
 		}
 		return false;
-		
-		
+
 	}
-	public String changeFormat(String date) throws BankingException{
+
+	public String changeFormat(String date) throws BankingException {
 
 		String finalDate;
 		String month[] = { "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL",
@@ -152,27 +160,28 @@ public class BankingDaoImpl implements IBankingDao {
 		return finalDate;
 	}
 
-	public List<PayeeBean> getAllUser(int accountId) throws BankingException{
-	
-		
-		TypedQuery<PayeeBean>  query = entityManager.createQuery("SELECT p FROM PayeeBean p WHERE p.accountId = :accno",PayeeBean.class);
-				
-				query.setParameter("accno",accountId);
-		
+	public List<PayeeBean> getAllUser(int accountId) throws BankingException {
+
+		TypedQuery<PayeeBean> query = entityManager.createQuery(
+				"SELECT p FROM PayeeBean p WHERE p.accountId = :accno",
+				PayeeBean.class);
+
+		query.setParameter("accno", accountId);
+
 		return query.getResultList();
-		
+
 	}
 
 	@Override
-	public boolean fundTransfer(int accountId, double amount) throws BankingException {
-		
-		
+	public boolean fundTransfer(int accountId, double amount)
+			throws BankingException {
+
 		UserBean user = entityManager.find(UserBean.class, accountId);
-		if(user!=null){
-			user.setAmount(user.getAmount()+amount);
-	
+		if (user != null) {
+			user.setAmount(user.getAmount() + amount);
+
 			double availBalance = user.getAmount();
-			
+
 			Date date = new Date();
 			TransactionBean transaction = new TransactionBean();
 			transaction.setAccountNumber(accountId);
@@ -180,28 +189,28 @@ public class BankingDaoImpl implements IBankingDao {
 			transaction.setAmount(availBalance);
 			transaction.setTransactionAmount(amount);
 			transaction.setTransactionDescription("Credit");
-			
+
 			entityManager.persist(transaction);
 			entityManager.flush();
 			return true;
 		}
 		return false;
-		
+
 	}
 
 	@Override
-	public boolean fundSub(int accountId, double amount) throws BankingException {
-	
-		
+	public boolean fundSub(int accountId, double amount)
+			throws BankingException {
+
 		UserBean user = entityManager.find(UserBean.class, accountId);
-		
-		if(user!=null){
-			user.setAmount(user.getAmount()-amount);
+
+		if (user != null) {
+			user.setAmount(user.getAmount() - amount);
 			double availBalance = user.getAmount();
-			if(availBalance<amount)
+			if (availBalance < amount)
 				return false;
-			else{
-				
+			else {
+
 				Date date = new Date();
 				TransactionBean transaction = new TransactionBean();
 				transaction.setAccountNumber(accountId);
@@ -209,70 +218,73 @@ public class BankingDaoImpl implements IBankingDao {
 				transaction.setAmount(availBalance);
 				transaction.setTransactionAmount(amount);
 				transaction.setTransactionDescription("Debit");
-				
+
 				entityManager.persist(transaction);
 				entityManager.flush();
 				return true;
 			}
 		}
 		return false;
-		}
+	}
 
 	@Override
 	public boolean addPayee(PayeeBean payee) throws BankingException {
 
-		
-		
-		
 		entityManager.persist(payee);
 		entityManager.flush();
 		return true;
-		
+
 	}
 
 	@Override
-	public boolean checkPayee(int paccId,int accId) throws BankingException {
-	
+	public boolean checkPayee(int paccId, int accId) throws BankingException {
+
 		UserBean user = entityManager.find(UserBean.class, paccId);
-		if(user!=null){
-		TypedQuery<PayeeBean>  query = entityManager.createQuery("SELECT p FROM PayeeBean p WHERE p.accountId = :accno AND p.payeeAccountId=:payeeno",PayeeBean.class);
-		
-		query.setParameter("accno",accId);
-		query.setParameter("payeeno",paccId);
-		
-		List<PayeeBean> list = query.getResultList();
-			if(list.isEmpty()){
+		if (user != null) {
+			TypedQuery<PayeeBean> query = entityManager
+					.createQuery(
+							"SELECT p FROM PayeeBean p WHERE p.accountId = :accno AND p.payeeAccountId=:payeeno",
+							PayeeBean.class);
+
+			query.setParameter("accno", accId);
+			query.setParameter("payeeno", paccId);
+
+			List<PayeeBean> list = query.getResultList();
+			if (list.isEmpty()) {
 				return true;
 			}
 		}
 		return false;
-		
-		
+
 	}
+
 	/*************************************
-			admin dao implementation
-	*****************************************/
+	 * admin dao implementation
+	 *****************************************/
 	@Override
-	public boolean checkAdminCredentials(AdminBean admin) throws BankingException {
+	public boolean checkAdminCredentials(AdminBean admin)
+			throws BankingException {
 
-
-		AdminBean admin1 = entityManager.find(AdminBean.class, admin.getUsername());
-		if(admin1!=null && admin1.getPassword().equals(admin.getPassword())){
+		AdminBean admin1 = entityManager.find(AdminBean.class,
+				admin.getUsername());
+		if (admin1 != null && admin1.getPassword().equals(admin.getPassword())) {
 			return true;
+		}
+		return false;
+
 	}
-	return false;
-		
-	}
-	
+
 	@Override
 	public int addUser(UserBean user) throws BankingException {
-		
-		TypedQuery<UserBean>  query = entityManager.createQuery("SELECT u FROM UserBean u WHERE u.username = :username",UserBean.class);
-		
-		query.setParameter("username",user.getUsername());
+
+		TypedQuery<UserBean> query = entityManager.createQuery(
+				"SELECT u FROM UserBean u WHERE u.username = :username",
+				UserBean.class);
+
+		query.setParameter("username", user.getUsername());
 		List<UserBean> list = query.getResultList();
-		
-		if(list.isEmpty()){
+
+		if (list.isEmpty()) {
 			entityManager.persist(user);
 			entityManager.flush();
 
@@ -294,24 +306,40 @@ public class BankingDaoImpl implements IBankingDao {
 			entityManager.flush();
 
 			return user.getAccountId();
-		}
-		else
-		{
+		} else {
 			return 0;
 		}
 	}
 
 	@Override
-	public List<TransactionBean> getAllTransactions(String startDate1,String endDate1) throws BankingException {
-		
+	public List<TransactionBean> getAllTransactions(String startDate1,
+			String endDate1) throws BankingException {
+
 		startDate1 = changeFormat(startDate1);
 		endDate1 = changeFormat(endDate1);
-		TypedQuery<TransactionBean>  query = entityManager.createQuery("SELECT t FROM TransactionBean t "
-				+ "WHERE (t.dateOfTransaction BETWEEN to_date(:start,'dd-MON-yy') AND "
-				+ "to_date(:end,'dd-MON-yy')+(1-1/24/60/60)) ORDER BY t.accountNumber", TransactionBean.class);
-		query.setParameter("start",startDate1);
-		query.setParameter("end",endDate1);
+		TypedQuery<TransactionBean> query = entityManager
+				.createQuery(
+						"SELECT t FROM TransactionBean t "
+								+ "WHERE (t.dateOfTransaction BETWEEN to_date(:start,'dd-MON-yy') AND "
+								+ "to_date(:end,'dd-MON-yy')+(1-1/24/60/60)) ORDER BY t.accountNumber",
+						TransactionBean.class);
+		query.setParameter("start", startDate1);
+		query.setParameter("end", endDate1);
 		return query.getResultList();
-	
+
+	}
+
+	@Override
+	public boolean blockUser(String username) throws BankingException {
+		TypedQuery<UserBean> query = entityManager.createQuery(
+				"SELECT user FROM UserBean user WHERE user.username=:username",
+				UserBean.class);
+		query.setParameter("username", username);
+		List<UserBean> users = query.getResultList();
+		for (UserBean user : users) {
+			user.setAccStatus("block");
+			entityManager.flush();
+		}
+		return true;
 	}
 }
