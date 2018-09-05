@@ -6,9 +6,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Raise request</title>
+<link href="<c:url value="/resources/loginuserpagestyle.css" />" rel="stylesheet">
 </head>
-<body>
-		<a href="userHomePage.obj">Home</a> | <a href="LoginUserForm.obj">Logout</a>
+<body background="<c:url value="/resources/images/photo1.jpg" />">
+		<a title="Home" href="userHomePage.obj"><img src="<c:url value="/resources/images/home.png" />"/></a> 
+		<a title="logout" href="LoginUserForm.obj" style="float:right"><img src="<c:url value="/resources/images/logout.png" />"/></a>
 	<hr>
 	<center>
 	<c:if test="${check eq 'display'}">
@@ -21,7 +23,7 @@
 			</tr>
 			<tr>
 				<td align="right">
-					<input type="submit" value="Raise" />		
+					<input type="submit" value="Raise" class="button"/>		
 				</td>
 			</tr>
 		</table>

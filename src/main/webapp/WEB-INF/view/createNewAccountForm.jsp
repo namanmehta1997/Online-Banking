@@ -7,9 +7,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+<link href="<c:url value="/resources/loginuserformstyle.css" />" rel="stylesheet">
 </head>
-<body>
-	<a href="adminHomePage.obj">Home</a> | <a href="LoginAdmin.obj">Logout</a>
+<body background="<c:url value="/resources/images/photo11.jpg" />">
+	<a title="Home" href="adminHomePage.obj"><img src="<c:url value="/resources/images/home.png" />"/></a> 
+	<a title="Logout" href="LoginAdmin.obj" style="float:right"><img src="<c:url value="/resources/images/logout.png" />"/></a>
 	<hr>
 	<h2 align="center">Create new account</h2>
 
@@ -18,43 +20,43 @@
 		<table align="center">
 
 			<tr>
-				<td>Username:</td>
+				<td><b>Username</b>:</td>
 				<td align="left"><form:input path="username" /></td>
 				<td><form:errors path="username" cssStyle="color:red"></form:errors></td>
 			</tr>
 			<tr>
-				<td>Password:</td>
+				<td><b>Password</b>:</td>
 				<td align="left"><form:password path="password" /></td>
 				<td><form:errors path="password" cssStyle="color:red"></form:errors></td>
 			</tr>
 
 
 			<tr>
-				<td>Customer Name:</td>
+				<td><b>Customer Name</b>:</td>
 				<td align="left"><form:input path="customerName" /></td>
 				<td><form:errors path="customerName" cssStyle="color:red"></form:errors></td>
 			</tr>
 
 			<tr>
-				<td>Email ID:</td>
+				<td><b>Email ID</b>:</td>
 				<td align="left"><form:input path="emailId" /></td>
 				<td><form:errors path="emailId" cssStyle="color:red"></form:errors></td>
 			</tr>
 
 			<tr>
-				<td>Address:</td>
+				<td><b>Address</b>:</td>
 				<td align="left"><form:input path="address" /></td>
 				<td><form:errors path="address" cssStyle="color:red"></form:errors></td>
 			</tr>
 
 			<tr>
-				<td>Phone No:</td>
+				<td><b>Phone No</b>:</td>
 				<td align="left"><form:input path="phoneNo" /></td>
 				<td><form:errors path="phoneNo" cssStyle="color:red"></form:errors></td>
 			</tr>
 			
 			<tr>
-				<td>Account Type:</td>
+				<td><b>Account Type</b>:</td>
 				<td align="left"><form:select path="accountType"> 
 				<form:option value="" label="Please Select"/>
 				<form:options items="${typeList}" />
@@ -63,19 +65,19 @@
 			</tr>
 
 			<tr>
-				<td>Pan Card:</td>
+				<td><b>Pan Card:</b></td>
 				<td align="left"><form:input path="pancard" /></td>
 				<td><form:errors path="pancard" cssStyle="color:red"></form:errors></td>
 			</tr>
 			
 			<tr>
-				<td>Mother's Maiden Name (Security Question): </td>
+				<td><b>Mother's Maiden Name (Security Question)</b>: </td>
 				<td align="left"><form:input path="securityAns" /></td>
 				<td><form:errors path="securityAns" cssStyle="color:red"></form:errors></td>
 			</tr>
 
 			<tr>
-				<td colspan="2" align="left"><input type="submit" value="Add" /></td>
+				<td colspan="2" align="right"><input type="submit" value="Add" class="button" /></td>
 			</tr>
 		</table>
 	</form:form>

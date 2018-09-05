@@ -1,5 +1,8 @@
 body{
-	background-color:#ccffff;
+	
+    background-repeat: no-repeat;
+    background-size: cover;
+    
 }
 h1{
 	  color:#661a00;

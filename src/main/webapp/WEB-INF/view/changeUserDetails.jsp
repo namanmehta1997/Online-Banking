@@ -8,9 +8,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+<link href="<c:url value="/resources/loginuserformstyle.css" />" rel="stylesheet">
 </head>
-<body>
-	<a href="userHomePage.obj">Home</a> | <a href="LoginUserForm.obj">Logout</a>
+<body background="<c:url value="/resources/images/photo1.jpg" />">
+	<a title="Home" href="userHomePage.obj"><img
+		src="<c:url value="/resources/images/home.png" />" /></a>
+		
+ <a title="Logout" href="LoginUserForm.obj" style="float:right"><img src="<c:url value="/resources/images/logout.png" />"/></a>
 
 
 	<hr>
@@ -23,13 +27,13 @@
 
 
 			<tr>
-				<td>Address:</td>
+				<td><b>Address</b>:</td>
 				<td align="left"><form:input path="address" placeholder="${newUser.address}"/></td>
 				<td><form:errors path="address" cssStyle="color:red"></form:errors></td>
 			</tr>
 
 			<tr>
-				<td>Phone No:</td>
+				<td><b>Phone No</b>:</td>
 				<td align="left"><form:input path="phoneNo" placeholder="${newUser.phoneNo}"/></td>
 				<td><form:errors path="phoneNo" cssStyle="color:red"></form:errors></td>
 			</tr>
@@ -63,7 +67,7 @@
 				<td><form:errors path="amount" cssStyle="color:red"></form:errors></td>
 			</tr>
 			<tr>
-				<td colspan="2" align="left"><input type="submit" value="Update"/></td>
+				<td colspan="2" align="right"><input type="submit" class="button" value="Update"/></td>
 			</tr>
 		</table>
 	</form:form>

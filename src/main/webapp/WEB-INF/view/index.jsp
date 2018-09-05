@@ -10,7 +10,7 @@
 <title>index page</title>
 <link href="<c:url value="/resources/indexstyle.css" />" rel="stylesheet">
 </head>
-<body>
+<body background="<c:url value="/resources/images/photo1.jpg" />">
 
 <center>
    <h2>Welcome to Online Banking Services</h2><br><br>

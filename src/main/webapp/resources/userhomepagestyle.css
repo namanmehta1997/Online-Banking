@@ -3,18 +3,21 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
 }
-h2{
-	  color:#661a00;
-    font-family: verdana;
+#logout{
+      float:right;
 }
-
-a {
+h3{
+	color:#8600b3;
+}
+.user {
   background-color: #993366;
   color: white;
   padding: 2.5px 5px;
   text-decoration: none;
   text-transform: uppercase;
 }
-a:hover {
-  cursor: pointer;
+.button:hover {
+   background-color: #336600;
+    color: white;
+    cursor: pointer;
 }

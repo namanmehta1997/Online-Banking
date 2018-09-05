@@ -1,0 +1,35 @@
+table {
+font-family: "Lato","sans-serif";
+}
+ 
+table.one {                                 
+margin-bottom: 1em;
+border-collapse:collapse;   
+}  
+ 
+td {     
+	font-size:13px;
+text-align: center;    
+width: 8em;                   
+padding: .5em;
+}      
+ 
+th {                         
+text-align: center;                
+padding: .5em;
+background-color: #e8503a;      
+color: white;
+}
+ 
+tr {   
+height: .1em;
+}
+ 
+table tr:nth-child(even) {            
+
+    background-color: #eee;    
+    }
+ 
+table tr:nth-child(odd) {            
+background-color:#fff;     
+}
