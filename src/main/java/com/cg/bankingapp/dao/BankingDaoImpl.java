@@ -101,7 +101,7 @@ public class BankingDaoImpl implements IBankingDao {
 		ServiceRequestBean serviceRequest = query.getSingleResult();
 
 		serviceRequest.setServiceDescription(serviceDescription);
-		serviceRequest.setServiceStatus("dispatched");
+		serviceRequest.setServiceStatus("open");
 		entityManager.merge(serviceRequest);
 
 		return serviceRequest.getServiceId();
@@ -109,11 +109,43 @@ public class BankingDaoImpl implements IBankingDao {
 	}
 
 	@Override
-	public ServiceRequestBean checkServiceExist(int serviceId)
+	public ServiceRequestBean checkServiceExist(int accountId, int serviceId)
 			throws BankingException {
-
-		return entityManager.find(ServiceRequestBean.class, serviceId);
-
+		ServiceRequestBean serviceRequest = new ServiceRequestBean();
+		serviceRequest = entityManager.find(ServiceRequestBean.class, serviceId);
+		if(serviceRequest != null)
+		{
+			if(accountId == serviceRequest.getAccountId())
+			{
+				return entityManager.find(ServiceRequestBean.class, serviceId);
+			}
+			else
+			{
+				return null;
+			}
+		}
+		else
+			return null;
+	}
+	
+	@Override
+	public ServiceRequestBean checkServiceExistAcc(int accountId1, int accountId2)
+			throws BankingException {
+		TypedQuery<ServiceRequestBean> query = entityManager.createQuery(
+				"SELECT s FROM ServiceRequestBean s WHERE s.accountId=:accno",
+				ServiceRequestBean.class);
+		query.setParameter("accno", accountId2);
+		List<ServiceRequestBean> serviceRequest = query.getResultList();
+		if(serviceRequest.size() != 0)
+		{	
+			if(serviceRequest.get(0).getAccountId() == accountId1)
+				return serviceRequest.get(0);
+		
+			else
+				return null;
+		}
+		else
+			return null;
 	}
 
 	@Override
@@ -342,6 +374,7 @@ public class BankingDaoImpl implements IBankingDao {
 		}
 		return true;
 	}
+
 
 	@Override
 	public boolean checkSecurity(String ans, String username)

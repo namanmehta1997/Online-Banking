@@ -26,7 +26,7 @@
 			</tr>
 			<tr>
 				<td>Enter New Password:</td>
-							<td><input type="password" name="newPassword1" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required/></td>
+				<td><input type="password" name="newPassword1" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required/></td>
 				<form:errors path="password" cssStyle="color:red"></form:errors>
 			</tr>
 

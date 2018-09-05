@@ -63,13 +63,25 @@
 				<td><form:errors path="amount" cssStyle="color:red"></form:errors></td>
 			</tr>
 			<tr>
+				<td align="left"><form:hidden path="accStatus" value="${newUser.amount}"/></td>
+				<td><form:errors path="accStatus" cssStyle="color:red"></form:errors></td>
+			</tr>
+			<tr>
+				<td align="left"><form:hidden path="accountType" value="${newUser.amount}"/></td>
+				<td><form:errors path="accountType" cssStyle="color:red"></form:errors></td>
+			</tr>
+			<tr>
+				<td align="left"><form:hidden path="securityAns" value="${newUser.amount}"/></td>
+				<td><form:errors path="securityAns" cssStyle="color:red"></form:errors></td>
+			</tr>			
+			<tr>
 				<td colspan="2" align="left"><input type="submit" value="Update"/></td>
 			</tr>
 		</table>
 	</form:form>
 	<center><span style="color:red;font-size:30px;">${errmsg}</span></center>
 	<c:if test="${flag eq true}">
-		<h2>Address and Mobile number updated successfully!!!</h2>
+		<center><h2>Address and Mobile number updated successfully!!!</h2></center>
 	</c:if>
 	</center>
 </body>

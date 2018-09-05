@@ -16,26 +16,24 @@ public interface IBankingDao {
 
 	public boolean blockUser(String username) throws BankingException;
 
-	public String getChequeBookStatus(int accountNumber)
-			throws BankingException;
+	
+	public String getChequeBookStatus(int accountNumber) throws BankingException;
+	
+	public int raiseChequeBookRequest(int accountId,String serviceDescription) throws BankingException;
+	
+	public ServiceRequestBean checkServiceExist(int accountId, int serviceId) throws BankingException;
+	
+	public List<TransactionBean> getMiniStatement(int accountId) throws BankingException;
+	
+	public List<TransactionBean> getDetailedStatement(String startDate,String endDate,int accountId) throws BankingException;
+	
+	public UserBean changeUserDetails(String address,String phoneNo,int accountId) throws BankingException;
 
-	public int raiseChequeBookRequest(int accountId, String serviceDescription)
-			throws BankingException;
+	public boolean changePassword(String password, int accId) throws BankingException;
+	
 
-	public ServiceRequestBean checkServiceExist(int serviceId)
-			throws BankingException;
 
-	public List<TransactionBean> getMiniStatement(int accountId)
-			throws BankingException;
 
-	public List<TransactionBean> getDetailedStatement(String startDate,
-			String endDate, int accountId) throws BankingException;
-
-	public UserBean changeUserDetails(String address, String phoneNo,
-			int accountId) throws BankingException;
-
-	public boolean changePassword(String password, int accId)
-			throws BankingException;
 
 	public List<PayeeBean> getAllUser(int accountId) throws BankingException;
 
@@ -53,6 +51,9 @@ public interface IBankingDao {
 			throws BankingException;
 
 	public int addUser(UserBean user) throws BankingException;
+
+
+	public ServiceRequestBean checkServiceExistAcc(int accountId1, int accountId2) throws BankingException;
 
 	public List<TransactionBean> getAllTransactions(String startDate1,
 			String endDate1) throws BankingException;

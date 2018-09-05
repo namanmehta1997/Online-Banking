@@ -494,25 +494,47 @@ public class BankingController {
 	}
 
 	@RequestMapping("/userTrackServiceRequest")
-	public ModelAndView userTrackServiceRequest(@RequestParam int serviceId) {
+	public ModelAndView userTrackServiceRequest(@RequestParam String serviceIdstr, @RequestParam String accountIdstr) {
 
 		ModelAndView mv = null;
 
 		try {
-			ServiceRequestBean serviceBean = bankingService
-					.checkServiceExist(serviceId);
+			
+			if(serviceIdstr.isEmpty() == false)
+			{	
+				int serviceId = Integer.parseInt(serviceIdstr);
+				ServiceRequestBean serviceBean = bankingService
+					.checkServiceExist(user.getAccountId(), serviceId);
 
-			if (serviceBean != null) {
+				if (serviceBean != null) {
 
-				mv = new ModelAndView("userTrackServiceRequestForm");
-				mv.addObject("flag", "2");
-				mv.addObject("serviceBean", serviceBean);
+					mv = new ModelAndView("userTrackServiceRequestForm");
+					mv.addObject("flag", "2");
+					mv.addObject("serviceBean", serviceBean);
 
-			} else {
+				} else {
 
-				mv = new ModelAndView("userTrackServiceRequestForm");
-				mv.addObject("errmsg", "Request Service Id does not exit!!!");
+					mv = new ModelAndView("userTrackServiceRequestForm");
+					mv.addObject("errmsg", "Request Service Id does not exit!!!");
 
+				}
+			} else if (serviceIdstr.isEmpty() == true) {
+				int accountId = Integer.parseInt(accountIdstr);
+				ServiceRequestBean serviceBean = bankingService
+					.checkServiceExistAcc(user.getAccountId(), accountId);
+
+				if (serviceBean != null) {
+
+					mv = new ModelAndView("userTrackServiceRequestForm");
+					mv.addObject("flag", "2");
+					mv.addObject("serviceBean", serviceBean);
+
+				} else {
+
+					mv = new ModelAndView("userTrackServiceRequestForm");
+					mv.addObject("errmsg", "Entered Account Id does not exit!!!");
+
+				}
 			}
 		} catch (BankingException e) {
 			mv = new ModelAndView("userTrackServiceRequestForm");
