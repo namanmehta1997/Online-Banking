@@ -20,6 +20,8 @@ public interface IBankingService {
 
 	public UserBean checkUserCredentials(String username,String password) throws BankingException;
 	
+	public boolean blockUser(String username) throws BankingException;
+	
 	public String getChequeBookStatus(int accountNumber) throws BankingException;
 	
 	public int raiseChequeBookRequest(int accountId,String serviceDescription) throws BankingException;
@@ -44,7 +46,6 @@ public interface IBankingService {
 
 	public boolean checkPayee(int paccId,int accId) throws BankingException;
 	
-	//admin services 
 	public boolean checkAdminCredentials(AdminBean admin) throws BankingException;
 	
 	public int addUser(UserBean user) throws BankingException;

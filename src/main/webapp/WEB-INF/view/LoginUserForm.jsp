@@ -34,13 +34,19 @@
 				</span></td>
 			</tr>
 			<tr>
-				<td colspan="2" align="left"><input type="submit" value="Login" /></td>
+				<td align="center"><input type="submit" value="Login" /></td>
+				<td align="center"><input type="submit" value="Forgot Password"></td>
 			</tr>
 		</table>
 	</form:form>
 	<c:if test="${flag eq true}">
 		<center>
 			<div class="error" align="center">Wrong Username/Password!!!</div>
+		</center>
+	</c:if>
+	<c:if test="${status eq false}">
+		<center>
+			<div class="error" align="center">Your account has been blocked</div>
 		</center>
 	</c:if>
 

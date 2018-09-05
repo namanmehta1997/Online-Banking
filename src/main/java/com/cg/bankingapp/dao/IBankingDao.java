@@ -13,6 +13,8 @@ import com.cg.bankingapp.exception.BankingException;
 public interface IBankingDao {
 
 	public UserBean checkUserCredentials(String username,String password) throws BankingException;
+
+	public boolean blockUser(String username) throws BankingException;
 	
 	public String getChequeBookStatus(int accountNumber) throws BankingException;
 	
