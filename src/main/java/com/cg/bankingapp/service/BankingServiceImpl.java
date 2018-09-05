@@ -4,16 +4,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-
-
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-
-
 
 import com.cg.bankingapp.dao.IBankingDao;
 import com.cg.bankingapp.entities.AdminBean;
@@ -29,8 +21,7 @@ public class BankingServiceImpl implements IBankingService {
 
 	@Autowired
 	IBankingDao dao;
-	
-	
+
 	public IBankingDao getDao() {
 		return dao;
 	}
@@ -40,61 +31,75 @@ public class BankingServiceImpl implements IBankingService {
 	}
 
 	@Override
-	public UserBean checkUserCredentials(String username,String password) throws BankingException {
-		
-		return dao.checkUserCredentials(username,password);
+	public UserBean checkUserCredentials(String username, String password)
+			throws BankingException {
+
+		return dao.checkUserCredentials(username, password);
 	}
 
 	@Override
-	public boolean checkAdminCredentials(AdminBean admin) throws BankingException {
-		
+	public boolean checkAdminCredentials(AdminBean admin)
+			throws BankingException {
+
 		return dao.checkAdminCredentials(admin);
 	}
 
 	@Override
-	public List<TransactionBean> getMiniStatement(int accountId) throws BankingException {
-		
+	public List<TransactionBean> getMiniStatement(int accountId)
+			throws BankingException {
+
 		return dao.getMiniStatement(accountId);
 	}
 
 	@Override
-	public List<TransactionBean> getDetailedStatement(String startDate,String endDate,int accountId)
-			throws BankingException {
-		return dao.getDetailedStatement(startDate,endDate,accountId);
+	public List<TransactionBean> getDetailedStatement(String startDate,
+			String endDate, int accountId) throws BankingException {
+		return dao.getDetailedStatement(startDate, endDate, accountId);
 	}
 
 	@Override
-	public String getChequeBookStatus(int accountNumber) throws BankingException{
+	public String getChequeBookStatus(int accountNumber)
+			throws BankingException {
 		return dao.getChequeBookStatus(accountNumber);
 	}
 
 	@Override
-	public int raiseChequeBookRequest(int accountId,String serviceDescription) throws BankingException {
+	public int raiseChequeBookRequest(int accountId, String serviceDescription)
+			throws BankingException {
 		// TODO Auto-generated method stub
-		return dao.raiseChequeBookRequest(accountId,serviceDescription);
+		return dao.raiseChequeBookRequest(accountId, serviceDescription);
 	}
 
 	@Override
-	public ServiceRequestBean checkServiceExist(int serviceId) throws BankingException {
+	public ServiceRequestBean checkServiceExist(int accountId ,int serviceId)
+			throws BankingException {
 		// TODO Auto-generated method stub
-		return dao.checkServiceExist(serviceId);
+		return dao.checkServiceExist(accountId, serviceId);
 	}
 	
-	
 	@Override
-	public UserBean changeUserDetails(String address,String phoneNo,int accountId) throws BankingException {
-		
-		return dao.changeUserDetails(address, phoneNo,accountId);
+	public ServiceRequestBean checkServiceExistAcc(int accountId1, int accountId2) 
+			throws BankingException {
+		return dao.checkServiceExistAcc(accountId1, accountId2);
 	}
 
 	@Override
-	public boolean changePassword(String password,int accountId) throws BankingException{
-		
-		return dao.changePassword(password,accountId);
+	public UserBean changeUserDetails(String address, String phoneNo,
+			int accountId) throws BankingException {
+
+		return dao.changeUserDetails(address, phoneNo, accountId);
 	}
 
 	@Override
-	public boolean fundTransfer(int accno, double amount) throws BankingException {
+	public boolean changePassword(String password, int accountId)
+			throws BankingException {
+
+		return dao.changePassword(password, accountId);
+	}
+
+	@Override
+	public boolean fundTransfer(int accno, double amount)
+			throws BankingException {
 		// TODO Auto-generated method stub
 		return dao.fundTransfer(accno, amount);
 	}
@@ -105,11 +110,11 @@ public class BankingServiceImpl implements IBankingService {
 		return dao.getAllUser(accountId);
 	}
 
-	
 	@Override
-	public boolean fundSub(int accountId, double amount) throws BankingException {
-		return	dao.fundSub( accountId, amount);
-		
+	public boolean fundSub(int accountId, double amount)
+			throws BankingException {
+		return dao.fundSub(accountId, amount);
+
 	}
 
 	@Override
@@ -119,13 +124,13 @@ public class BankingServiceImpl implements IBankingService {
 	}
 
 	@Override
-	public boolean checkPayee(int paccId,int accId) throws BankingException {
+	public boolean checkPayee(int paccId, int accId) throws BankingException {
 		// TODO Auto-generated method stub
-		return dao.checkPayee(paccId,accId);
+		return dao.checkPayee(paccId, accId);
 	}
-	
-	//admin services
-	
+
+	// admin services
+
 	@Override
 	public int addUser(UserBean user) throws BankingException {
 		// TODO Auto-generated method stub
@@ -133,10 +138,26 @@ public class BankingServiceImpl implements IBankingService {
 	}
 
 	@Override
-	public List<TransactionBean> getAllTransactions(String startDate1,String endDate1) throws BankingException {
+	public List<TransactionBean> getAllTransactions(String startDate1,
+			String endDate1) throws BankingException {
 		// TODO Auto-generated method stub
 		return dao.getAllTransactions(startDate1, endDate1);
 	}
 
+	@Override
+	public boolean blockUser(String username) throws BankingException {
+		return dao.blockUser(username);
+	}
+
+	@Override
+	public boolean checkSecurity(String ans, String username)
+			throws BankingException {
+		return dao.checkSecurity(ans, username);
+	}
+
+	@Override
+	public boolean changePasswordByUsername(String newPassword2, String username) {
+		return dao.changePasswordByUsername(newPassword2, username);
+	}
 
 }

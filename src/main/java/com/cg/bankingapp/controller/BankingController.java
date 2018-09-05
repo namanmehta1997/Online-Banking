@@ -3,6 +3,9 @@ package com.cg.bankingapp.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jms.Session;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +27,7 @@ import com.cg.bankingapp.service.IBankingService;
 
 @Controller
 public class BankingController {
-	
+
 	ArrayList<String> typeList;
 
 	@Autowired
@@ -56,26 +59,84 @@ public class BankingController {
 
 	@RequestMapping("/LoginUserForm")
 	public ModelAndView getUserHomePage() {
-
+		user = null;
 		return new ModelAndView("LoginUserForm", "user", new UserBean());
 	}
 
-	@RequestMapping("/LoginUserCheck")
+	@RequestMapping(value = "/LoginUserCheck", params = "forgot")
+	public ModelAndView ForgotPassword(
+			@ModelAttribute("user") @Valid UserBean userLogin,
+			BindingResult result) {
+
+		return new ModelAndView("ForgotPasswordPage", "user", userLogin);
+
+	}
+
+	@RequestMapping(value = "/ForgotPasswordCheck")
+	public ModelAndView checkUsernamePassword(@RequestParam String ans,
+			@RequestParam String username, @ModelAttribute("user") UserBean user) {
+		ModelAndView mv = new ModelAndView();
+		try {
+			if (bankingService.checkSecurity(ans, username)) {
+				mv.setViewName("changeForgotPassword");
+				mv.addObject("user", user);
+			} else {
+				mv = new ModelAndView("LoginUserForm", "user", new UserBean());
+				mv.addObject("errmsg", "Wrong security answer");
+				return mv;
+			}
+		} catch (BankingException e) {
+
+		}
+		return mv;
+
+	}
+
+	@RequestMapping(value = "/LoginUserCheck", params = "login")
 	public ModelAndView UserHomePage(
-			@ModelAttribute("user") @Valid UserBean userLogin, BindingResult result) {
+			@ModelAttribute("user") @Valid UserBean userLogin,
+			BindingResult result, HttpServletRequest request) {
 		ModelAndView mv = null;
 
 		try {
-
+			HttpSession session = request.getSession();
 			user = bankingService.checkUserCredentials(userLogin.getUsername(),
 					userLogin.getPassword());
 
-			if (user != null) {
+			if (user != null && user.getAccStatus().equals("active")) {
 				mv = new ModelAndView("UserHomePage");
 				mv.addObject("customerName", user.getCustomerName());
+				Object blockValue = session.getAttribute(userLogin
+						.getUsername());
+				if (blockValue != null) {
+					session.setAttribute(userLogin.getUsername(), null);
+				}
+
 			} else {
 				mv = new ModelAndView("LoginUserForm", "user", user);
-				mv.addObject("flag", true);
+				if (user != null && user.getAccStatus().equals("block")) {
+					mv.addObject("status", false);
+					mv.addObject("flag", false);
+				} else {
+
+					Object str = session.getAttribute(userLogin.getUsername());
+					if (str == null) {
+						session.setAttribute(userLogin.getUsername(), 1);
+
+					} else {
+						int val = (int) session.getAttribute(userLogin
+								.getUsername());
+						val++;
+						session.setAttribute(userLogin.getUsername(), val);
+
+					}
+					if ((int) session.getAttribute(userLogin.getUsername()) == 3) {
+						bankingService.blockUser(userLogin.getUsername());
+						mv.addObject("status", false);
+					}
+					mv.addObject("flag", true);
+				}
+
 			}
 
 		} catch (BankingException e) {
@@ -160,7 +221,8 @@ public class BankingController {
 
 	@RequestMapping("/update")
 	public ModelAndView updateDetails(
-			@ModelAttribute("newUser") @Valid UserBean newUser, BindingResult result) {
+			@ModelAttribute("newUser") @Valid UserBean newUser,
+			BindingResult result) {
 
 		ModelAndView mv = null;
 
@@ -200,10 +262,26 @@ public class BankingController {
 
 	@RequestMapping("/updatePassword")
 	public ModelAndView updatePassword(@RequestParam String password,
-			@RequestParam String newPassword1, @RequestParam String newPassword2) {
+			@RequestParam String newPassword1,
+			@RequestParam String newPassword2, @RequestParam String username) {
 		ModelAndView mv = null;
-
 		try {
+			if (user == null || user.getPassword() == null) {
+				if (newPassword1.equals(newPassword2)) {
+					boolean flag = bankingService.changePasswordByUsername(newPassword2,
+							username);
+					if (flag) {
+						mv = new ModelAndView("LoginUserForm", "user",
+								new UserBean());
+						mv.addObject("password", true);
+						return mv;
+					}
+				} else {
+					mv = new ModelAndView("changeForgotPassword");
+					mv.addObject("errmsg", "Passwords did not match!!!");
+					return mv;
+				}
+			}
 			if (user.getPassword().equals(password)) {
 				if (newPassword1.equals(newPassword2)) {
 					boolean flag = bankingService.changePassword(newPassword1,
@@ -416,25 +494,47 @@ public class BankingController {
 	}
 
 	@RequestMapping("/userTrackServiceRequest")
-	public ModelAndView userTrackServiceRequest(@RequestParam int serviceId) {
+	public ModelAndView userTrackServiceRequest(@RequestParam String serviceIdstr, @RequestParam String accountIdstr) {
 
 		ModelAndView mv = null;
 
 		try {
-			ServiceRequestBean serviceBean = bankingService
-					.checkServiceExist(serviceId);
+			
+			if(serviceIdstr.isEmpty() == false)
+			{	
+				int serviceId = Integer.parseInt(serviceIdstr);
+				ServiceRequestBean serviceBean = bankingService
+					.checkServiceExist(user.getAccountId(), serviceId);
 
-			if (serviceBean != null) {
+				if (serviceBean != null) {
 
-				mv = new ModelAndView("userTrackServiceRequestForm");
-				mv.addObject("flag", "2");
-				mv.addObject("serviceBean", serviceBean);
+					mv = new ModelAndView("userTrackServiceRequestForm");
+					mv.addObject("flag", "2");
+					mv.addObject("serviceBean", serviceBean);
 
-			} else {
+				} else {
 
-				mv = new ModelAndView("userTrackServiceRequestForm");
-				mv.addObject("errmsg", "Request Service Id does not exit!!!");
+					mv = new ModelAndView("userTrackServiceRequestForm");
+					mv.addObject("errmsg", "Request Service Id does not exit!!!");
 
+				}
+			} else if (serviceIdstr.isEmpty() == true) {
+				int accountId = Integer.parseInt(accountIdstr);
+				ServiceRequestBean serviceBean = bankingService
+					.checkServiceExistAcc(user.getAccountId(), accountId);
+
+				if (serviceBean != null) {
+
+					mv = new ModelAndView("userTrackServiceRequestForm");
+					mv.addObject("flag", "2");
+					mv.addObject("serviceBean", serviceBean);
+
+				} else {
+
+					mv = new ModelAndView("userTrackServiceRequestForm");
+					mv.addObject("errmsg", "Entered Account Id does not exit!!!");
+
+				}
 			}
 		} catch (BankingException e) {
 			mv = new ModelAndView("userTrackServiceRequestForm");
@@ -452,7 +552,8 @@ public class BankingController {
 
 	@RequestMapping("/LoginAdminCheck")
 	public ModelAndView AdminHomePage(
-			@ModelAttribute("admin") @Valid AdminBean admin, BindingResult result) {
+			@ModelAttribute("admin") @Valid AdminBean admin,
+			BindingResult result) {
 		ModelAndView mv = null;
 
 		try {
@@ -478,19 +579,20 @@ public class BankingController {
 	public String createNewUserPage(Model model) {
 		UserBean newUser = new UserBean();
 		typeList = new ArrayList<String>();
-		
+
 		typeList.add("Savings Account");
 		typeList.add("Current Account");
-		
+
 		model.addAttribute("typeList", typeList);
 		model.addAttribute("newUser", newUser);
-		
+
 		return "createNewAccountForm";
 	}
 
 	@RequestMapping("/createNewAccount")
 	public ModelAndView addNewUserPage(
-			@ModelAttribute("newUser") @Valid UserBean newUser, BindingResult result) {
+			@ModelAttribute("newUser") @Valid UserBean newUser,
+			BindingResult result) {
 		ModelAndView mv = null;
 
 		try {
@@ -499,7 +601,8 @@ public class BankingController {
 				System.out.println("Account status active!");
 				int accId = bankingService.addUser(newUser);
 				if (accId != 0) {
-					mv = new ModelAndView("createNewAccountForm","newUser",new UserBean());
+					mv = new ModelAndView("createNewAccountForm", "newUser",
+							new UserBean());
 					mv.addObject("accId", accId);
 					mv.addObject("flag", true);
 
