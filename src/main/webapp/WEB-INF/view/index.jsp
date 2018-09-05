@@ -11,12 +11,15 @@
 <link href="<c:url value="/resources/indexstyle.css" />"
 	rel="stylesheet">
 </head>
-<body background="<c:url value="/resources/images/bank.png" />">
+
+<body background="<c:url value="/resources/images/photo1.jpg" />">
+
 
 	<center>
 		<h2>Welcome to Online Banking Services</h2>
 		<br> <br> <a href="LoginUserForm.obj">User Login</a><br>
 		<br> <a href="LoginAdmin.obj">Admin Login</a>
+
 
 	</center>
 </body>

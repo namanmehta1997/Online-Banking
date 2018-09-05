@@ -7,9 +7,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+<link href="<c:url value="/resources/loginuserformstyle.css" />" rel="stylesheet">
 </head>
-<body>
-	<a href="home.obj">Back</a>
+<body background="<c:url value="/resources/images/photo1.jpg" />">
+	<a href="home.obj"><img src="<c:url value="/resources/images/back.png" />"/></a>
 	<hr>
 	<h1 align="center">Admin Login</h1>
 	<c:url var="myAction" value="LoginAdminCheck.obj" />
@@ -35,7 +36,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2" align="left"><input type="submit"
+				<td colspan="2" align="right"><input type="submit"
 					value="Login" /></td>
 			</tr>
 		</table>

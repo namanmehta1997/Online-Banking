@@ -11,9 +11,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+<link href="<c:url value="/resources/loginuserformstyle.css" />" rel="stylesheet">
+<link href="<c:url value="/resources/table.css" />" rel="stylesheet">
 </head>
-<body>
-	<a href="adminHomePage.obj">Home</a> | <a href="LoginAdmin.obj">Logout</a>
+<body background="<c:url value="/resources/images/photo11.jpg" />">
+	<a title="Home" href="adminHomePage.obj"><img src="<c:url value="/resources/images/home.png" />"/></a> 
+	<a title="Logout" href="LoginAdmin.obj" style="float:right"><img src="<c:url value="/resources/images/logout.png" />"/></a>
 	<hr />
 	
 	

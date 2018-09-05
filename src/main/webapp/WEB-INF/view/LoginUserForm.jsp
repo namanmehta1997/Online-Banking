@@ -11,8 +11,8 @@
 <link href="<c:url value="/resources/loginuserformstyle.css" />"
 	rel="stylesheet">
 </head>
-<body>
-	<a href="home.obj">Back</a>
+<body background="<c:url value="/resources/images/photo1.jpg" />">
+	<a title="Back" href="home.obj"><img src="<c:url value="/resources/images/back.png" />"/></a>
 	<hr>
 	<h1 align="center">User Login</h1>
 
@@ -36,10 +36,10 @@
 			</tr>
 			<tr>
 
-				<td align="center"><input type="submit" name="login"
-					value="Login" class="button" /></td>
-				<td align="center"><input type="submit" name="forgot"
-					value="Forgot Password" class="button" /></td>
+			    <td align="left"><input type="submit" value="Forgot Password" class="button" name="forgot"/></td>
+				<td align="right"><input type="submit" value="Login" class="button" name="login"/></td>
+				
+
 			</tr>
 		</table>
 	</form:form>
