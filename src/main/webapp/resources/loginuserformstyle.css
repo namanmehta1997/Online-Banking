@@ -1,0 +1,32 @@
+body{
+	background-color:#ccffff;
+}
+h1{
+	  color:#661a00;
+    font-family: verdana;
+}
+input[type=text]{
+	 padding: 8px 14px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    background-color: #00bfff;
+    color: white;
+}
+input[type=password]{
+	 padding: 8px 14px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    background-color: #00bfff;
+    color: black;
+}
+.button:hover{
+    background-color: #336600;
+    color: white;
+    cursor: pointer;
+}
+.error{
+	color: red;
+	font-size: 25px;
+}

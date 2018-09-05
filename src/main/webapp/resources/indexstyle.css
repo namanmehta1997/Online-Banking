@@ -1,0 +1,18 @@
+body{
+	background-color:#ccffff;
+}
+h2{
+	  color:#661a00;
+    font-family: verdana;
+}
+
+a {
+  background-color: #993366;
+  color: white;
+  padding: 2.5px 5px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+a:hover {
+  cursor: pointer;
+}

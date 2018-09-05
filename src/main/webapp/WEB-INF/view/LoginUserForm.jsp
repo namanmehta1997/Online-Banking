@@ -8,7 +8,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Login user</title>
-<link href="<c:url value="/resources/style.css" />" rel="stylesheet">
+<link href="<c:url value="/resources/loginuserformstyle.css" />"
+	rel="stylesheet">
 </head>
 <body>
 	<a href="home.obj">Back</a>
@@ -20,22 +21,25 @@
 		<table align="center">
 
 			<tr>
-				<td>Username :</td>
+				<td><b>Username</b> :</td>
 				<td><input type="text" name="username" /></td>
 				<td><span style="color: red"> <form:errors
 							path="username"></form:errors>
 				</span></td>
 			</tr>
 			<tr>
-				<td>Password :</td>
+				<td><b>Password</b> :</td>
 				<td><input type="password" name="password" /></td>
 				<td><span style="color: red"> <form:errors
 							path="password"></form:errors>
 				</span></td>
 			</tr>
 			<tr>
-				<td align="center"><input type="submit" value="Login" /></td>
-				<td align="center"><input type="submit" value="Forgot Password"></td>
+
+				<td align="center"><input type="submit" value="Login"
+					class="button" /></td>
+				<td align="center"><input type="submit" value="Forgot Password"
+					class="button" /></td>
 			</tr>
 		</table>
 	</form:form>
