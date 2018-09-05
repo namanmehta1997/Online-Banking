@@ -63,7 +63,36 @@ public class BankingController {
 		return new ModelAndView("LoginUserForm", "user", new UserBean());
 	}
 
-	@RequestMapping("/LoginUserCheck")
+	@RequestMapping(value = "/LoginUserCheck", params = "forgot")
+	public ModelAndView ForgotPassword(
+			@ModelAttribute("user") @Valid UserBean userLogin,
+			BindingResult result) {
+
+		return new ModelAndView("ForgotPasswordPage", "user", userLogin);
+
+	}
+
+	@RequestMapping(value = "/ForgotPasswordCheck")
+	public ModelAndView checkUsernamePassword(@RequestParam String ans,
+			@RequestParam String username, @ModelAttribute("user") UserBean user) {
+		ModelAndView mv = new ModelAndView();
+		try {
+			if (bankingService.checkSecurity(ans, username)) {
+				mv.setViewName("changeForgotPassword");
+				mv.addObject("user", user);
+			} else {
+				mv = new ModelAndView("LoginUserForm", "user", new UserBean());
+				mv.addObject("errmsg", "Wrong security answer");
+				return mv;
+			}
+		} catch (BankingException e) {
+
+		}
+		return mv;
+
+	}
+
+	@RequestMapping(value = "/LoginUserCheck", params = "login")
 	public ModelAndView UserHomePage(
 			@ModelAttribute("user") @Valid UserBean userLogin,
 			BindingResult result, HttpServletRequest request) {
@@ -233,10 +262,26 @@ public class BankingController {
 
 	@RequestMapping("/updatePassword")
 	public ModelAndView updatePassword(@RequestParam String password,
-			@RequestParam String newPassword1, @RequestParam String newPassword2) {
+			@RequestParam String newPassword1,
+			@RequestParam String newPassword2, @RequestParam String username) {
 		ModelAndView mv = null;
-
 		try {
+			if (user == null || user.getPassword() == null) {
+				if (newPassword1.equals(newPassword2)) {
+					boolean flag = bankingService.changePasswordByUsername(newPassword2,
+							username);
+					if (flag) {
+						mv = new ModelAndView("LoginUserForm", "user",
+								new UserBean());
+						mv.addObject("password", true);
+						return mv;
+					}
+				} else {
+					mv = new ModelAndView("changeForgotPassword");
+					mv.addObject("errmsg", "Passwords did not match!!!");
+					return mv;
+				}
+			}
 			if (user.getPassword().equals(password)) {
 				if (newPassword1.equals(newPassword2)) {
 					boolean flag = bankingService.changePassword(newPassword1,

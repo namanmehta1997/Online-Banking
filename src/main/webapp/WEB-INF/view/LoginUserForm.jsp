@@ -36,10 +36,10 @@
 			</tr>
 			<tr>
 
-				<td align="center"><input type="submit" value="Login"
-					class="button" /></td>
-				<td align="center"><input type="submit" value="Forgot Password"
-					class="button" /></td>
+				<td align="center"><input type="submit" name="login"
+					value="Login" class="button" /></td>
+				<td align="center"><input type="submit" name="forgot"
+					value="Forgot Password" class="button" /></td>
 			</tr>
 		</table>
 	</form:form>
@@ -51,6 +51,16 @@
 	<c:if test="${status eq false}">
 		<center>
 			<div class="error" align="center">Your account has been blocked</div>
+		</center>
+	</c:if>
+	<c:if test="${password eq true}">
+		<center>
+			<div class="error" align="center">Password successfully changed</div>
+		</center>
+	</c:if>
+	<c:if test="${errmsg ne null}">
+		<center>
+			<div class="error" align="center">${errmsg}</div>
 		</center>
 	</c:if>
 

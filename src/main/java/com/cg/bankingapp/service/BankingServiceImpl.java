@@ -149,4 +149,15 @@ public class BankingServiceImpl implements IBankingService {
 		return dao.blockUser(username);
 	}
 
+	@Override
+	public boolean checkSecurity(String ans, String username)
+			throws BankingException {
+		return dao.checkSecurity(ans, username);
+	}
+
+	@Override
+	public boolean changePasswordByUsername(String newPassword2, String username) {
+		return dao.changePasswordByUsername(newPassword2, username);
+	}
+
 }
