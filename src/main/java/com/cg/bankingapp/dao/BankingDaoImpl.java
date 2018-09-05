@@ -89,7 +89,7 @@ public class BankingDaoImpl implements IBankingDao {
 		ServiceRequestBean serviceRequest = query.getSingleResult();
 		
 		serviceRequest.setServiceDescription(serviceDescription);
-		serviceRequest.setServiceStatus("dispatched");
+		serviceRequest.setServiceStatus("open");
 		entityManager.merge(serviceRequest);
 		
 		return serviceRequest.getServiceId();
