@@ -47,4 +47,6 @@ public interface IBankingDao {
 	public int addUser(UserBean user) throws BankingException;
 	
 	public List<TransactionBean> getAllTransactions(String startDate1,String endDate1) throws BankingException;
+
+	public ServiceRequestBean checkServiceExistAcc(int accountId) throws BankingException;
 }

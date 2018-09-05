@@ -76,6 +76,12 @@ public class BankingServiceImpl implements IBankingService {
 		// TODO Auto-generated method stub
 		return dao.checkServiceExist(serviceId);
 	}
+	
+	@Override
+	public ServiceRequestBean checkServiceExistAcc(int accountId) 
+			throws BankingException {
+		return dao.checkServiceExistAcc(accountId);
+	}
 
 	@Override
 	public UserBean changeUserDetails(String address, String phoneNo,

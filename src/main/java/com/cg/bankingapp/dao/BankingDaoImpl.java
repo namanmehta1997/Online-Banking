@@ -115,6 +115,19 @@ public class BankingDaoImpl implements IBankingDao {
 		return entityManager.find(ServiceRequestBean.class, serviceId);
 
 	}
+	
+	@Override
+	public ServiceRequestBean checkServiceExistAcc(int accountId)
+			throws BankingException {
+		
+		TypedQuery<ServiceRequestBean> query = entityManager.createQuery(
+				"SELECT s FROM ServiceRequestBean s WHERE s.accountId=:accno",
+				ServiceRequestBean.class);
+		query.setParameter("accno", accountId);
+		ServiceRequestBean serviceRequest = query.getSingleResult();
+
+		return serviceRequest;
+	}
 
 	@Override
 	public UserBean changeUserDetails(String address, String phoneNo,
@@ -342,4 +355,5 @@ public class BankingDaoImpl implements IBankingDao {
 		}
 		return true;
 	}
+
 }

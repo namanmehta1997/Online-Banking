@@ -19,7 +19,14 @@
 		
 			<tr>
 				<td><strong>Enter Service Request ID: </strong></td>
-				<td><input type = "text" name="serviceId" required/></td>
+				<td><input type = "text" name="serviceIdstr" /></td>
+			</tr>
+			<tr>
+				<td colspan = "2"><strong>OR</strong></td>
+			</tr>
+			<tr>
+				<td><strong>Enter Account ID: </strong></td>
+				<td><input type = "text" name="accountIdstr" /></td>
 			</tr>
 			<tr>
 				<td colspan = "2"><button type="submit">Submit</button></td>
