@@ -20,7 +20,7 @@ public interface IBankingDao {
 	
 	public int raiseChequeBookRequest(int accountId,String serviceDescription) throws BankingException;
 	
-	public ServiceRequestBean checkServiceExist(int serviceId) throws BankingException;
+	public ServiceRequestBean checkServiceExist(int accountId, int serviceId) throws BankingException;
 	
 	public List<TransactionBean> getMiniStatement(int accountId) throws BankingException;
 	
@@ -48,5 +48,5 @@ public interface IBankingDao {
 	
 	public List<TransactionBean> getAllTransactions(String startDate1,String endDate1) throws BankingException;
 
-	public ServiceRequestBean checkServiceExistAcc(int accountId) throws BankingException;
+	public ServiceRequestBean checkServiceExistAcc(int accountId1, int accountId2) throws BankingException;
 }

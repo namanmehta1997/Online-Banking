@@ -456,10 +456,10 @@ public class BankingController {
 		try {
 			
 			if(serviceIdstr.isEmpty() == false)
-			{
+			{	
 				int serviceId = Integer.parseInt(serviceIdstr);
 				ServiceRequestBean serviceBean = bankingService
-					.checkServiceExist(serviceId);
+					.checkServiceExist(user.getAccountId(), serviceId);
 
 				if (serviceBean != null) {
 
@@ -476,7 +476,7 @@ public class BankingController {
 			} else if (serviceIdstr.isEmpty() == true) {
 				int accountId = Integer.parseInt(accountIdstr);
 				ServiceRequestBean serviceBean = bankingService
-					.checkServiceExistAcc(accountId);
+					.checkServiceExistAcc(user.getAccountId(), accountId);
 
 				if (serviceBean != null) {
 

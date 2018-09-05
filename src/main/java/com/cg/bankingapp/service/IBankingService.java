@@ -34,7 +34,7 @@ public interface IBankingService {
 	
 	public boolean changePassword(String password,int accountId) throws BankingException;
 	
-	public ServiceRequestBean checkServiceExist(int serviceId) throws BankingException;
+	public ServiceRequestBean checkServiceExist(int accountId, int serviceId) throws BankingException;
 	
 	public List<PayeeBean> getAllUser(int accountId) throws BankingException;
 	
@@ -52,6 +52,6 @@ public interface IBankingService {
 	
 	public List<TransactionBean> getAllTransactions(String startDate1,String endDate1) throws BankingException;
 
-	public ServiceRequestBean checkServiceExistAcc(int accountId) throws BankingException;
+	public ServiceRequestBean checkServiceExistAcc(int accountId1, int accountId2) throws BankingException;
 	
 }

@@ -71,16 +71,16 @@ public class BankingServiceImpl implements IBankingService {
 	}
 
 	@Override
-	public ServiceRequestBean checkServiceExist(int serviceId)
+	public ServiceRequestBean checkServiceExist(int accountId ,int serviceId)
 			throws BankingException {
 		// TODO Auto-generated method stub
-		return dao.checkServiceExist(serviceId);
+		return dao.checkServiceExist(accountId, serviceId);
 	}
 	
 	@Override
-	public ServiceRequestBean checkServiceExistAcc(int accountId) 
+	public ServiceRequestBean checkServiceExistAcc(int accountId1, int accountId2) 
 			throws BankingException {
-		return dao.checkServiceExistAcc(accountId);
+		return dao.checkServiceExistAcc(accountId1, accountId2);
 	}
 
 	@Override
