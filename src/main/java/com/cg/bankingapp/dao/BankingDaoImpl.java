@@ -342,4 +342,41 @@ public class BankingDaoImpl implements IBankingDao {
 		}
 		return true;
 	}
+
+	@Override
+	public boolean checkSecurity(String ans, String username)
+			throws BankingException {
+		ans = ans.trim();
+		System.out.println(username);
+		TypedQuery<UserBean> query = entityManager.createQuery(
+				"SELECT user FROM"
+						+ " UserBean user WHERE user.username=:username",
+				UserBean.class);
+		query.setParameter("username", username);
+		List<UserBean> users = query.getResultList();
+
+		for (UserBean user : users) {
+			if (user.getSecurityAns().equalsIgnoreCase(ans)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean changePasswordByUsername(String newPassword2, String username) {
+		TypedQuery<UserBean> query = entityManager.createQuery(
+				"SELECT user FROM"
+						+ " UserBean user WHERE user.username=:username",
+				UserBean.class);
+		query.setParameter("username", username);
+		List<UserBean> users = query.getResultList();
+
+		for (UserBean user : users) {
+			user.setPassword(newPassword2);
+			entityManager.flush();
+		}
+		return true;
+	}
 }
