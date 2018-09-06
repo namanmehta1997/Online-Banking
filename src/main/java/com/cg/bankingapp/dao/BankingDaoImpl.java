@@ -405,7 +405,6 @@ public class BankingDaoImpl implements IBankingDao {
 				UserBean.class);
 		query.setParameter("username", username);
 		List<UserBean> users = query.getResultList();
-
 		for (UserBean user : users) {
 			user.setPassword(newPassword2);
 			entityManager.flush();

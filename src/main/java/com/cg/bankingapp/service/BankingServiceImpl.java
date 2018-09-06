@@ -74,6 +74,7 @@ public class BankingServiceImpl implements IBankingService {
 	public ServiceRequestBean checkServiceExist(int accountId ,int serviceId)
 			throws BankingException {
 		// TODO Auto-generated method stub
+
 		return dao.checkServiceExist(accountId, serviceId);
 	}
 	

@@ -443,6 +443,11 @@ public class BankingController {
 
 					mv = new ModelAndView("userRequestChequeBookForm");
 					mv.addObject("check", "display");
+				} else if("open".equals(serviceStatus)){
+					mv = new ModelAndView("userRequestChequeBookForm");
+					mv.addObject("check", "nDisplay");
+					mv.addObject("errmsg",
+							"Your request is in process!!!");
 				}
 
 			} else {
