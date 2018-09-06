@@ -161,7 +161,7 @@ public class BankingController {
 		try {
 
 			List<TransactionBean> transactionList = bankingService
-					.getMiniStatement(user.getAccountId());
+					.getMiniStatement(user.getUsername());
 			if (!transactionList.isEmpty()) {
 
 				mv = new ModelAndView("miniStatement");
@@ -268,8 +268,8 @@ public class BankingController {
 		try {
 			if (user == null || user.getPassword() == null) {
 				if (newPassword1.equals(newPassword2)) {
-					boolean flag = bankingService.changePasswordByUsername(newPassword2,
-							username);
+					boolean flag = bankingService.changePasswordByUsername(
+							newPassword2, username);
 					if (flag) {
 						mv = new ModelAndView("LoginUserForm", "user",
 								new UserBean());
@@ -443,6 +443,10 @@ public class BankingController {
 
 					mv = new ModelAndView("userRequestChequeBookForm");
 					mv.addObject("check", "display");
+				} else if ("open".equals(serviceStatus)) {
+					mv = new ModelAndView("userRequestChequeBookForm");
+					mv.addObject("check", "nDisplay");
+					mv.addObject("errmsg", "Your request is in process!!!");
 				}
 
 			} else {
@@ -494,17 +498,17 @@ public class BankingController {
 	}
 
 	@RequestMapping("/userTrackServiceRequest")
-	public ModelAndView userTrackServiceRequest(@RequestParam String serviceIdstr, @RequestParam String accountIdstr) {
+	public ModelAndView userTrackServiceRequest(
+			@RequestParam String serviceIdstr, @RequestParam String accountIdstr) {
 
 		ModelAndView mv = null;
 
 		try {
-			
-			if(serviceIdstr.isEmpty() == false)
-			{	
+
+			if (serviceIdstr.isEmpty() == false) {
 				int serviceId = Integer.parseInt(serviceIdstr);
 				ServiceRequestBean serviceBean = bankingService
-					.checkServiceExist(user.getAccountId(), serviceId);
+						.checkServiceExist(user.getAccountId(), serviceId);
 
 				if (serviceBean != null) {
 
@@ -515,13 +519,14 @@ public class BankingController {
 				} else {
 
 					mv = new ModelAndView("userTrackServiceRequestForm");
-					mv.addObject("errmsg", "Request Service Id does not exit!!!");
+					mv.addObject("errmsg",
+							"Request Service Id does not exit!!!");
 
 				}
 			} else if (serviceIdstr.isEmpty() == true) {
 				int accountId = Integer.parseInt(accountIdstr);
 				ServiceRequestBean serviceBean = bankingService
-					.checkServiceExistAcc(user.getAccountId(), accountId);
+						.checkServiceExistAcc(user.getAccountId(), accountId);
 
 				if (serviceBean != null) {
 
@@ -532,7 +537,8 @@ public class BankingController {
 				} else {
 
 					mv = new ModelAndView("userTrackServiceRequestForm");
-					mv.addObject("errmsg", "Entered Account Id does not exit!!!");
+					mv.addObject("errmsg",
+							"Entered Account Id does not exit!!!");
 
 				}
 			}
@@ -600,16 +606,26 @@ public class BankingController {
 				newUser.setAccStatus("active");
 				System.out.println("Account status active!");
 				int accId = bankingService.addUser(newUser);
-				if (accId != 0) {
+				if (accId != -1) {
 					mv = new ModelAndView("createNewAccountForm", "newUser",
 							new UserBean());
 					mv.addObject("accId", accId);
 					mv.addObject("flag", true);
+					typeList = new ArrayList<String>();
+					typeList.add("Savings Account");
+					typeList.add("Current Account");
+					mv.addObject("typeList", typeList);
 
-				} else {
+				} else if (accId == -1) {
 					mv = new ModelAndView("createNewAccountForm", "newUser",
 							newUser);
-					mv.addObject("errmsg", "Username already exist!!!");
+					typeList = new ArrayList<String>();
+					typeList.add("Savings Account");
+					typeList.add("Current Account");
+					mv.addObject("typeList", typeList);
+					mv.addObject(
+							"errmsg",
+							"Username already exist!!! Please provide correct info or take another username");
 				}
 			} else {
 				mv = new ModelAndView("createNewAccountForm", "newUser",

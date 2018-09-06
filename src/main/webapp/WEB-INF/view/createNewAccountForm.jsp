@@ -65,7 +65,13 @@
 			</tr>
 
 			<tr>
-				<td><b>Pan Card:</b></td>
+				<td><b>Amount</b>:</td>
+				<td align="left"><form:input path="amount" /></td>
+				<td><form:errors path="amount" cssStyle="color:red"></form:errors></td>
+			</tr>
+			
+			<tr>
+				<td><b>PAN</b>:</td>
 				<td align="left"><form:input path="pancard" /></td>
 				<td><form:errors path="pancard" cssStyle="color:red"></form:errors></td>
 			</tr>
@@ -77,7 +83,7 @@
 			</tr>
 
 			<tr>
-				<td colspan="2" align="right"><input type="submit" value="Add" class="button" /></td>
+				<td colspan="2" align="right"><input type="submit" value="Create Account" class="button" /></td>
 			</tr>
 		</table>
 	</form:form>
