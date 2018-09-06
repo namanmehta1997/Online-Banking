@@ -7,9 +7,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+
 </head>
-<body>
-	<a href="userFundTransfer.obj">Back</a> | <a href="LoginUserForm.obj">Logout</a>
+<body background="<c:url value="/resources/images/photo11.jpg" />" style="background-repeat:no-repeat; background-size:cover">
+	<a title="Back" href="userFundTransfer.obj"><img src="<c:url value="/resources/images/back.png" />"/></a> 
+	 <a title="Logout" href="LoginUserForm.obj" style="float:right"><img src="<c:url value="/resources/images/logout.png" />"/></a>
 	
 	<hr>
 	<center>
@@ -17,12 +19,12 @@
 	<div>
 		<form action="addPayeeDetails.obj" method = "post">
 			<table>
-			<tr><td>Select Payee Account Id:</td>
+			<tr><td><b>Select Payee Account Id</b>:</td>
 			<td><input type="number" name="paccId" required></input></td></tr>
-			<tr><td>Select Payee Nick Name:</td>
+			<tr><td><b>Select Payee Nick Name</b>:</td>
 			<td><input type="text" name="pname" required></input></td></tr>
 			
-			<tr><td><button type="submit">Submit</button></td></tr>
+			<tr><td><button type="submit" class="button">Submit</button></td></tr>
 			</table>
 		</form>
 	</div>

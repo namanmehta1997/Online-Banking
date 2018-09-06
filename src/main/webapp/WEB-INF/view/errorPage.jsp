@@ -7,7 +7,7 @@
 <title></title>
 </head>
 <body>
-<a href="login.obj">Home</a> | 
+<a title="Home" href="login.obj"><img src="<c:url value="/resources/images/home.png" />"/></a> | 
 	<span style="text-align:right">Welcome ${userDetails.customerName}</span>
 	<hr>
 	<p>

@@ -8,9 +8,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+<link href="<c:url value="/resources/loginuserformstyle.css" />" rel="stylesheet">
 </head>
-<body>
-	<a href="userHomePage.obj">Home</a> | <a href="LoginUserForm.obj">Logout</a>
+<body background="<c:url value="/resources/images/photo11.jpg" />">
+	<a title="Home" href="userHomePage.obj"><img src="<c:url value="/resources/images/home.png" />"/></a>
+	 <a title="Logout" href="LoginUserForm.obj" style="float:right"><img src="<c:url value="/resources/images/logout.png" />"/></a>
 	<center>
 	<hr>
 	<h2>Update Details</h2>
@@ -20,26 +22,26 @@
 			<table align="center">
 
 			<tr>
-				<td>Enter Old Password:</td>
+				<td><b>Enter Old Password</b>:</td>
 				<td><input type="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required/></td>
 				<form:errors path="password" cssStyle="color:red"></form:errors>
 			</tr>
 			<tr>
-				<td>Enter New Password:</td>
+				<td><b>Enter New Password</b>:</td>
 				<td><input type="password" name="newPassword1" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required/></td>
 				<form:errors path="password" cssStyle="color:red"></form:errors>
 			</tr>
 
 
 			<tr>
-				<td>Retype New Password:</td>
+				<td><b>Retype New Password</b>:</td>
 				<td><input type="password" name="newPassword2" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required/></td>
 				<form:errors path="password" cssStyle="color:red"></form:errors>
 				
 			</tr>
 	
 			<tr>
-				<td colspan="2" align="left"><input type="submit" value="Change Password" /></td>
+				<td colspan="2" align="left"><input type="submit" value="Change Password" class="button"/></td>
 			</tr>
 		</table>
 	</form:form>
