@@ -23,7 +23,7 @@ public interface IBankingDao {
 	
 	public ServiceRequestBean checkServiceExist(int accountId, int serviceId) throws BankingException;
 	
-	public List<TransactionBean> getMiniStatement(int accountId) throws BankingException;
+	public List<TransactionBean> getMiniStatement(String username) throws BankingException;
 	
 	public List<TransactionBean> getDetailedStatement(String startDate,String endDate,int accountId) throws BankingException;
 	

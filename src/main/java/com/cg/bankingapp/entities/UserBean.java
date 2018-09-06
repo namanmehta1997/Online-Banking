@@ -16,7 +16,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class UserBean {
 
 	
-	@Column(name="username",unique=true)
+	@Column(name="username")
 	@NotEmpty(message="User name should not be empty")
 	@Pattern(regexp="[A-Za-z]{3,19}",message="username should contain minimum 3 maximum 19 letters.")
 	private String username;
