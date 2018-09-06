@@ -6,7 +6,7 @@ body{
 #logout{
       float:right;
 }
-h3{
+h2,h3{
 	color:#8600b3;
 }
 .user {
@@ -21,3 +21,4 @@ h3{
     color: white;
     cursor: pointer;
 }
+

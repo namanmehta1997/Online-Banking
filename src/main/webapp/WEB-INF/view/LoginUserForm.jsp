@@ -35,9 +35,9 @@
 				</span></td>
 			</tr>
 			<tr>
-
-			    <td align="left"><input type="submit" value="Forgot Password" class="button" name="forgot"/></td>
-				<td align="right"><input type="submit" value="Login" class="button" name="login"/></td>
+                <td align="left"><input type="submit" value="Login" class="button" name="login"/></td>
+			    <td align="right"><input type="submit" value="Forgot Password" class="button" name="forgot"/></td>
+				
 				
 
 			</tr>

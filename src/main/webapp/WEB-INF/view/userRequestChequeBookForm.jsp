@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Raise request</title>
-<link href="<c:url value="/resources/loginuserpagestyle.css" />" rel="stylesheet">
+<link href="<c:url value="/resources/userhomepagestyle.css" />" rel="stylesheet">
 </head>
 <body background="<c:url value="/resources/images/photo1.jpg" />">
 		<a title="Home" href="userHomePage.obj"><img src="<c:url value="/resources/images/home.png" />"/></a> 
@@ -19,7 +19,7 @@
 		<table align="center">
 			<tr>
 				<td><b>Service Description: </b></td>
-				<td><input type="text" name="serviceDescription" /></td>
+				<td><input type="text" name="serviceDescription" class="user" /></td>
 			</tr>
 			<tr>
 				<td align="right">

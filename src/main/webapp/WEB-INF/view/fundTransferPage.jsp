@@ -7,9 +7,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+<link href="<c:url value="/resources/userhomepagestyle.css" />" rel="stylesheet">
+<link href="<c:url value="/resources/table.css" />" rel="stylesheet">
+
 </head>
-<body>
-	<a href="userHomePage.obj">Home</a> | <a href="LoginUserForm.obj">Logout</a>
+<body background="<c:url value="/resources/images/photo1.jpg" />">
+	<a title="Home" href="userHomePage.obj"><img src="<c:url value="/resources/images/home.png" />"/></a>
+	 <a title="Logout" href="LoginUserForm.obj" style="float:right"><img src="<c:url value="/resources/images/logout.png" />"/></a>
 
 	<hr>
 	<center>
@@ -30,7 +34,7 @@
 					<tr>
 						<td>Amount:</td>
 						<td><input type="number" name="amt" min="0" step="0.01"required></input></td>	
-						<td><button type="submit">Transfer</button></td>
+						<td><button type="submit" class="button">Transfer</button></td>
 					</tr>
 				
 				</table>

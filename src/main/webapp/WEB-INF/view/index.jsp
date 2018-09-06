@@ -16,7 +16,7 @@
 
 
 	<center>
-		<h2>Welcome to Online Banking Services</h2>
+		<marquee><h2>Welcome to Online Banking Services</h2></marquee>
 		<br> <br> <a href="LoginUserForm.obj">User Login</a><br>
 		<br> <a href="LoginAdmin.obj">Admin Login</a>
 
