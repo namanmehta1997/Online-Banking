@@ -45,10 +45,10 @@ public class BankingServiceImpl implements IBankingService {
 	}
 
 	@Override
-	public List<TransactionBean> getMiniStatement(int accountId)
+	public List<TransactionBean> getMiniStatement(String username)
 			throws BankingException {
 
-		return dao.getMiniStatement(accountId);
+		return dao.getMiniStatement(username);
 	}
 
 	@Override

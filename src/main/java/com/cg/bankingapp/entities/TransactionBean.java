@@ -37,9 +37,18 @@ public class TransactionBean {
 	@Column(name="amount")
 	private double amount;
 	
+	@Column(name="username")
+	private String username;
+	
 
 	
 	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
 	public TransactionBean() {
 		
 	}

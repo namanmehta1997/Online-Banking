@@ -44,6 +44,7 @@
 		<table border="1" align="center">
 			<tr>
 				<th>Transaction ID</th>
+				<th>Account Number</th>
 				<th>Transaction Description</th>
 				<th>Date of transaction</th>
 				<th>Transaction Amount</th>
@@ -53,6 +54,7 @@
 			<c:forEach items="${transactionList}" var="list">
 				<tr>
 					<td>${list.transactionId}</td>
+					<td>${list.accountNumber}</td>
 					<td>${list.transactionDescription}</td>
 					<td>${list.dateOfTransaction}</td>
 					<td>${list.transactionAmount}</td>

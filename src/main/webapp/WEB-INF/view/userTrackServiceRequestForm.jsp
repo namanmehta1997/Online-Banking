@@ -7,29 +7,31 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+<link href="<c:url value="/resources/userhomepagestyle.css" />" rel="stylesheet">
 </head>
-<body>
-		<a href="userHomePage.obj">Home</a> | <a href="LoginUserForm.obj">Logout</a>
+<body background="<c:url value="/resources/images/photo12.jpg" />">
+		<a title="Home" href="userHomePage.obj"><img src="<c:url value="/resources/images/home.png" />"/></a>
+		 <a title="Logout" href="LoginUserForm.obj" style="float:right"><img src="<c:url value="/resources/images/logout.png" />"/></a>
 
 	<hr>
-	<center>
+	
 	<h2>Track Service Request</h2>
 	<form action="userTrackServiceRequest.obj" method = "post">
 		<table>
 		
 			<tr>
-				<td><strong>Enter Service Request ID: </strong></td>
-				<td><input type = "text" name="serviceIdstr" /></td>
+				<td><strong><b>Enter Service Request ID:</b> </strong></td>
+				<td><input type = "text" name="serviceIdstr" class="user" /></td>
 			</tr>
 			<tr>
-				<td colspan = "2"><strong>OR</strong></td>
+				<td colspan = "2" align="center"><strong>&nbsp;OR</strong></td>
 			</tr>
 			<tr>
-				<td><strong>Enter Account ID: </strong></td>
-				<td><input type = "text" name="accountIdstr" /></td>
+				<td><strong><b>Enter Account ID:</b> </strong></td>
+				<td><input type = "text" name="accountIdstr" class="user" /></td>
 			</tr>
 			<tr>
-				<td colspan = "2"><button type="submit">Submit</button></td>
+				<td colspan = "2"><button type="submit" class="button">Submit</button></td>
 			</tr>
 		</table>
 	</form>
@@ -54,8 +56,8 @@
 			</tr>
 		</table>
 	</c:if>
-	<center><span style="color:red;font-size:30px;">${errmsg}</span></center>
+	<span style="color:red;font-size:30px;">${errmsg}</span>
 
-	</center>
+	
 </body>
 </html>

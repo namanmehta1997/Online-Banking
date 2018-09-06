@@ -16,6 +16,7 @@ input[type=text]{
     background-color: #00bfff;
     color: white;
 }
+
 input[type=password]{
 	 padding: 8px 14px;
     margin: 8px 0;

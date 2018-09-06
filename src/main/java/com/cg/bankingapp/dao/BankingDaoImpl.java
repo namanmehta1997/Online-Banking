@@ -39,16 +39,14 @@ public class BankingDaoImpl implements IBankingDao {
 	}
 
 	@Override
-	public List<TransactionBean> getMiniStatement(int accountId)
+	public List<TransactionBean> getMiniStatement(String username)
 			throws BankingException {
-
-		System.out.println(accountId);
 
 		TypedQuery<TransactionBean> query = entityManager
 				.createQuery(
-						"Select t from TransactionBean t WHERE t.accountNumber= :accno order by t.dateOfTransaction desc",
+						"Select t from TransactionBean t WHERE t.username= :username order by t.dateOfTransaction desc",
 						TransactionBean.class);
-		query.setParameter("accno", accountId);
+		query.setParameter("username", username);
 		query = query.setMaxResults(10);
 
 		return query.getResultList();
@@ -112,39 +110,33 @@ public class BankingDaoImpl implements IBankingDao {
 	public ServiceRequestBean checkServiceExist(int accountId, int serviceId)
 			throws BankingException {
 		ServiceRequestBean serviceRequest = new ServiceRequestBean();
-		serviceRequest = entityManager.find(ServiceRequestBean.class, serviceId);
-		if(serviceRequest != null)
-		{
-			if(accountId == serviceRequest.getAccountId())
-			{
+		serviceRequest = entityManager
+				.find(ServiceRequestBean.class, serviceId);
+		if (serviceRequest != null) {
+			if (accountId == serviceRequest.getAccountId()) {
 				return entityManager.find(ServiceRequestBean.class, serviceId);
-			}
-			else
-			{
+			} else {
 				return null;
 			}
-		}
-		else
+		} else
 			return null;
 	}
-	
+
 	@Override
-	public ServiceRequestBean checkServiceExistAcc(int accountId1, int accountId2)
-			throws BankingException {
+	public ServiceRequestBean checkServiceExistAcc(int accountId1,
+			int accountId2) throws BankingException {
 		TypedQuery<ServiceRequestBean> query = entityManager.createQuery(
 				"SELECT s FROM ServiceRequestBean s WHERE s.accountId=:accno",
 				ServiceRequestBean.class);
 		query.setParameter("accno", accountId2);
 		List<ServiceRequestBean> serviceRequest = query.getResultList();
-		if(serviceRequest.size() != 0)
-		{	
-			if(serviceRequest.get(0).getAccountId() == accountId1)
+		if (serviceRequest.size() != 0) {
+			if (serviceRequest.get(0).getAccountId() == accountId1)
 				return serviceRequest.get(0);
-		
+
 			else
 				return null;
-		}
-		else
+		} else
 			return null;
 	}
 
@@ -315,32 +307,47 @@ public class BankingDaoImpl implements IBankingDao {
 
 		query.setParameter("username", user.getUsername());
 		List<UserBean> list = query.getResultList();
-
-		if (list.isEmpty()) {
-			entityManager.persist(user);
-			entityManager.flush();
-
-			Date date = new Date();
-			TransactionBean transaction = new TransactionBean();
-			transaction.setAccountNumber(user.getAccountId());
-			transaction.setAmount(user.getAmount());
-			transaction.setDateOfTransaction(date);
-			transaction.setTransactionAmount(user.getAmount());
-			transaction.setTransactionDescription("Credit");
-			entityManager.persist(transaction);
-			entityManager.flush();
-			ServiceRequestBean serv = new ServiceRequestBean();
-			serv.setServiceDescription("newly created account");
-			serv.setAccountId(user.getAccountId());
-			serv.setServiceRaisedDate(date);
-			serv.setServiceStatus("not issued");
-			entityManager.persist(serv);
-			entityManager.flush();
-
-			return user.getAccountId();
-		} else {
-			return 0;
+		if(list.size()==1){
+			UserBean oldUser = list.get(0);
+			boolean flag = true;
+			boolean accStatus = oldUser.getAccStatus().equals(user.getAccStatus());
+			boolean accUsername = oldUser.getUsername().equals(user.getUsername());
+			boolean accName = oldUser.getCustomerName().equals(user.getCustomerName());
+			boolean accMail = oldUser.getEmailId().equals(user.getEmailId());
+			boolean accPan = oldUser.getPancard().equals(user.getPancard());
+			boolean accPass = oldUser.getPassword().equals(user.getPassword());
+			boolean accPhone = oldUser.getPhoneNo().equals(user.getPhoneNo());
+			flag = accStatus && accUsername && accName && accMail && accPan && accPass && accPhone;
+			if(flag){
+				entityManager.persist(user);
+				entityManager.flush();
+			}
+			else{
+				return -1;
+			}
 		}
+		entityManager.persist(user);
+		entityManager.flush();
+
+		Date date = new Date();
+		TransactionBean transaction = new TransactionBean();
+		transaction.setAccountNumber(user.getAccountId());
+		transaction.setAmount(user.getAmount());
+		transaction.setDateOfTransaction(date);
+		transaction.setTransactionAmount(user.getAmount());
+		transaction.setUsername(user.getUsername());
+		transaction.setTransactionDescription("Credit");
+		entityManager.persist(transaction);
+		entityManager.flush();
+		ServiceRequestBean serv = new ServiceRequestBean();
+		serv.setServiceDescription("newly created account");
+		serv.setAccountId(user.getAccountId());
+		serv.setServiceRaisedDate(date);
+		serv.setServiceStatus("not issued");
+		entityManager.persist(serv);
+		entityManager.flush();
+
+		return user.getAccountId();
 	}
 
 	@Override
@@ -374,7 +381,6 @@ public class BankingDaoImpl implements IBankingDao {
 		}
 		return true;
 	}
-
 
 	@Override
 	public boolean checkSecurity(String ans, String username)
