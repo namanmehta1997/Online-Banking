@@ -11,17 +11,203 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import javax.swing.text.html.HTMLDocument.HTMLReader.PreAction;
-
 import org.apache.log4j.Logger;
 
+import com.cg.onlinebanking.bean.CustomerDTO;
+import com.cg.onlinebanking.bean.RoleDTO;
 import com.cg.onlinebanking.bean.TransactionDTO;
 import com.cg.onlinebanking.exceptions.BankingException;
 import com.cg.onlinebanking.util.DBConnection;
 
-public class UserDAOImpl implements IUserDAO {
+public class BankDaoImpl implements IBankDao{
 
-	private static final Logger LOGGER = Logger.getLogger(UserDAOImpl.class);
+	private final Logger LOGGER;
+
+	public BankDaoImpl() {
+		LOGGER = Logger.getLogger(BankDaoImpl.class);
+	}
+
+	@Override
+	public int addUser(CustomerDTO userDto) throws BankingException {
+
+		Connection connection = DBConnection.getConnection();
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		int id = -1;
+
+		try {
+
+			preparedStatement = connection
+					.prepareStatement(QueryMapper.ADD_ACCOUNT);
+			preparedStatement.setString(1, userDto.getUsername());
+			preparedStatement.setString(2, userDto.getPassword());
+			preparedStatement.setString(3, userDto.getCustomerName());
+			preparedStatement.setString(4, userDto.getEmailId());
+			preparedStatement.setString(5, userDto.getAddress());
+			preparedStatement.setString(6, userDto.getPhoneNo());
+			preparedStatement.setString(7, userDto.getPancard());
+			preparedStatement.setDouble(8, userDto.getAccountBalance());
+			preparedStatement.setString(9, userDto.getSecretAnswer());
+
+			int result = preparedStatement.executeUpdate();
+			if (result == 1) {
+				Statement statement = connection.createStatement();
+				resultSet = statement.executeQuery(QueryMapper.ACCOUNT_ID);
+				if (resultSet.next()) {
+					id = resultSet.getInt(1);
+				}
+				connection.commit();
+			}
+
+			if (preparedStatement != null) {
+				preparedStatement.close();
+			}
+
+			preparedStatement = connection
+					.prepareStatement(QueryMapper.TRANSACTIONS);
+			preparedStatement.setString(1, "credit");
+			preparedStatement.setDouble(2, userDto.getAccountBalance());
+			preparedStatement.setInt(3, id);
+
+			int result1 = preparedStatement.executeUpdate();
+			if (result1 == 1) {
+				connection.commit();
+			}
+
+			preparedStatement = connection
+					.prepareStatement(QueryMapper.ADD_USERS);
+			preparedStatement.setString(1, userDto.getUsername());
+			preparedStatement.setString(2, userDto.getPassword());
+			preparedStatement.setString(3, "user");
+
+			int result2 = preparedStatement.executeUpdate();
+			if (result2 == 1) {
+				connection.commit();
+			}
+
+		} catch (SQLException sqlException) {
+			throw new BankingException("Could not add account");
+		}
+
+		finally {
+
+			if (preparedStatement != null && connection != null
+					&& resultSet != null) {
+				try {
+					resultSet.close();
+					preparedStatement.close();
+					// connection.close();
+				} catch (SQLException sqlException2) {
+					throw new BankingException("Could not connect to database");
+				}
+
+			}
+		}
+		return id;
+	}
+
+	public List<TransactionDTO> viewAllTransactions(Date startDate, Date endDate)
+			throws BankingException {
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		Connection connection = DBConnection.getConnection();
+		List<TransactionDTO> list = new ArrayList<TransactionDTO>();
+
+		try {
+			preparedStatement = connection
+					.prepareStatement(QueryMapper.GETALLTRANSACTIONS);
+			preparedStatement.setDate(1, startDate);
+			preparedStatement.setDate(2, endDate);
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				TransactionDTO transactionDTO = new TransactionDTO();
+				transactionDTO.setTransactionId(resultSet.getInt(1));
+				transactionDTO
+						.setTransactionDescription(resultSet.getString(2));
+				transactionDTO.setDateOfTransaction(resultSet.getDate(3));
+				transactionDTO.setTransactionAmount(resultSet.getDouble(4));
+				transactionDTO.setAccountNumber(resultSet.getInt(5));
+
+				list.add(transactionDTO);
+			}
+		} catch (SQLException sqlException) {
+			throw new BankingException("Could not fetch details");
+		}
+
+		finally {
+
+			if (preparedStatement != null && connection != null
+					&& resultSet != null) {
+				try {
+					resultSet.close();
+					preparedStatement.close();
+					// connection.close();
+				} catch (SQLException e) {
+					throw new BankingException("Could not fetch data");
+				}
+
+			}
+		}
+		return list;
+
+	}
+
+	@Override
+	public RoleDTO getUserByName(String username) throws BankingException {
+		Connection connection = DBConnection.getConnection();
+		PreparedStatement preparedStatement = null;
+		connection = DBConnection.getConnection();
+		ResultSet resultSet = null;
+
+		RoleDTO role = null;
+		try {
+			preparedStatement = connection
+					.prepareStatement(QueryMapper.GET_USER);
+
+			preparedStatement.setString(1, username);
+
+			resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				role = new RoleDTO();
+				role.setUsername(resultSet.getString(1));
+				role.setPassword(resultSet.getString(2));
+				role.setPosition(resultSet.getString(3));
+			}
+		} catch (SQLException sqlException) {
+			// log.error(e);
+			throw new BankingException("Unable To FEtch Records");
+		}
+		return role;
+	}
+
+	@Override
+	public String getDefaultPassword(String username, int accountId,
+			String petName) throws BankingException {
+		PreparedStatement preparedStatement = null;
+		Connection connection = DBConnection.getConnection();
+		String defaultPassword = "12345";
+		try {
+			preparedStatement = connection
+					.prepareStatement(QueryMapper.CHANGE_PASSWORD);
+			preparedStatement.setString(1, defaultPassword);
+			preparedStatement.setInt(2, accountId);
+			int result = preparedStatement.executeUpdate();
+			if (result == 1) {
+				connection.commit();
+			}
+			preparedStatement = connection
+					.prepareStatement(QueryMapper.CHANGE_PASSWORD1);
+			preparedStatement.setString(1, defaultPassword);
+			preparedStatement.setString(2, username);
+			int result1 = preparedStatement.executeUpdate();
+			if (result1 == 1) {
+				connection.commit();
+			}
+		} catch (SQLException exception) {
+			throw new BankingException("Could not update the address");
+		}
+		return defaultPassword;
+	}
 
 	@Override
 	public List<TransactionDTO> getMiniStatement(int accountId)

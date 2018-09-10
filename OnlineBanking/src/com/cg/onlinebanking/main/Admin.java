@@ -11,32 +11,33 @@ import java.util.Scanner;
 import com.cg.onlinebanking.bean.TransactionDTO;
 import com.cg.onlinebanking.bean.CustomerDTO;
 import com.cg.onlinebanking.exceptions.BankingException;
-import com.cg.onlinebanking.service.AdminServiceImpl;
-import com.cg.onlinebanking.service.IAdminService;
+import com.cg.onlinebanking.service.BankServiceImpl;
+import com.cg.onlinebanking.service.IBankService;
 
 public class Admin {
 
 	Scanner scanner = new Scanner(System.in);
 
-	CustomerDTO customerDTO ;
+	CustomerDTO customerDTO;
 	private DateTimeFormatter dateTimeFormatter;
-	private IAdminService adminService;
+	private IBankService bankService;
 
 	public void start(String username) throws BankingException {
-		adminService = new AdminServiceImpl();
-		System.out.println("Welcome " + username+"\n");
+		// adminService = new AdminServiceImpl();
+		bankService = new BankServiceImpl();
+		System.out.println("Welcome " + username + "\n");
 
 		int choice = -1;
 
 		while (choice != 3) {
 
-			System.out.println(" [1]Create User Account\n [2]View All Transactions\n [3]LogOut\n");
+			System.out
+					.println(" [1]Create User Account\n [2]View All Transactions\n [3]LogOut\n");
 			System.out.print("Choice> ");
 			choice = scanner.nextInt();
 
 			switch (choice) {
 			case 1:
-				adminService = new AdminServiceImpl();
 				System.out.println("Enter UserName:");
 				String user = scanner.next();
 				System.out.println("Enter Password:");
@@ -55,7 +56,7 @@ public class Admin {
 				double accountBalance = scanner.nextDouble();
 				System.out.println("Enter the PET name:");
 				String petName = scanner.next();
-				
+
 				/**
 				 * set bean
 				 */
@@ -70,65 +71,85 @@ public class Admin {
 				customerDTO.setAccountBalance(accountBalance);
 				customerDTO.setSecretAnswer(petName);
 				try {
-					if(adminService.detailsValidation(customerDTO)==false){
-					int id = adminService.addUser(customerDTO);
-					System.out.println("Your Account is successfully created. Your generated Account Number is "+id);
+					if (bankService.detailsValidation(customerDTO) == false) {
+						int id = bankService.addUser(customerDTO);
+						System.out
+								.println("Your Account is successfully created. Your generated Account Number is "
+										+ id);
 					}
 				} catch (BankingException bankingException) {
-					System.err.println(bankingException.getMessage()+" Please try again");
+					System.err.println(bankingException.getMessage()
+							+ " Please try again");
 				}
 				break;
 			case 2:
-				Date endDate = null , startDate = null;
-				List<TransactionDTO> list=new ArrayList<TransactionDTO>();
-	        	 try {
-	        		 System.out.println("Enter start date: (in format:dd/mm/yyyy)");
-	 				try {
-	 				String date1=scanner.next();
-	 				dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-	 				startDate = java.sql.Date.valueOf(LocalDate.parse(date1, dateTimeFormatter));
-	 				
-	 				System.out.println("Enter end date: (in format:dd/mm/yyyy)");
-	 				String date2=scanner.next();
-	 				DateTimeFormatter dateTimeFormatter1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-	 				endDate = java.sql.Date.valueOf(LocalDate.parse(date2, dateTimeFormatter1));
-	 				
-	 				list = adminService.viewAllTransactions(startDate, endDate);
-					System.out.println("Transaction Id Transaction Description  Date Of Transaction  Transaction Amount Account Number");
-					System.out.println("----------------------------------------------------------------------------------------------");
-					for (TransactionDTO transactionDTO : list) {
-						System.out.println(transactionDTO.getTransactionId()+"  	 	"+transactionDTO.getTransactionDescription()+"   	 	"+transactionDTO.getDateOfTransaction()+"   	 	  "+transactionDTO.getTransactionAmount()+" 		"+transactionDTO.getAccountNumber());
-					
+				Date endDate = null,
+				startDate = null;
+				List<TransactionDTO> list = new ArrayList<TransactionDTO>();
+				try {
+					System.out
+							.println("Enter start date: (in format:dd/mm/yyyy)");
+					try {
+						String date1 = scanner.next();
+						dateTimeFormatter = DateTimeFormatter
+								.ofPattern("dd/MM/yyyy");
+						startDate = java.sql.Date.valueOf(LocalDate.parse(
+								date1, dateTimeFormatter));
+
+						System.out
+								.println("Enter end date: (in format:dd/mm/yyyy)");
+						String date2 = scanner.next();
+						DateTimeFormatter dateTimeFormatter1 = DateTimeFormatter
+								.ofPattern("dd/MM/yyyy");
+						endDate = java.sql.Date.valueOf(LocalDate.parse(date2,
+								dateTimeFormatter1));
+
+						list = bankService.viewAllTransactions(startDate,
+								endDate);
+						System.out
+								.println("Transaction Id Transaction Description  Date Of Transaction  Transaction Amount Account Number");
+						System.out
+								.println("----------------------------------------------------------------------------------------------");
+						for (TransactionDTO transactionDTO : list) {
+							System.out
+									.println(transactionDTO.getTransactionId()
+											+ "  	 	"
+											+ transactionDTO
+													.getTransactionDescription()
+											+ "   	 	"
+											+ transactionDTO
+													.getDateOfTransaction()
+											+ "   	 	  "
+											+ transactionDTO
+													.getTransactionAmount()
+											+ " 		"
+											+ transactionDTO.getAccountNumber());
+
+						}
+
+					} catch (DateTimeParseException dateTimeException) {
+						System.err
+								.println("Please enter date in format(dd/mm/yyyy), Please try again");
 					}
-	 				
-	 				} catch (DateTimeParseException dateTimeException) {
-	 					System.err.println("Please enter date in format(dd/mm/yyyy), Please try again");
-	 				} 
-	 				
-	 				
-	        		 
-					
+
 				} catch (BankingException exception) {
-					throw new BankingException(exception.getMessage()+", Data Cannot be Retrieved");
+					throw new BankingException(exception.getMessage()
+							+ ", Data Cannot be Retrieved");
 				}
-	        	   break;  
-				   
-				   case 3:
-				   System.exit(0);
 				break;
-				
-				default:
-					System.out.println("Please enter a valid option");
-					break;
-	        	 	
+
+			case 3:
+				System.exit(0);
+				break;
+
+			default:
+				System.out.println("Please enter a valid option");
+				break;
+
 			}
-	        	 
-	             
-				
-		}			
-			
-			
+
+		}
+
 	}
 
-	
 }

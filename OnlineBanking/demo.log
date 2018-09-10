@@ -307,3 +307,14 @@ Returning the list of transactions
 Returning the list of transactions
 Returning the list of transactions
 Closing preparedStatement
+Obtained database connection
+Fetcing account number
+account number successfully fetched
+Obtained database connection
+Fetcing mini-statement of the account
+About to excecute the mini-statement query
+Returning the list of details fetched
+Returning the list of details fetched
+Returning the list of details fetched
+Returning the list of details fetched
+Closing preparedStatement
