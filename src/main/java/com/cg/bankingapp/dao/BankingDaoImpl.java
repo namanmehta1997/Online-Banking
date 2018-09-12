@@ -318,6 +318,9 @@ public class BankingDaoImpl implements IBankingDao {
 			boolean accPass = oldUser.getPassword().equals(user.getPassword());
 			boolean accPhone = oldUser.getPhoneNo().equals(user.getPhoneNo());
 			flag = accStatus && accUsername && accName && accMail && accPan && accPass && accPhone;
+			if(oldUser.getAccountType().equals(user.getAccountType())){
+				return 0;
+			}
 			if(flag){
 				entityManager.persist(user);
 				entityManager.flush();

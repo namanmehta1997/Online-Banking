@@ -605,7 +605,7 @@ public class BankingController {
 				newUser.setAccStatus("active");
 				System.out.println("Account status active!");
 				int accId = bankingService.addUser(newUser);
-				if (accId != -1) {
+				if (accId != -1 && accId != 0) {
 					mv = new ModelAndView("createNewAccountForm", "newUser",
 							new UserBean());
 					mv.addObject("accId", accId);
@@ -625,6 +625,15 @@ public class BankingController {
 					mv.addObject(
 							"errmsg",
 							"Username already exist!!! Please provide correct info or take another username");
+				}
+				else if(accId == 0){
+					typeList = new ArrayList<String>();
+					typeList.add("Savings Account");
+					typeList.add("Current Account");
+					mv.addObject("typeList", typeList);
+					mv.addObject(
+							"errmsg",
+							"You can't open same type of account twice");
 				}
 			} else {
 				mv = new ModelAndView("createNewAccountForm", "newUser",
