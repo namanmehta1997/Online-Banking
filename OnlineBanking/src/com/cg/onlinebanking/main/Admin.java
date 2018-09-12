@@ -140,8 +140,7 @@ public class Admin {
 				break;
 
 			case 3:
-				System.exit(0);
-				break;
+				return;
 
 			default:
 				System.out.println("Please enter a valid option");

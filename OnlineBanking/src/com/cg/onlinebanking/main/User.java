@@ -129,7 +129,7 @@ public class User {
 					System.out.println(message1);
 					break;
 				case "c":
-					System.exit(0);
+					break;
 				}
 				break;
 			case 4:
@@ -189,8 +189,7 @@ public class User {
 				break;
 
 			case 8:
-				System.exit(0);
-				break;
+				return;
 
 			default:
 				System.out.println("Please enter a valid option");
