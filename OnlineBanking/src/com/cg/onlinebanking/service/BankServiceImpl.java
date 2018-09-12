@@ -48,14 +48,14 @@ public class BankServiceImpl implements IBankService {
 		Pattern userPattern = Pattern.compile("^[A-Za-z]{3,}$");
 		Matcher userMatcher = userPattern.matcher(userName);
 		if (!(userMatcher.matches())) {
-			errorMessage += "\nUser Name should have min 3 letters.";
+			errorMessage += "\nUserName should have min 3 letters!";
 		}
 
 		customerName = customerDTO.getCustomerName();
 		Pattern customerPattern = Pattern.compile("^[A-Z][A-Za-z]{3,10}$");
 		Matcher customerMatcher = customerPattern.matcher(customerName);
 		if (!(customerMatcher.matches())) {
-			errorMessage += "\nCustomer Name should have min 3 and max 10 letters and First letter should start with Uppercase.";
+			errorMessage += "\nCustomer Name should have min 4 and max 10 letters and First letter should be in Uppercase.";
 		}
 
 		password = customerDTO.getPassword();
@@ -64,7 +64,7 @@ public class BankServiceImpl implements IBankService {
 		Matcher passwordMatcher = passwordPattern.matcher(password);
 		if (!(passwordMatcher.matches())) {
 			errorMessage += "\nUser Password should have min 6 and max 20 letters with at least one digit,small case, upper case and"
-					+ "special character";
+					+ "special character!";
 
 		}
 
@@ -72,7 +72,7 @@ public class BankServiceImpl implements IBankService {
 		Pattern mobileNoPattern = Pattern.compile("^[0-9]{10}$");
 		Matcher mobileNoMatcher = mobileNoPattern.matcher(mobileNumber);
 		if (!(mobileNoMatcher.matches())) {
-			errorMessage += "\nMobile Number should contain 10 digits.";
+			errorMessage += "\nMobile Number should contain exactly 10 digits!";
 		}
 
 		amount = customerDTO.getAccountBalance() + "";
@@ -80,7 +80,7 @@ public class BankServiceImpl implements IBankService {
 		Matcher amountMatcher = amountPattern.matcher(amount);
 
 		if (!(amountMatcher.matches())) {
-			errorMessage += "\nPlease enter only numbers";
+			errorMessage += "\nPlease enter only numbers!";
 
 		}
 		// validating email
@@ -91,7 +91,7 @@ public class BankServiceImpl implements IBankService {
 		Matcher matcher = pattern.matcher(mailId);
 
 		if (!(matcher.matches())) {
-			errorMessage += "\n Please enter a valid email id";
+			errorMessage += "\n Please enter a valid email id!";
 
 		}
 		amount = customerDTO.getPancard();
@@ -99,7 +99,7 @@ public class BankServiceImpl implements IBankService {
 		Matcher panMatcher = panPattern.matcher(amount);
 
 		if (!(panMatcher.matches())) {
-			errorMessage += "\nPlease enter a valid Pan number with upper case";
+			errorMessage += "\nPlease enter a valid PAN Number";
 
 		}
 		if (!errorMessage.isEmpty()) {
@@ -128,8 +128,8 @@ public class BankServiceImpl implements IBankService {
 
 	@Override
 	public String getDefaultPassword(String username, int accountId,
-			String petName) throws BankingException {
-		return dao.getDefaultPassword(username, accountId, petName);
+			String maidenName) throws BankingException {
+		return dao.getDefaultPassword(username, accountId, maidenName);
 	}
 
 	@Override

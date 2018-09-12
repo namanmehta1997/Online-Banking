@@ -86,6 +86,7 @@ public class BankDaoImpl implements IBankDao {
 			}
 
 		} catch (SQLException sqlException) {
+			//System.out.println(sqlException);
 			throw new BankingException("Could not add account");
 		}
 
@@ -173,38 +174,57 @@ public class BankDaoImpl implements IBankDao {
 				role.setPosition(resultSet.getString(3));
 			}
 		} catch (SQLException sqlException) {
-			throw new BankingException("Unable To FEtch Records");
+			// log.error(e);
+			throw new BankingException("Unable To Fetch Records");
 		}
 		return role;
 	}
 
 	@Override
 	public String getDefaultPassword(String username, int accountId,
-			String petName) throws BankingException {
+			String maidenName) throws BankingException {
 		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		//System.out.println(maidenName);
 		Connection connection = DBConnection.getConnection();
-		String defaultPassword = "12345";
+		CustomerDTO customer = new CustomerDTO();
+		//System.out.println("Before checking, sec ans: "+customer.getSecretAnswer());
 		try {
-			preparedStatement = connection
-					.prepareStatement(QueryMapper.CHANGE_PASSWORD);
-			preparedStatement.setString(1, defaultPassword);
-			preparedStatement.setInt(2, accountId);
-			int result = preparedStatement.executeUpdate();
-			if (result == 1) {
-				connection.commit();
+			preparedStatement = connection.prepareStatement(QueryMapper.GET_SECURITYANS);
+			preparedStatement.setLong(1, accountId);
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				customer.setSecretAnswer(resultSet.getString(1));
 			}
-			preparedStatement = connection
-					.prepareStatement(QueryMapper.CHANGE_PASSWORD1);
-			preparedStatement.setString(1, defaultPassword);
-			preparedStatement.setString(2, username);
-			int result1 = preparedStatement.executeUpdate();
-			if (result1 == 1) {
-				connection.commit();
-			}
-		} catch (SQLException exception) {
-			throw new BankingException("Could not update the address");
+		} catch (SQLException e) {
 		}
+		if(maidenName.equals(customer.getSecretAnswer()))
+		{
+			//System.out.println("The secret Answer is: "+customer.getSecretAnswer());
+			String defaultPassword = "12345";
+			try {
+				preparedStatement = connection
+						.prepareStatement(QueryMapper.CHANGE_PASSWORD);
+				preparedStatement.setString(1, defaultPassword);
+				preparedStatement.setInt(2, accountId);
+				int result = preparedStatement.executeUpdate();
+				if (result == 1) {
+					connection.commit();
+				}
+				preparedStatement = connection
+						.prepareStatement(QueryMapper.CHANGE_PASSWORD1);
+				preparedStatement.setString(1, defaultPassword);
+				preparedStatement.setString(2, username);
+				int result1 = preparedStatement.executeUpdate();
+				if (result1 == 1) {
+					connection.commit();
+				}
+			} catch (SQLException exception) {
+			}
 		return defaultPassword;
+		}
+		else
+			return null;
 	}
 
 	@Override
@@ -498,7 +518,7 @@ public class BankDaoImpl implements IBankDao {
 			preparedStatement.setInt(2, accountId7);
 			resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
-				Date dateaa = new Date(2018);
+				Date date = new Date(2018);
 				Date tempDate = addDays(resultSet.getDate(2), 3);
 				if (resultSet.getDate(2).before(tempDate)) {
 					status = resultSet.getString(1);

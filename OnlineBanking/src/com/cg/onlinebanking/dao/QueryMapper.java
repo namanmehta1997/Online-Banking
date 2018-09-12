@@ -23,5 +23,6 @@ public interface QueryMapper {
 	public static final String UPDATE_BALANCE = "UPDATE Customer SET accountBalance=? WHERE accountNumber=?";
 	public static final String SELECT_AMOUNT = "SELECT accountBalance FROM Customer WHERE accountNumber=?";
 	public static final String UPDATE_SOURCEBALANCE = "UPDATE Customer SET accountBalance=? WHERE accountNumber=?";
+	public static final String GET_SECURITYANS = "SELECT secretAnswer FROM Customer WHERE accountNumber=?";
 
 }
