@@ -1,5 +1,8 @@
 package com.cg.onlinebanking.main;
 
+import java.util.HashMap;
+import java.util.InputMismatchException;
+import java.util.Map;
 import java.util.Scanner;
 
 import com.cg.onlinebanking.exceptions.BankingException;
@@ -12,20 +15,25 @@ public class OnlineBankingMain {
 
 		int choice = -1;
 		String role = null;
-		int loginAttempts = 0;
+		Map<String, Integer> countMap = new HashMap<String, Integer>();
 		String role1 = "admin";
 		String role2 = "user";
+		String username;
 		IBankService bankService = new BankServiceImpl();
-		// IbankService bankService = new bankServiceImpl();
-		// bankService bankService = new UserServiceImpl();
 
-		while (choice != 2 && loginAttempts <= 2) {
+		while (choice != 2) {
 			System.out.print("[1]Login [2]Quit >");
-			choice = scan.nextInt();
+			try{
+				choice = scan.nextInt();
+			}
+			catch(InputMismatchException exception){
+				System.err.println("Please enter valid input");
+				OnlineBankingMain.main(args);
+			}
 
 			if (choice == 1) {
 				System.out.print("UserName? ");
-				String username = scan.next();
+				username = scan.next();
 				System.out.print("Password? ");
 				String password = scan.next();
 				try {
@@ -38,13 +46,21 @@ public class OnlineBankingMain {
 						User user = new User();
 						user.start(username);
 					} else {
-						loginAttempts++;
-						System.out.println(loginAttempts);
+						if (countMap.containsKey(username)) {
+							countMap.put(username, countMap.get(username) + 1);
+						} else {
+							countMap.put(username, 1);
+						}
+						System.out.println();
 					}
 				} catch (BankingException exception) {
-					loginAttempts++;
-					System.out.println(loginAttempts);
-					if (loginAttempts == 3) {
+					if (countMap.containsKey(username)) {
+						countMap.put(username, countMap.get(username) + 1);
+					} else {
+						countMap.put(username, 1);
+					}
+					System.out.println(countMap.get(username));
+					if (countMap.get(username) == 3) {
 						try {
 							int accountId = bankService
 									.getAccountNumber(username);
@@ -57,7 +73,7 @@ public class OnlineBankingMain {
 											petName);
 							System.out.println("Your generated password is: "
 									+ defaultPassword);
-							System.exit(0);
+							OnlineBankingMain.main(args);
 						} catch (BankingException bankingException) {
 							System.err.println(bankingException.getMessage()
 									+ ", Please try again");
@@ -70,6 +86,6 @@ public class OnlineBankingMain {
 			}
 		}
 		scan.close();
-		System.out.println("Program Terminated");
+		System.out.println("---------------Thank You--------------------");
 	}
 }

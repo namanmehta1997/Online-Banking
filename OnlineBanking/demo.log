@@ -318,3 +318,75 @@ Returning the list of details fetched
 Returning the list of details fetched
 Returning the list of details fetched
 Closing preparedStatement
+Obtained database connection
+Fetcing account number
+account number successfully fetched
+Obtained database connection
+Fetcing mini-statement of the account
+About to excecute the mini-statement query
+Returning the list of details fetched
+Closing preparedStatement
+Obtained database connection
+Fetcing account number
+account number successfully fetched
+Obtained database connection
+To update the address of the  customer
+Customer address updated successfully
+Obtained database connection
+Fetcing account number
+account number successfully fetched
+Obtained database connection
+ Request to obtain Cheque Book
+ Request for check book is accepted 
+Fetching and returning the generated Service ID
+Obtained database connection
+Fetcing account number
+account number successfully fetched
+Obtained database connection
+To know the status of request for checkbook
+Obtained database connection
+Fetcing account number
+account number successfully fetched
+Obtained database connection
+To transfer fund
+Fetching the current balance of source account
+Fetching the current balance of destination account
+Transaction credited in table
+Transaction debited in table
+Fund transferred to destination account
+Fund transferred from the source account
+Obtained database connection
+Fetcing account number
+account number successfully fetched
+Obtained database connection
+Fetcing mini-statement of the account
+About to excecute the mini-statement query
+Returning the list of details fetched
+Returning the list of details fetched
+Closing preparedStatement
+Obtained database connection
+Fetcing account number
+account number successfully fetched
+Obtained database connection
+To change the password
+old password fetched
+To check if both the passwords are same
+Succesfully updated the password in Customer Table
+Succesfully updated the password in Role Table
+Obtained database connection
+Fetcing account number
+account number successfully fetched
+Obtained database connection
+To know the status of request for checkbook
+Obtained database connection
+Fetcing account number
+account number successfully fetched
+Obtained database connection
+Fetcing account number
+account number successfully fetched
+Obtained database connection
+Fetcing account number
+account number successfully fetched
+Obtained database connection
+Fetcing account number
+account number successfully fetched
