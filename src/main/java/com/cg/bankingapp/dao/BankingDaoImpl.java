@@ -123,7 +123,7 @@ public class BankingDaoImpl implements IBankingDao {
 	}
 
 	@Override
-	public ServiceRequestBean checkServiceExistAcc(int accountId1,
+	public List<ServiceRequestBean> checkServiceExistAcc(int accountId1,
 			int accountId2) throws BankingException {
 		TypedQuery<ServiceRequestBean> query = entityManager.createQuery(
 				"SELECT s FROM ServiceRequestBean s WHERE s.accountId=:accno",
