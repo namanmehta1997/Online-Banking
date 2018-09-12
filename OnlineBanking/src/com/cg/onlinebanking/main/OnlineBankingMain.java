@@ -16,21 +16,20 @@ public class OnlineBankingMain {
 		String role1 = "admin";
 		String role2 = "user";
 		IBankService bankService = new BankServiceImpl();
-		// IbankService bankService = new bankServiceImpl();
-		// bankService bankService = new UserServiceImpl();
 
 		while (choice != 2 && loginAttempts <= 2) {
-			System.out.print("[1]Login [2]Quit >");
+			System.out.print("[1]Login \n [2]Quit \n");
+			System.out.println("Choice>> ");
 			choice = scan.nextInt();
 
 			if (choice == 1) {
-				System.out.print("UserName? ");
+				System.out.print("UserName: ");
 				String username = scan.next();
-				System.out.print("Password? ");
+				System.out.print("Password: ");
 				String password = scan.next();
 				try {
 					role = bankService.getRole(username, password);
-					System.out.println(role + "\n");
+					System.out.println(role + " identified...");
 					if (role1.equals(role)) {
 						Admin admin = new Admin();
 						admin.start(username);
@@ -48,16 +47,21 @@ public class OnlineBankingMain {
 						try {
 							int accountId = bankService
 									.getAccountNumber(username);
-							System.out.println("Account Locked");
+							System.err.println("Account Locked!!");
 							System.out.println("Forgot passsword?");
-							System.out.println("Enter your PET Name:");
-							String petName = scan.next();
+							System.out.println("Enter your mother's maiden name: ");
+							String maidenName = scan.next();
 							String defaultPassword = bankService
 									.getDefaultPassword(username, accountId,
-											petName);
-							System.out.println("Your generated password is: "
+											maidenName);
+							if(defaultPassword != null)
+							{
+								System.out.println("Your generated password is: "
 									+ defaultPassword);
-							System.exit(0);
+								System.exit(0);
+							}
+							else
+								System.out.println("Wrong answer to the Security Question!");
 						} catch (BankingException bankingException) {
 							System.err.println(bankingException.getMessage()
 									+ ", Please try again");

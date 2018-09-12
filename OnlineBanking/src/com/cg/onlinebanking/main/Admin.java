@@ -33,7 +33,7 @@ public class Admin {
 
 			System.out
 					.println(" [1]Create User Account\n [2]View All Transactions\n [3]LogOut\n");
-			System.out.print("Choice> ");
+			System.out.print("Choice>> ");
 			choice = scanner.nextInt();
 
 			switch (choice) {
@@ -54,8 +54,8 @@ public class Admin {
 				String panNumber = scanner.next();
 				System.out.println("Enter Account Balance:");
 				double accountBalance = scanner.nextDouble();
-				System.out.println("Enter the PET name:");
-				String petName = scanner.next();
+				System.out.println("Enter Mother's Maiden Name:");
+				String maidenName = scanner.next();
 
 				/**
 				 * set bean
@@ -69,7 +69,7 @@ public class Admin {
 				customerDTO.setPhoneNo(phone);
 				customerDTO.setPancard(panNumber);
 				customerDTO.setAccountBalance(accountBalance);
-				customerDTO.setSecretAnswer(petName);
+				customerDTO.setSecretAnswer(maidenName);
 				try {
 					if (bankService.detailsValidation(customerDTO) == false) {
 						int id = bankService.addUser(customerDTO);
