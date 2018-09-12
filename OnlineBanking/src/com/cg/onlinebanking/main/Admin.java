@@ -47,7 +47,8 @@ public class Admin {
 				System.out.println("Enter Email Id:");
 				String email = scanner.next();
 				System.out.println("Enter Address:");
-				String address = scanner.next();
+				String address = scanner.nextLine();
+				address = scanner.nextLine();
 				System.out.println("Enter Phone number:");
 				String phone = scanner.next();
 				System.out.println("Enter PAN Number:");

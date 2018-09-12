@@ -19,7 +19,7 @@ import com.cg.onlinebanking.bean.TransactionDTO;
 import com.cg.onlinebanking.exceptions.BankingException;
 import com.cg.onlinebanking.util.DBConnection;
 
-public class BankDaoImpl implements IBankDao{
+public class BankDaoImpl implements IBankDao {
 
 	private final Logger LOGGER;
 
@@ -29,7 +29,7 @@ public class BankDaoImpl implements IBankDao{
 
 	@Override
 	public int addUser(CustomerDTO userDto) throws BankingException {
-
+		
 		Connection connection = DBConnection.getConnection();
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -128,7 +128,6 @@ public class BankDaoImpl implements IBankDao{
 				transactionDTO.setDateOfTransaction(resultSet.getDate(3));
 				transactionDTO.setTransactionAmount(resultSet.getDouble(4));
 				transactionDTO.setAccountNumber(resultSet.getInt(5));
-
 				list.add(transactionDTO);
 			}
 		} catch (SQLException sqlException) {
@@ -455,15 +454,15 @@ public class BankDaoImpl implements IBankDao{
 						LOGGER.warn("Succesfully updated the password in Role Table");
 					}
 				} else {
-					throw new BankingException("Password Mismatch!!!");
+					throw new BankingException("Wrong password!!!");
 				}
 			} else {
 				LOGGER.info("Mismatch of entered passwords");
-				throw new BankingException("Password mismatch occured");
+				throw new BankingException("Wrong Password");
 			}
 		} catch (SQLException exception) {
-			LOGGER.error("Password could not be changed due to mismatch");
-			throw new BankingException("Could not change the password");
+			LOGGER.error(exception.toString());
+			throw new BankingException("Wrong password");
 		}
 
 		return message;
