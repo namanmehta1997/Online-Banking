@@ -130,7 +130,8 @@ public class BankDaoImpl implements IBankDao {
 		ResultSet resultSet = null;
 		Connection connection = DBConnection.getConnection();
 		List<TransactionDTO> list = new ArrayList<TransactionDTO>();
-
+		if(startDate == null || endDate == null)
+			throw new BankingException("Dates cant be null");
 		try {
 			preparedStatement = connection
 					.prepareStatement(QueryMapper.GETALLTRANSACTIONS);
@@ -345,6 +346,8 @@ public class BankDaoImpl implements IBankDao {
 				id = resultSet.getInt(1);
 				LOGGER.info("account number successfully fetched");
 			}
+			else
+				id = 0;
 		} catch (SQLException sqlException) {
 			LOGGER.error("Fetching of accountnumber failed ");
 			throw new BankingException("Unable to fetch account id");

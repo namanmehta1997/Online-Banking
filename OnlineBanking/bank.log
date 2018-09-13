@@ -186,3 +186,58 @@
 2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
 2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
 2018-09-13 14:53:39 WARN  BankDaoImpl:402 - Closing preparedStatement
+2018-09-13 16:35:06 INFO  BankDaoImpl:333 - Fetching acount number
+2018-09-13 16:35:06 WARN  BankDaoImpl:339 - Fetcing account number
+2018-09-13 16:35:06 INFO  BankDaoImpl:347 - account number successfully fetched
+2018-09-13 16:36:02 INFO  BankDaoImpl:333 - Fetching acount number
+2018-09-13 16:36:02 WARN  BankDaoImpl:339 - Fetcing account number
+2018-09-13 16:36:02 INFO  BankDaoImpl:347 - account number successfully fetched
+2018-09-13 16:36:02 INFO  BankDaoImpl:333 - Fetching acount number
+2018-09-13 16:36:02 WARN  BankDaoImpl:339 - Fetcing account number
+2018-09-13 16:38:15 INFO  BankDaoImpl:333 - Fetching acount number
+2018-09-13 16:38:15 WARN  BankDaoImpl:339 - Fetcing account number
+2018-09-13 16:38:15 INFO  BankDaoImpl:347 - account number successfully fetched
+2018-09-13 16:38:15 INFO  BankDaoImpl:333 - Fetching acount number
+2018-09-13 16:38:15 WARN  BankDaoImpl:339 - Fetcing account number
+2018-09-13 16:41:56 INFO  BankDaoImpl:275 - Fetcing mini-statement of the account
+2018-09-13 16:41:56 INFO  BankDaoImpl:279 - Obtained database connection
+2018-09-13 16:41:56 WARN  BankDaoImpl:308 - Closing preparedStatement
+2018-09-13 16:41:56 INFO  BankDaoImpl:317 - Mini statement successfully fetched
+2018-09-13 16:41:56 INFO  BankDaoImpl:275 - Fetcing mini-statement of the account
+2018-09-13 16:41:56 INFO  BankDaoImpl:279 - Obtained database connection
+2018-09-13 16:41:56 WARN  BankDaoImpl:308 - Closing preparedStatement
+2018-09-13 16:41:56 INFO  BankDaoImpl:317 - Mini statement successfully fetched
+2018-09-13 16:42:20 INFO  BankDaoImpl:275 - Fetcing mini-statement of the account
+2018-09-13 16:42:20 INFO  BankDaoImpl:279 - Obtained database connection
+2018-09-13 16:42:20 WARN  BankDaoImpl:308 - Closing preparedStatement
+2018-09-13 16:42:20 INFO  BankDaoImpl:317 - Mini statement successfully fetched
+2018-09-13 16:42:20 INFO  BankDaoImpl:275 - Fetcing mini-statement of the account
+2018-09-13 16:42:20 INFO  BankDaoImpl:279 - Obtained database connection
+2018-09-13 16:42:20 WARN  BankDaoImpl:308 - Closing preparedStatement
+2018-09-13 16:42:20 INFO  BankDaoImpl:317 - Mini statement successfully fetched
+2018-09-13 16:46:43 INFO  BankDaoImpl:333 - Fetching acount number
+2018-09-13 16:46:43 WARN  BankDaoImpl:339 - Fetcing account number
+2018-09-13 16:46:43 INFO  BankDaoImpl:347 - account number successfully fetched
+2018-09-13 16:46:43 INFO  BankDaoImpl:333 - Fetching acount number
+2018-09-13 16:46:43 WARN  BankDaoImpl:339 - Fetcing account number
+2018-09-13 16:46:43 INFO  BankDaoImpl:275 - Fetcing mini-statement of the account
+2018-09-13 16:46:43 INFO  BankDaoImpl:279 - Obtained database connection
+2018-09-13 16:46:43 WARN  BankDaoImpl:308 - Closing preparedStatement
+2018-09-13 16:46:43 INFO  BankDaoImpl:317 - Mini statement successfully fetched
+2018-09-13 16:46:43 INFO  BankDaoImpl:275 - Fetcing mini-statement of the account
+2018-09-13 16:46:43 INFO  BankDaoImpl:279 - Obtained database connection
+2018-09-13 16:46:43 WARN  BankDaoImpl:308 - Closing preparedStatement
+2018-09-13 16:46:43 INFO  BankDaoImpl:317 - Mini statement successfully fetched
+2018-09-13 16:46:59 INFO  BankDaoImpl:333 - Fetching acount number
+2018-09-13 16:46:59 WARN  BankDaoImpl:339 - Fetcing account number
+2018-09-13 16:46:59 INFO  BankDaoImpl:347 - account number successfully fetched
+2018-09-13 16:46:59 INFO  BankDaoImpl:333 - Fetching acount number
+2018-09-13 16:46:59 WARN  BankDaoImpl:339 - Fetcing account number
+2018-09-13 16:46:59 INFO  BankDaoImpl:275 - Fetcing mini-statement of the account
+2018-09-13 16:46:59 INFO  BankDaoImpl:279 - Obtained database connection
+2018-09-13 16:46:59 WARN  BankDaoImpl:308 - Closing preparedStatement
+2018-09-13 16:46:59 INFO  BankDaoImpl:317 - Mini statement successfully fetched
+2018-09-13 16:46:59 INFO  BankDaoImpl:275 - Fetcing mini-statement of the account
+2018-09-13 16:46:59 INFO  BankDaoImpl:279 - Obtained database connection
+2018-09-13 16:46:59 WARN  BankDaoImpl:308 - Closing preparedStatement
+2018-09-13 16:46:59 INFO  BankDaoImpl:317 - Mini statement successfully fetched
