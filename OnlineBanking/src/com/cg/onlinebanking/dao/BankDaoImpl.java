@@ -42,6 +42,7 @@ public class BankDaoImpl implements IBankDao {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		int id = -1;
+		LOGGER.info("Adding User");
 
 		try {
 
@@ -80,6 +81,7 @@ public class BankDaoImpl implements IBankDao {
 			int result1 = preparedStatement.executeUpdate();
 			if (result1 == 1) {
 				connection.commit();
+				
 			}
 
 			preparedStatement = connection
@@ -94,6 +96,9 @@ public class BankDaoImpl implements IBankDao {
 			}
 
 		} catch (SQLException sqlException) {
+
+			LOGGER.error(sqlException.toString());
+
 			throw new BankingException("Could not add account");
 		}
 
@@ -105,11 +110,13 @@ public class BankDaoImpl implements IBankDao {
 					resultSet.close();
 					preparedStatement.close();
 				} catch (SQLException sqlException2) {
+					LOGGER.error(sqlException2.toString());
 					throw new BankingException("Could not connect to database");
 				}
 
 			}
 		}
+		LOGGER.info("User Added Successfully");
 		return id;
 	}
 
@@ -128,6 +135,12 @@ public class BankDaoImpl implements IBankDao {
 		ResultSet resultSet = null;
 		List<TransactionDTO> list = new ArrayList<TransactionDTO>();
 
+		if(startDate == null || endDate == null)
+			throw new BankingException("Dates cant be null");
+
+		LOGGER.info("Viewing All the Transactions");
+
+
 		try {
 			preparedStatement = connection
 					.prepareStatement(QueryMapper.GETALLTRANSACTIONS);
@@ -145,6 +158,7 @@ public class BankDaoImpl implements IBankDao {
 				list.add(transactionDTO);
 			}
 		} catch (SQLException sqlException) {
+			LOGGER.error(sqlException.toString());
 			throw new BankingException("Could not fetch details");
 		}
 
@@ -156,11 +170,13 @@ public class BankDaoImpl implements IBankDao {
 					resultSet.close();
 					preparedStatement.close();
 				} catch (SQLException e) {
+					LOGGER.error(e.toString());
 					throw new BankingException("Could not fetch data");
 				}
 
 			}
 		}
+		LOGGER.info("Transaction successfully fetched");
 		return list;
 
 	}
@@ -178,6 +194,7 @@ public class BankDaoImpl implements IBankDao {
 	public RoleDTO getUserByName(String username) throws BankingException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
+		LOGGER.info("Reteriving UserDTO by username");
 
 		RoleDTO role = null;
 		try {
@@ -194,8 +211,10 @@ public class BankDaoImpl implements IBankDao {
 				role.setPosition(resultSet.getString(3));
 			}
 		} catch (SQLException sqlException) {
+			LOGGER.error(sqlException.toString());
 			throw new BankingException("Unable To Fetch Records");
 		}
+		LOGGER.info("User details fetched successfully");
 		return role;
 	}
 
@@ -213,6 +232,7 @@ public class BankDaoImpl implements IBankDao {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		CustomerDTO customer = new CustomerDTO();
+		LOGGER.info("Fetching the default Password");
 		try {
 			preparedStatement = connection.prepareStatement(QueryMapper.GET_SECURITYANS);
 			preparedStatement.setLong(1, accountId);
@@ -221,6 +241,8 @@ public class BankDaoImpl implements IBankDao {
 				customer.setSecretAnswer(resultSet.getString(1));
 			}
 		} catch (SQLException e) {
+			LOGGER.error(e.toString());
+			throw new BankingException("Something went Wrong. Please Try again later");
 		}
 		if(maidenName.equals(customer.getSecretAnswer())){
 			String defaultPassword = username+"@"+accountId;
@@ -246,6 +268,7 @@ public class BankDaoImpl implements IBankDao {
 				LOGGER.error(exception.toString());
 				throw new BankingException("Something went wrong!!! Please try again later");
 			}
+			LOGGER.info("Password Changed Successfully");
 			return defaultPassword;
 		}
 		else
@@ -267,7 +290,6 @@ public class BankDaoImpl implements IBankDao {
 		LOGGER.info("Fetcing mini-statement of the account");
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		LOGGER.info("Obtained database connection");
 		List<TransactionDTO> list = new ArrayList<TransactionDTO>();
 
 		try {
@@ -326,7 +348,7 @@ public class BankDaoImpl implements IBankDao {
 		int id = -1;
 
 		try {
-			LOGGER.warn("Fetcing account number");
+			
 			preparedStatement = connection
 					.prepareStatement(QueryMapper.GET_ACCOUNT_NUMBER);
 			preparedStatement.setString(1, username);
@@ -334,13 +356,15 @@ public class BankDaoImpl implements IBankDao {
 
 			if (resultSet.next()) {
 				id = resultSet.getInt(1);
-				LOGGER.info("account number successfully fetched");
+				
 			}
+			else
+				id = 0;
 		} catch (SQLException sqlException) {
 			LOGGER.error("Fetching of accountnumber failed ");
 			throw new BankingException("Unable to fetch account id");
 		}
-
+		LOGGER.info("account number successfully fetched");
 		return id;
 	}
 
@@ -358,11 +382,11 @@ public class BankDaoImpl implements IBankDao {
 			Date startDate, Date endDate) throws BankingException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		LOGGER.info("Obtained database connection");
+		LOGGER.info("Fetching details for the transaction");
 		List<TransactionDTO> list = new ArrayList<TransactionDTO>();
 
 		try {
-			LOGGER.warn("To view complete transactions of the account");
+			
 			preparedStatement = connection
 					.prepareStatement(QueryMapper.GET_DETAILED_STATEMENT);
 			preparedStatement.setInt(1, accountId);
@@ -378,7 +402,7 @@ public class BankDaoImpl implements IBankDao {
 				transactionDTO.setTransactionAmount(resultSet.getDouble(4));
 				transactionDTO.setAccountNumber(resultSet.getInt(5));
 				list.add(transactionDTO);
-				LOGGER.info("Returning the list of transactions");
+				
 			}
 		} catch (SQLException e1) {
 			LOGGER.error("Failed to return the list of transactions ");
@@ -389,15 +413,16 @@ public class BankDaoImpl implements IBankDao {
 			if (preparedStatement != null && connection != null
 					&& resultSet != null) {
 				try {
-					LOGGER.warn("Closing preparedStatement");
+					
 					preparedStatement.close();
 				} catch (SQLException e) {
-					LOGGER.fatal("Connection failed:hence execution stopped");
+					LOGGER.error(e.toString());
 					throw new BankingException("Could not fetch data");
 				}
 
 			}
 		}
+		LOGGER.info("Returning the list of transactions");
 		return list;
 
 	}
@@ -414,23 +439,24 @@ public class BankDaoImpl implements IBankDao {
 	public String changeAddress(int accountId, String address)
 			throws BankingException {
 		PreparedStatement preparedStatement = null;
-		LOGGER.info("Obtained database connection");
+		LOGGER.info("Proceeding to Update the Address");
 		String message = "Successfully Updated the address";
 		try {
-			LOGGER.warn("To update the address of the  customer");
+			
 			preparedStatement = connection
 					.prepareStatement(QueryMapper.CHANGE_ADDRESS);
 			preparedStatement.setString(1, address);
 			preparedStatement.setInt(2, accountId);
 			int result = preparedStatement.executeUpdate();
 			if (result == 1) {
-				LOGGER.info("Customer address updated successfully");
+				
 				connection.commit();
 			}
 		} catch (SQLException exception) {
-			LOGGER.error("Failed to update the address ");
+			LOGGER.error(exception.toString());
 			throw new BankingException("Could not update the address");
 		}
+		LOGGER.info("Customer address updated successfully");
 		return message;
 	}
 
@@ -446,11 +472,10 @@ public class BankDaoImpl implements IBankDao {
 	public String changeMobileNumber(int accountId, String mobileNo)
 			throws BankingException {
 		PreparedStatement preparedStatement = null;
-		LOGGER.info("Obtained database connection");
+		LOGGER.info("Proceeding to Change the Mobile Number");
 		String message = "Successfully Updated the mobile number";
 		try {
 
-			LOGGER.warn("To update the mobilenumber of the  customer");
 			preparedStatement = connection
 					.prepareStatement(QueryMapper.CHANGE_MOBILENO);
 			preparedStatement.setString(1, mobileNo);
@@ -460,9 +485,10 @@ public class BankDaoImpl implements IBankDao {
 				connection.commit();
 			}
 		} catch (SQLException exception) {
-			LOGGER.warn("Failed to update the mobilenumber of customer");
+			LOGGER.error(exception.toString());
 			throw new BankingException("Could not update the mobile number");
 		}
+		LOGGER.info("Customer's Mobile Number updated successfully");
 		return message;
 	}
 
@@ -482,21 +508,21 @@ public class BankDaoImpl implements IBankDao {
 		ResultSet resultSet = null;
 		String password = "";
 		String message = "Password changed successfully";
-		LOGGER.info("Obtained database connection");
+		LOGGER.info("Proceeding to change Password");
 
 		try {
-			LOGGER.warn("To change the password");
+			
 			preparedStatement = connection
 					.prepareStatement(QueryMapper.GET_PASSWORD);
 			preparedStatement.setInt(1, accountId);
 			resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				password = resultSet.getString(1);
-				LOGGER.warn("old password fetched");
+				LOGGER.info("old password fetched");
 			}
 
 			if (password.equals(oldPassword)) {
-				LOGGER.warn("To check if both the passwords are same");
+				
 				if (newPassword.equals(newPassword1)) {
 					preparedStatement = connection
 							.prepareStatement(QueryMapper.CHANGE_PASSWORD);
@@ -505,7 +531,7 @@ public class BankDaoImpl implements IBankDao {
 					int result = preparedStatement.executeUpdate();
 					if (result == 1) {
 						connection.commit();
-						LOGGER.warn("Succesfully updated the password in Customer Table");
+						
 					}
 					preparedStatement = connection
 							.prepareStatement(QueryMapper.CHANGE_PASSWORD1);
@@ -514,7 +540,7 @@ public class BankDaoImpl implements IBankDao {
 					int result1 = preparedStatement.executeUpdate();
 					if (result1 == 1) {
 						connection.commit();
-						LOGGER.warn("Succesfully updated the password in Role Table");
+					
 					}
 				} else {
 					throw new BankingException("Wrong password!!!");
@@ -527,7 +553,7 @@ public class BankDaoImpl implements IBankDao {
 			LOGGER.error(exception.toString());
 			throw new BankingException("Wrong password");
 		}
-
+        LOGGER.info("Password Changed Succsessfully");
 		return message;
 
 	}
@@ -545,17 +571,17 @@ public class BankDaoImpl implements IBankDao {
 	public int serviceRequest(int accountId) throws BankingException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		LOGGER.info("Obtained database connection");
+		LOGGER.info("Requesting To Obtain Checque Book");
 		int id = 0;
 		try {
-			LOGGER.warn(" Request to obtain Cheque Book");
+			
 			preparedStatement = connection
 					.prepareStatement(QueryMapper.SERVICE_REQUEST);
 			preparedStatement.setString(1, "Request For Cheque Book");
 			preparedStatement.setInt(2, accountId);
 			preparedStatement.setString(3, "open");
 			int result = preparedStatement.executeUpdate();
-			LOGGER.warn(" Request for check book is accepted ");
+			
 			if (result == 1) {
 				Statement statement = connection.createStatement();
 				resultSet = statement
@@ -564,12 +590,13 @@ public class BankDaoImpl implements IBankDao {
 					id = resultSet.getInt(1);
 				}
 				connection.commit();
-				LOGGER.warn("Fetching and returning the generated Service ID");
+				
 			}
 		} catch (SQLException exception) {
-			LOGGER.error(" Service Request Failed");
+			LOGGER.error(exception.toString());
 			throw new BankingException("Request failed!!!");
 		}
+		LOGGER.info("Request Has Been Generated fot the Cheque Book");
 		return id;
 	}
 
@@ -587,10 +614,10 @@ public class BankDaoImpl implements IBankDao {
 			throws BankingException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		LOGGER.info("Obtained database connection");
+		LOGGER.info("TO Know the status for cheque book request");
 		String status = "";
 		try {
-			LOGGER.warn("To know the status of request for checkbook");
+			
 			preparedStatement = connection
 					.prepareStatement(QueryMapper.GET_SERVICE_STATUS);
 			preparedStatement.setInt(1, serviceId);
@@ -619,21 +646,22 @@ public class BankDaoImpl implements IBankDao {
 					resultSet = preparedStatement.executeQuery();
 					if (resultSet.next()) {
 						status = resultSet.getString(1);
-						LOGGER.warn(" Status of checkbook updated");
+						
 					}
 				} else {
-					LOGGER.warn("Checkbook status not available ");
+					LOGGER.info("Checkbook status not available ");
 					throw new BankingException("Status not available");
 				}
 			} else {
-				LOGGER.warn("Service Id not found");
+				LOGGER.info("Service Id not found");
 				throw new BankingException("Invalid Service Id!!!");
 			}
 
 		} catch (SQLException exception) {
-			LOGGER.error("Service Id not available");
+			LOGGER.error(exception.toString());
 			throw new BankingException("Invalid Service Id!!!");
 		}
+		LOGGER.info("Returning the status of cheque book request");
 		return status;
 	}
 
@@ -649,6 +677,7 @@ public class BankDaoImpl implements IBankDao {
 	@Override
 	public String fundTransfer(int accountId, int desAccountId, double amount)
 			throws BankingException {
+		LOGGER.info("Proceeding for fund Transfer");
 		if(accountId==desAccountId){
 			throw new BankingException("You can't transfer amount to yourself");
 		}
@@ -656,19 +685,19 @@ public class BankDaoImpl implements IBankDao {
 		PreparedStatement transStmt = null;
 		ResultSet resultSet = null;
 		double accountBal = 0.0;
-		LOGGER.info("Obtained database connection");
+		
 
 		String msg = "Transaction Success";
 		double newBalance1 = 0.0;
 		double sourceAcBalanceLeft = 0.0;
 		try {
-			LOGGER.warn("To transfer fund");
+			
 
 			preparedStatement = connection
 					.prepareStatement(QueryMapper.SELECT_AMOUNT);
 			preparedStatement.setInt(1, accountId);
 			resultSet = preparedStatement.executeQuery();
-			LOGGER.warn("Fetching the current balance of source account");
+			
 
 			if (resultSet.next()) {
 				accountBal = resultSet.getDouble(1);
@@ -679,7 +708,7 @@ public class BankDaoImpl implements IBankDao {
 						.prepareStatement(QueryMapper.SELECT_AMOUNT);
 				preparedStatement.setInt(1, desAccountId);
 				resultSet = preparedStatement.executeQuery();
-				LOGGER.warn("Fetching the current balance of destination account");
+				
 
 				if (resultSet.next()) {
 					newBalance1 = resultSet.getDouble(1) + amount;
@@ -698,24 +727,24 @@ public class BankDaoImpl implements IBankDao {
 					transStmt.setInt(3, desAccountId);
 					int isCredit = transStmt.executeUpdate();
 					if (isCredit == 0) {
-						LOGGER.error("Error while crediting in table");
+						
 						throw new BankingException("Error while processing");
 
 					} else {
-						LOGGER.warn("Transaction credited in table");
+						LOGGER.info("Transaction credited in table");
 					}
 					transStmt.setString(1, "debit");
 					transStmt.setDouble(2, amount);
 					transStmt.setInt(3, accountId);
 					isCredit = transStmt.executeUpdate();
 					if (isCredit == 0) {
-						LOGGER.error("Error while debiting in table");
+						LOGGER.warn("Error while debiting in table");
 						throw new BankingException("Error while processing");
 
 					} else {
-						LOGGER.warn("Transaction debited in table");
+						LOGGER.info("Transaction debited in table");
 					}
-					LOGGER.warn("Fund transferred to destination account");
+					LOGGER.info("Fund transferred to destination account");
 					connection.commit();
 				}
 
@@ -727,15 +756,16 @@ public class BankDaoImpl implements IBankDao {
 
 				if (result1 == 1) {
 					connection.commit();
-					LOGGER.warn("Fund transferred from the source account");
+					LOGGER.info("Fund transferred from the source account");
 				}
 			} else {
 				throw new BankingException("Transaction failed!!! Insufficient amount");
 			}
 		} catch (SQLException e) {
-			LOGGER.error("Fund transfer was failed");
+			LOGGER.error(e.toString());
 			throw new BankingException("Transaction failed");
 		}
+		LOGGER.info("Fund Transfer Successfully");
 		return msg;
 	}
 

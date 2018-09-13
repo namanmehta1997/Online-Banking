@@ -1,4 +1,4 @@
-package com.cg.onlinebanking.dao;
+package com.cg.onlinebanking.dao.tests;
 
 import static org.junit.Assert.*;
 
@@ -9,6 +9,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.cg.onlinebanking.bean.CustomerDTO;
+import com.cg.onlinebanking.dao.BankDaoImpl;
+import com.cg.onlinebanking.dao.IBankDao;
 import com.cg.onlinebanking.exceptions.BankingException;
 import com.cg.onlinebanking.util.TestUtil;
 
@@ -26,6 +28,7 @@ public class AddUserTest {
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 		dao = null;
+		customerDTO = null;
 	}
 
 	@Before
@@ -58,7 +61,6 @@ public class AddUserTest {
 	public void test() {
 		try {
 			int accountNumber = dao.addUser(customerDTO);
-			System.out.println("ID: "+accountNumber);
 			assertNotNull(accountNumber);
 		} catch (BankingException exception) {
 			fail(" Exception occured: " + exception.getMessage());
