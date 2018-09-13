@@ -13,9 +13,11 @@ import com.cg.onlinebanking.exceptions.BankingException;
 
 public class DBConnection {
 
-	static Properties properties = new Properties();
-	static Connection connection = null;
+	private static Properties properties = new Properties();
+	private static Connection connection = null;
 
+	
+	
 	public static Connection getConnection() throws BankingException {
 		if (connection == null)
 			try {
