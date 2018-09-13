@@ -52,10 +52,10 @@ public class BankServiceImpl implements IBankService {
 		}
 
 		customerName = customerDTO.getCustomerName();
-		Pattern customerPattern = Pattern.compile("^[A-Z][A-Za-z]{3,10}$");
+		Pattern customerPattern = Pattern.compile("^[A-Z][A-Z a-z]{3,19}$");
 		Matcher customerMatcher = customerPattern.matcher(customerName);
 		if (!(customerMatcher.matches())) {
-			errorMessage += "\nCustomer Name should have min 4 and max 10 letters and First letter should be in Uppercase.";
+			errorMessage += "\nCustomer Name should have min 4 and max 20 letters and First letter should be in Uppercase.";
 		}
 
 		password = customerDTO.getPassword();

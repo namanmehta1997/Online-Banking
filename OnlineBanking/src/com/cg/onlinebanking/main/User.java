@@ -37,7 +37,14 @@ public class User {
 							+ "7.Change Password\n"
 							+ "8.Logout\n");
 			System.out.print("Select your choice:  ");
-			choice = scanner.nextInt();
+			try{
+				choice = Integer.parseInt(scanner.nextLine());
+			}
+			catch(NumberFormatException exception){
+				System.err.println("Please enter valid choice");
+				return;
+			}
+			
 
 			switch (choice) {
 			case 1:
@@ -69,7 +76,7 @@ public class User {
 					System.out
 							.println("Enter start date: (in format:dd/mm/yyyy)");
 					try {
-						String doj1 = scanner.next();
+						String doj1 = scanner.nextLine();
 						DateTimeFormatter dateTimeFormatter = DateTimeFormatter
 								.ofPattern("dd/MM/yyyy");
 						startDate = java.sql.Date.valueOf(LocalDate.parse(doj1,
@@ -77,7 +84,7 @@ public class User {
 
 						System.out
 								.println("Enter end date: (in format:dd/mm/yyyy)");
-						String doj = scanner.next();
+						String doj = scanner.nextLine();
 						DateTimeFormatter dateTimeFormatter1 = DateTimeFormatter
 								.ofPattern("dd/MM/yyyy");
 						endDate = java.sql.Date.valueOf(LocalDate.parse(doj,
@@ -113,12 +120,12 @@ public class User {
 			case 3:
 				System.out
 						.println("a. Change Address b. Change Mobile Number c.exit");
-				String option = scanner.next();
+				String option = scanner.nextLine();
 
 				switch (option) {
 				case "a":
 					System.out.println("Enter new address");
-					String address = scanner.next();
+					String address = scanner.nextLine();
 					int accountId2 = bankService.getAccountNumber(username);
 
 					String message = bankService.changeAddress(accountId2,
@@ -127,7 +134,7 @@ public class User {
 					break;
 				case "b":
 					System.out.println("Enter new Mobile Number");
-					String mobileNo = scanner.next();
+					String mobileNo = scanner.nextLine();
 					int accountId3 = bankService.getAccountNumber(username);
 
 					String message1 = bankService.changeMobileNumber(
@@ -153,7 +160,15 @@ public class User {
 				break;
 			case 5:
 				System.out.println("Enter your Service Request Id");
-				int serviceId = scanner.nextInt();
+				int serviceId=0;
+				try{
+					serviceId = Integer.parseInt(scanner.nextLine());
+				}
+				catch (NumberFormatException e) {
+					System.err.println("Please enter valid choice");
+					return;
+				}
+				
 				int accountId7 = bankService.getAccountNumber(username);
 				try {
 					String serviceStatus = bankService.trackServiceRequest(
@@ -167,21 +182,30 @@ public class User {
 			case 6:
 				int accountId8 = bankService.getAccountNumber(username);
 				System.out.println("Enter the Account Id of the Payee");
-				int desAccountId = scanner.nextInt();
-				System.out.println("Enter the amount to be transfered");
-				double amount = scanner.nextDouble();
-				String message2 = bankService.fundTransfer(accountId8,
-						desAccountId, amount);
-				System.out.println(message2);
+				int desAccountId=0;
+				double amount=0;
+				try{
+					desAccountId = Integer.parseInt(scanner.nextLine());
+					System.out.println("Enter the amount to be transfered");
+					amount = Double.parseDouble(scanner.nextLine());
+					String message2 = bankService.fundTransfer(accountId8,
+							desAccountId, amount);
+					System.out.println(message2);
+				}
+				catch (NumberFormatException e) {
+					System.err.println("Please enter valid choice");
+					return;
+				}
+				
 				break;
 
 			case 7:
 				System.out.println("Enter the Old Password:");
-				String password1 = scanner.next();
+				String password1 = scanner.nextLine();
 				System.out.println("Enter the new password:");
-				String newPassword = scanner.next();
+				String newPassword = scanner.nextLine();
 				System.out.println("Confirm new password:");
-				String newPassword1 = scanner.next();
+				String newPassword1 = scanner.nextLine();
 				int accountId4 = bankService.getAccountNumber(username);
 				try {
 					String message = bankService.changePassword(username,
@@ -191,7 +215,6 @@ public class User {
 					System.err.println(exception.getMessage()
 							+ ",Please Try Again");
 				}
-
 				break;
 
 			case 8:

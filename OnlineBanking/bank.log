@@ -272,3 +272,43 @@
 2018-09-13 16:09:41 INFO  BankDaoImpl:324 - Fetching acount number
 2018-09-13 16:09:41 WARN  BankDaoImpl:330 - Fetcing account number
 2018-09-13 16:09:41 INFO  BankDaoImpl:338 - account number successfully fetched
+2018-09-13 16:44:28 INFO  BankDaoImpl:323 - Fetching acount number
+2018-09-13 16:44:28 WARN  BankDaoImpl:329 - Fetcing account number
+2018-09-13 16:44:28 INFO  BankDaoImpl:337 - account number successfully fetched
+2018-09-13 16:44:28 INFO  BankDaoImpl:267 - Fetcing mini-statement of the account
+2018-09-13 16:44:28 INFO  BankDaoImpl:270 - Obtained database connection
+2018-09-13 16:44:28 WARN  BankDaoImpl:299 - Closing preparedStatement
+2018-09-13 16:44:28 INFO  BankDaoImpl:308 - Mini statement successfully fetched
+2018-09-13 16:44:52 INFO  BankDaoImpl:323 - Fetching acount number
+2018-09-13 16:44:52 WARN  BankDaoImpl:329 - Fetcing account number
+2018-09-13 16:44:52 INFO  BankDaoImpl:337 - account number successfully fetched
+2018-09-13 16:45:22 INFO  BankDaoImpl:361 - Obtained database connection
+2018-09-13 16:45:22 WARN  BankDaoImpl:365 - To view complete transactions of the account
+2018-09-13 16:45:22 INFO  BankDaoImpl:381 - Returning the list of transactions
+2018-09-13 16:45:22 INFO  BankDaoImpl:381 - Returning the list of transactions
+2018-09-13 16:45:22 INFO  BankDaoImpl:381 - Returning the list of transactions
+2018-09-13 16:45:22 INFO  BankDaoImpl:381 - Returning the list of transactions
+2018-09-13 16:45:22 WARN  BankDaoImpl:392 - Closing preparedStatement
+2018-09-13 16:46:11 INFO  BankDaoImpl:323 - Fetching acount number
+2018-09-13 16:46:11 WARN  BankDaoImpl:329 - Fetcing account number
+2018-09-13 16:46:11 INFO  BankDaoImpl:337 - account number successfully fetched
+2018-09-13 16:46:11 INFO  BankDaoImpl:417 - Obtained database connection
+2018-09-13 16:46:11 WARN  BankDaoImpl:420 - To update the address of the  customer
+2018-09-13 16:46:11 INFO  BankDaoImpl:427 - Customer address updated successfully
+2018-09-13 16:46:33 INFO  BankDaoImpl:323 - Fetching acount number
+2018-09-13 16:46:33 WARN  BankDaoImpl:329 - Fetcing account number
+2018-09-13 16:46:33 INFO  BankDaoImpl:337 - account number successfully fetched
+2018-09-13 16:46:33 INFO  BankDaoImpl:449 - Obtained database connection
+2018-09-13 16:46:33 WARN  BankDaoImpl:453 - To update the mobilenumber of the  customer
+2018-09-13 16:46:46 INFO  BankDaoImpl:323 - Fetching acount number
+2018-09-13 16:46:46 WARN  BankDaoImpl:329 - Fetcing account number
+2018-09-13 16:46:46 INFO  BankDaoImpl:337 - account number successfully fetched
+2018-09-13 16:46:46 INFO  BankDaoImpl:590 - Obtained database connection
+2018-09-13 16:46:46 WARN  BankDaoImpl:593 - To know the status of request for checkbook
+2018-09-13 17:05:05 INFO  BankDaoImpl:323 - Fetching acount number
+2018-09-13 17:05:05 WARN  BankDaoImpl:329 - Fetcing account number
+2018-09-13 17:05:05 INFO  BankDaoImpl:337 - account number successfully fetched
+2018-09-13 17:05:05 INFO  BankDaoImpl:267 - Fetcing mini-statement of the account
+2018-09-13 17:05:05 INFO  BankDaoImpl:270 - Obtained database connection
+2018-09-13 17:05:05 WARN  BankDaoImpl:299 - Closing preparedStatement
+2018-09-13 17:05:05 INFO  BankDaoImpl:308 - Mini statement successfully fetched
