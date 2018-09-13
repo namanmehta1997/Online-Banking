@@ -22,8 +22,11 @@ public class OnlineBankingMain {
 		IBankService bankService = new BankServiceImpl();
 
 		while (choice != 2) {
-			System.out.print("[1] Login\n[2] Quit \n");
-			System.out.println("Choice>> ");
+			System.out.println("---------------------------------------------------");
+			System.out.println("|        Welcome to Banking System                |");
+			System.out.println("---------------------------------------------------");
+			System.out.print("1.Login\n2.Quit \n");
+			System.out.print("Enter your choice: ");
 			try{
 				choice = scan.nextInt();
 			}
@@ -43,17 +46,16 @@ public class OnlineBankingMain {
 					System.out.println(role + " identified...");
 					if (role1.equals(role)) {
 						Admin admin = new Admin();
-						admin.start(username);
+						admin.startAdmin(username);
 					} else if (role2.equals(role)) {
 						User user = new User();
-						user.start(username);
+						user.startUser(username);
 					} else {
 						if (countMap.containsKey(username)) {
 							countMap.put(username, countMap.get(username) + 1);
 						} else {
 							countMap.put(username, 1);
 						}
-						System.out.println();
 					}
 				} catch (BankingException exception) {
 					if (countMap.containsKey(username)) {
@@ -61,7 +63,6 @@ public class OnlineBankingMain {
 					} else {
 						countMap.put(username, 1);
 					}
-					System.out.println(countMap.get(username));
 					if (countMap.get(username) == 3) {
 						try {
 							int accountId = bankService

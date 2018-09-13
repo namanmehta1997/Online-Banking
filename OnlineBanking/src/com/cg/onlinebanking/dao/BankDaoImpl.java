@@ -27,6 +27,14 @@ public class BankDaoImpl implements IBankDao {
 		LOGGER = Logger.getLogger(BankDaoImpl.class);
 	}
 
+	/*******************************************************************************************************
+	 - Function Name	:	addUser
+	 - Input Parameters	:	CustomerDTO userDto
+	 - Return Type		:	int 
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Description		:	adding User Details to database
+	 ********************************************************************************************************/
 	@Override
 	public int addUser(CustomerDTO userDto) throws BankingException {
 		
@@ -107,6 +115,15 @@ public class BankDaoImpl implements IBankDao {
 		return id;
 	}
 
+	
+	/*******************************************************************************************************
+	 - Function Name	:	viewAllTransactions
+	 - Input Parameters	:	Date startDate,Date endDate
+	 - Return Type		:	list
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Description		:	Fetch all transactions from database
+	 ********************************************************************************************************/
 	public List<TransactionDTO> viewAllTransactions(Date startDate, Date endDate)
 			throws BankingException {
 		PreparedStatement preparedStatement = null;
@@ -152,6 +169,15 @@ public class BankDaoImpl implements IBankDao {
 
 	}
 
+	
+	/*******************************************************************************************************
+	 - Function Name	:	getUserByName
+	 - Input Parameters	:	String username
+	 - Return Type		:	RoleDTO
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Description		:	retrieving UserDTO by username
+	 ********************************************************************************************************/
 	@Override
 	public RoleDTO getUserByName(String username) throws BankingException {
 		Connection connection = DBConnection.getConnection();
@@ -174,21 +200,26 @@ public class BankDaoImpl implements IBankDao {
 				role.setPosition(resultSet.getString(3));
 			}
 		} catch (SQLException sqlException) {
-			// log.error(e);
 			throw new BankingException("Unable To Fetch Records");
 		}
 		return role;
 	}
 
+	/*******************************************************************************************************
+	 - Function Name	:	getDefaultPassword
+	 - Input Parameters	:	String username,int accountId,String petName
+	 - Return Type		:	String
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Description		:	retrieving DefaultPassword
+	 ********************************************************************************************************/
 	@Override
 	public String getDefaultPassword(String username, int accountId,
 			String maidenName) throws BankingException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		//System.out.println(maidenName);
 		Connection connection = DBConnection.getConnection();
 		CustomerDTO customer = new CustomerDTO();
-		//System.out.println("Before checking, sec ans: "+customer.getSecretAnswer());
 		try {
 			preparedStatement = connection.prepareStatement(QueryMapper.GET_SECURITYANS);
 			preparedStatement.setLong(1, accountId);
@@ -198,10 +229,8 @@ public class BankDaoImpl implements IBankDao {
 			}
 		} catch (SQLException e) {
 		}
-		if(maidenName.equals(customer.getSecretAnswer()))
-		{
-			//System.out.println("The secret Answer is: "+customer.getSecretAnswer());
-			String defaultPassword = "12345";
+		if(maidenName.equals(customer.getSecretAnswer())){
+			String defaultPassword = username+"@"+accountId;
 			try {
 				preparedStatement = connection
 						.prepareStatement(QueryMapper.CHANGE_PASSWORD);
@@ -219,33 +248,44 @@ public class BankDaoImpl implements IBankDao {
 				if (result1 == 1) {
 					connection.commit();
 				}
-			} catch (SQLException exception) {
+			} 
+			catch (SQLException exception) {
+				LOGGER.error(exception.toString());
+				throw new BankingException("Something went wrong!!! Please try again later");
 			}
-		return defaultPassword;
+			return defaultPassword;
 		}
 		else
 			return null;
 	}
 
+	/*******************************************************************************************************
+	 - Function Name	:	getMiniStatement
+	 - Input Parameters	:	int accountId
+	 - Return Type		:	list
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Creation Date	:	
+	 - Description		:	retrieving MiniStatement
+	 ********************************************************************************************************/
 	@Override
 	public List<TransactionDTO> getMiniStatement(int accountId)
 			throws BankingException {
+		LOGGER.info("Fetcing mini-statement of the account");
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		Connection connection = DBConnection.getConnection();
 		LOGGER.info("Obtained database connection");
 		List<TransactionDTO> list = new ArrayList<TransactionDTO>();
 
-		int count = 0;
 		try {
-			LOGGER.warn("Fetcing mini-statement of the account");
+			
 			preparedStatement = connection
 					.prepareStatement(QueryMapper.GET_MINI_STATEMENT);
 			preparedStatement.setInt(1, accountId);
-			LOGGER.warn("About to excecute the mini-statement query");
+			preparedStatement.setMaxRows(10);
 			resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
-				if (count < 10) {
 					TransactionDTO transactionDTO = new TransactionDTO();
 					transactionDTO.setTransactionId(resultSet.getInt(1));
 					transactionDTO.setTransactionDescription(resultSet
@@ -253,26 +293,19 @@ public class BankDaoImpl implements IBankDao {
 					transactionDTO.setDateOfTransaction(resultSet.getDate(3));
 					transactionDTO.setTransactionAmount(resultSet.getDouble(4));
 					transactionDTO.setAccountNumber(resultSet.getInt(5));
-
 					list.add(transactionDTO);
 
-					count++;
-					LOGGER.info("Returning the list of details fetched");
-				}
 			}
 		} catch (SQLException exception) {
-			LOGGER.error("Fetching mini-statement failed ");
-			throw new BankingException("Unable to fetch data");
+			LOGGER.error("Fetching mini-statement failed "+exception.toString());
+			throw new BankingException("Something went wrong!!! Please try again later");
 		}
-
 		finally {
-
 			if (preparedStatement != null && connection != null
 					&& resultSet != null) {
 				try {
 					LOGGER.warn("Closing preparedStatement");
 					preparedStatement.close();
-					// connection.close();
 				} catch (SQLException exception) {
 					LOGGER.fatal("Connection failed:hence execution stopped");
 					throw new BankingException("Unable to fetch data");
@@ -280,13 +313,23 @@ public class BankDaoImpl implements IBankDao {
 
 			}
 		}
+		LOGGER.info("Mini statement successfully fetched");
 		return list;
 	}
 
+	
+	/*******************************************************************************************************
+	 - Function Name	:	getAccountNumber
+	 - Input Parameters	:	String username
+	 - Return Type		:	int
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Description		:	retrieving AccountNumber
+	 ********************************************************************************************************/
 	@Override
 	public int getAccountNumber(String username) throws BankingException {
 		Connection connection = DBConnection.getConnection();
-		LOGGER.info("Obtained database connection");
+		LOGGER.info("Fetching acount number");
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		int id = -1;
@@ -310,8 +353,17 @@ public class BankDaoImpl implements IBankDao {
 		return id;
 	}
 
+	
+	/*******************************************************************************************************
+	 - Function Name	:	getDetailedTransactions
+	 - Input Parameters	:	int accountId,Date startDate, Date endDate
+	 - Return Type		:	list
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Description		:	retrieving DetailedTransactions
+	 ********************************************************************************************************/
 	@Override
-	public List<TransactionDTO> getDetailedTransactions(int accountId1,
+	public List<TransactionDTO> getDetailedTransactions(int accountId,
 			Date startDate, Date endDate) throws BankingException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -323,7 +375,7 @@ public class BankDaoImpl implements IBankDao {
 			LOGGER.warn("To view complete transactions of the account");
 			preparedStatement = connection
 					.prepareStatement(QueryMapper.GET_DETAILED_STATEMENT);
-			preparedStatement.setInt(1, accountId1);
+			preparedStatement.setInt(1, accountId);
 			preparedStatement.setDate(2, startDate);
 			preparedStatement.setDate(3, endDate);
 			resultSet = preparedStatement.executeQuery();
@@ -360,8 +412,16 @@ public class BankDaoImpl implements IBankDao {
 
 	}
 
+	/*******************************************************************************************************
+	 - Function Name	:	changeAddress
+	 - Input Parameters	:	int accountId,String address
+	 - Return Type		:	String
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Description		:	changing Address
+	 ********************************************************************************************************/
 	@Override
-	public String changeAddress(int accountId2, String address)
+	public String changeAddress(int accountId, String address)
 			throws BankingException {
 		PreparedStatement preparedStatement = null;
 		Connection connection = DBConnection.getConnection();
@@ -372,7 +432,7 @@ public class BankDaoImpl implements IBankDao {
 			preparedStatement = connection
 					.prepareStatement(QueryMapper.CHANGE_ADDRESS);
 			preparedStatement.setString(1, address);
-			preparedStatement.setInt(2, accountId2);
+			preparedStatement.setInt(2, accountId);
 			int result = preparedStatement.executeUpdate();
 			if (result == 1) {
 				LOGGER.info("Customer address updated successfully");
@@ -385,8 +445,16 @@ public class BankDaoImpl implements IBankDao {
 		return message;
 	}
 
+	/*******************************************************************************************************
+	 - Function Name	:	changeMobileNumber
+	 - Input Parameters	:	int accountId,String mobileNo
+	 - Return Type		:	String
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Description		:	changing Address
+	 ********************************************************************************************************/
 	@Override
-	public String changeMobileNumber(int accountId3, String mobileNo)
+	public String changeMobileNumber(int accountId, String mobileNo)
 			throws BankingException {
 		PreparedStatement preparedStatement = null;
 		Connection connection = DBConnection.getConnection();
@@ -398,7 +466,7 @@ public class BankDaoImpl implements IBankDao {
 			preparedStatement = connection
 					.prepareStatement(QueryMapper.CHANGE_MOBILENO);
 			preparedStatement.setString(1, mobileNo);
-			preparedStatement.setInt(2, accountId3);
+			preparedStatement.setInt(2, accountId);
 			int result = preparedStatement.executeUpdate();
 			if (result == 1) {
 				connection.commit();
@@ -410,9 +478,17 @@ public class BankDaoImpl implements IBankDao {
 		return message;
 	}
 
+	/*******************************************************************************************************
+	 - Function Name	:	changePassword
+	 - Input Parameters	:	String username,int accountId,String oldPassword,String newPassword,String newPassword1
+	 - Return Type		:	String
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Description		:	changing Password
+	 ********************************************************************************************************/
 	@Override
-	public String changePassword(String username, int accountId4,
-			String password1, String newPassword, String newPassword1)
+	public String changePassword(String username, int accountId,
+			String oldPassword, String newPassword, String newPassword1)
 			throws BankingException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -425,20 +501,20 @@ public class BankDaoImpl implements IBankDao {
 			LOGGER.warn("To change the password");
 			preparedStatement = connection
 					.prepareStatement(QueryMapper.GET_PASSWORD);
-			preparedStatement.setInt(1, accountId4);
+			preparedStatement.setInt(1, accountId);
 			resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				password = resultSet.getString(1);
 				LOGGER.warn("old password fetched");
 			}
 
-			if (password.equals(password1)) {
+			if (password.equals(oldPassword)) {
 				LOGGER.warn("To check if both the passwords are same");
 				if (newPassword.equals(newPassword1)) {
 					preparedStatement = connection
 							.prepareStatement(QueryMapper.CHANGE_PASSWORD);
 					preparedStatement.setString(1, newPassword);
-					preparedStatement.setInt(2, accountId4);
+					preparedStatement.setInt(2, accountId);
 					int result = preparedStatement.executeUpdate();
 					if (result == 1) {
 						connection.commit();
@@ -469,8 +545,17 @@ public class BankDaoImpl implements IBankDao {
 
 	}
 
+	
+	/*******************************************************************************************************
+	 - Function Name	:	serviceRequest
+	 - Input Parameters	:	int accountId
+	 - Return Type		:	int
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Description		:	Request for Service
+	 ********************************************************************************************************/
 	@Override
-	public int serviceRequest(int accountId6) throws BankingException {
+	public int serviceRequest(int accountId) throws BankingException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		Connection connection = DBConnection.getConnection();
@@ -481,7 +566,7 @@ public class BankDaoImpl implements IBankDao {
 			preparedStatement = connection
 					.prepareStatement(QueryMapper.SERVICE_REQUEST);
 			preparedStatement.setString(1, "Request For Cheque Book");
-			preparedStatement.setInt(2, accountId6);
+			preparedStatement.setInt(2, accountId);
 			preparedStatement.setString(3, "open");
 			int result = preparedStatement.executeUpdate();
 			LOGGER.warn(" Request for check book is accepted ");
@@ -502,8 +587,17 @@ public class BankDaoImpl implements IBankDao {
 		return id;
 	}
 
+	
+	/*******************************************************************************************************
+	 - Function Name	:	trackServiceRequest
+	 - Input Parameters	:	int accountId, int serviceId
+	 - Return Type		:	String
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Description		:	check  status of service
+	 ********************************************************************************************************/
 	@Override
-	public String trackServiceRequest(int accountId7, int serviceId)
+	public String trackServiceRequest(int accountId, int serviceId)
 			throws BankingException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -515,11 +609,13 @@ public class BankDaoImpl implements IBankDao {
 			preparedStatement = connection
 					.prepareStatement(QueryMapper.GET_SERVICE_STATUS);
 			preparedStatement.setInt(1, serviceId);
-			preparedStatement.setInt(2, accountId7);
+			preparedStatement.setInt(2, accountId);
 			resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
-				Date date = new Date(2018);
-				Date tempDate = addDays(resultSet.getDate(2), 3);
+				GregorianCalendar calendar = new GregorianCalendar();
+				calendar.setTime(resultSet.getDate(2));
+				calendar.add(Calendar.DATE, 3);
+				Date tempDate =  new Date(calendar.getTime().getTime());
 				if (resultSet.getDate(2).before(tempDate)) {
 					status = resultSet.getString(1);
 				} else if (resultSet.getDate(2).equals(tempDate)) {
@@ -534,7 +630,7 @@ public class BankDaoImpl implements IBankDao {
 					preparedStatement = connection
 							.prepareStatement(QueryMapper.GET_SERVICE_STATUS);
 					preparedStatement.setInt(1, serviceId);
-					preparedStatement.setInt(2, accountId7);
+					preparedStatement.setInt(2, accountId);
 					resultSet = preparedStatement.executeQuery();
 					if (resultSet.next()) {
 						status = resultSet.getString(1);
@@ -556,16 +652,21 @@ public class BankDaoImpl implements IBankDao {
 		return status;
 	}
 
-	public Date addDays(Date date, int days) {
-		GregorianCalendar calendar = new GregorianCalendar();
-		calendar.setTime(date);
-		calendar.add(Calendar.DATE, days);
-		return new Date(calendar.getTime().getTime());
-	}
 
+	/*******************************************************************************************************
+	 - Function Name	:	fundTransfer
+	 - Input Parameters	:	int accountId,int desAccountId,double amount
+	 - Return Type		:	String
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Description		:	Transfer fund to other account 
+	 ********************************************************************************************************/
 	@Override
-	public String fundTransfer(int accountId8, int desAccountId, double amount)
+	public String fundTransfer(int accountId, int desAccountId, double amount)
 			throws BankingException {
+		if(accountId==desAccountId){
+			throw new BankingException("You can't transfer amount to yourself");
+		}
 		PreparedStatement preparedStatement = null;
 		PreparedStatement transStmt = null;
 		ResultSet resultSet = null;
@@ -581,7 +682,7 @@ public class BankDaoImpl implements IBankDao {
 
 			preparedStatement = connection
 					.prepareStatement(QueryMapper.SELECT_AMOUNT);
-			preparedStatement.setInt(1, accountId8);
+			preparedStatement.setInt(1, accountId);
 			resultSet = preparedStatement.executeQuery();
 			LOGGER.warn("Fetching the current balance of source account");
 
@@ -623,7 +724,7 @@ public class BankDaoImpl implements IBankDao {
 					}
 					transStmt.setString(1, "debit");
 					transStmt.setDouble(2, amount);
-					transStmt.setInt(3, accountId8);
+					transStmt.setInt(3, accountId);
 					isCredit = transStmt.executeUpdate();
 					if (isCredit == 0) {
 						LOGGER.error("Error while debiting in table");
@@ -639,7 +740,7 @@ public class BankDaoImpl implements IBankDao {
 				preparedStatement = connection
 						.prepareStatement(QueryMapper.UPDATE_BALANCE);
 				preparedStatement.setDouble(1, newBalance2);
-				preparedStatement.setInt(2, accountId8);
+				preparedStatement.setInt(2, accountId);
 				int result1 = preparedStatement.executeUpdate();
 
 				if (result1 == 1) {
@@ -647,7 +748,7 @@ public class BankDaoImpl implements IBankDao {
 					LOGGER.warn("Fund transferred from the source account");
 				}
 			} else {
-				throw new BankingException("Transaction failed");
+				throw new BankingException("Transaction failed!!! Insufficient amount");
 			}
 		} catch (SQLException e) {
 			LOGGER.error("Fund transfer was failed");

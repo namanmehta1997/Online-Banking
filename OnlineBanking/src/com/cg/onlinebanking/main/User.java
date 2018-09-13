@@ -20,7 +20,7 @@ public class User {
 	CustomerDTO customerDTO = new CustomerDTO();
 	private IBankService bankService;
 
-	public void start(String username) throws BankingException {
+	public void startUser(String username) throws BankingException {
 		bankService = new BankServiceImpl();
 		System.out.println("Welcome " + username + "\n");
 
@@ -28,23 +28,29 @@ public class User {
 
 		while (choice != 7) {
 
-			System.out
-					.println("\n [1]Mini Statement\n [2]Detailed Statement\n [3]Change Address/Mobile Number\n [4]Request for cheque book\n [5]Track Service request\n [6]Fund Transfer\n [7]Change Password\n [8]Logout\n");
-			System.out.print("Choice> ");
+			System.out.println("1.Mini Statement\n"
+							+ "2.Detailed Statement\n"
+							+ "3.Change Address/Mobile Number\n"
+							+ "4.Request for cheque book\n"
+							+ "5.Track Service request\n"
+							+ "6.Fund Transfer\n"
+							+ "7.Change Password\n"
+							+ "8.Logout\n");
+			System.out.print("Select your choice:  ");
 			choice = scanner.nextInt();
 
 			switch (choice) {
 			case 1:
 				int accountId = bankService.getAccountNumber(username);
-				List<TransactionDTO> miniList = new ArrayList<TransactionDTO>();
+				List<TransactionDTO> transactions = new ArrayList<TransactionDTO>();
 
-				miniList = bankService.getMiniStatement(accountId);
+				transactions = bankService.getMiniStatement(accountId);
 
 				System.out
 						.println("Transaction Id Transaction Description  Date Of Transaction  Transaction Amount Account Number");
 				System.out
 						.println("----------------------------------------------------------------------------------------------");
-				for (TransactionDTO transactionDTO : miniList) {
+				for (TransactionDTO transactionDTO : transactions) {
 					System.out.println(transactionDTO.getTransactionId()
 							+ "  	 	"
 							+ transactionDTO.getTransactionDescription()
@@ -129,7 +135,7 @@ public class User {
 					System.out.println(message1);
 					break;
 				case "c":
-					System.exit(0);
+					break;
 				}
 				break;
 			case 4:
@@ -189,8 +195,7 @@ public class User {
 				break;
 
 			case 8:
-				System.exit(0);
-				break;
+				return;
 
 			default:
 				System.out.println("Please enter a valid option");

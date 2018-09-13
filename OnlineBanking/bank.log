@@ -1,0 +1,188 @@
+2018-09-13 13:50:58 INFO  BankDaoImpl:289 - Obtained database connection
+2018-09-13 13:50:58 WARN  BankDaoImpl:295 - Fetcing account number
+2018-09-13 13:50:58 INFO  BankDaoImpl:303 - account number successfully fetched
+2018-09-13 13:50:58 INFO  BankDaoImpl:236 - Obtained database connection
+2018-09-13 13:50:58 WARN  BankDaoImpl:241 - Fetcing mini-statement of the account
+2018-09-13 13:50:58 WARN  BankDaoImpl:245 - About to excecute the mini-statement query
+2018-09-13 13:50:58 INFO  BankDaoImpl:260 - Returning the list of details fetched
+2018-09-13 13:50:58 INFO  BankDaoImpl:260 - Returning the list of details fetched
+2018-09-13 13:50:58 INFO  BankDaoImpl:260 - Returning the list of details fetched
+2018-09-13 13:50:58 INFO  BankDaoImpl:260 - Returning the list of details fetched
+2018-09-13 13:50:58 INFO  BankDaoImpl:260 - Returning the list of details fetched
+2018-09-13 13:50:58 WARN  BankDaoImpl:273 - Closing preparedStatement
+2018-09-13 13:58:47 INFO  BankDaoImpl:289 - Obtained database connection
+2018-09-13 13:58:47 WARN  BankDaoImpl:295 - Fetcing account number
+2018-09-13 13:58:47 INFO  BankDaoImpl:303 - account number successfully fetched
+2018-09-13 13:58:56 INFO  BankDaoImpl:574 - Obtained database connection
+2018-09-13 13:58:56 WARN  BankDaoImpl:580 - To transfer fund
+2018-09-13 13:58:56 WARN  BankDaoImpl:586 - Fetching the current balance of source account
+2018-09-13 13:59:21 INFO  BankDaoImpl:289 - Obtained database connection
+2018-09-13 13:59:21 WARN  BankDaoImpl:295 - Fetcing account number
+2018-09-13 13:59:21 INFO  BankDaoImpl:303 - account number successfully fetched
+2018-09-13 13:59:26 INFO  BankDaoImpl:574 - Obtained database connection
+2018-09-13 13:59:26 WARN  BankDaoImpl:580 - To transfer fund
+2018-09-13 13:59:26 WARN  BankDaoImpl:586 - Fetching the current balance of source account
+2018-09-13 13:59:26 WARN  BankDaoImpl:598 - Fetching the current balance of destination account
+2018-09-13 13:59:27 WARN  BankDaoImpl:622 - Transaction credited in table
+2018-09-13 13:59:27 WARN  BankDaoImpl:633 - Transaction debited in table
+2018-09-13 13:59:27 WARN  BankDaoImpl:635 - Fund transferred to destination account
+2018-09-13 13:59:27 WARN  BankDaoImpl:647 - Fund transferred from the source account
+2018-09-13 13:59:31 INFO  BankDaoImpl:289 - Obtained database connection
+2018-09-13 13:59:31 WARN  BankDaoImpl:295 - Fetcing account number
+2018-09-13 13:59:31 INFO  BankDaoImpl:303 - account number successfully fetched
+2018-09-13 13:59:31 INFO  BankDaoImpl:236 - Obtained database connection
+2018-09-13 13:59:31 WARN  BankDaoImpl:241 - Fetcing mini-statement of the account
+2018-09-13 13:59:31 WARN  BankDaoImpl:245 - About to excecute the mini-statement query
+2018-09-13 13:59:31 INFO  BankDaoImpl:260 - Returning the list of details fetched
+2018-09-13 13:59:31 INFO  BankDaoImpl:260 - Returning the list of details fetched
+2018-09-13 13:59:31 INFO  BankDaoImpl:260 - Returning the list of details fetched
+2018-09-13 13:59:31 INFO  BankDaoImpl:260 - Returning the list of details fetched
+2018-09-13 13:59:31 INFO  BankDaoImpl:260 - Returning the list of details fetched
+2018-09-13 13:59:31 INFO  BankDaoImpl:260 - Returning the list of details fetched
+2018-09-13 13:59:31 INFO  BankDaoImpl:260 - Returning the list of details fetched
+2018-09-13 13:59:31 WARN  BankDaoImpl:273 - Closing preparedStatement
+2018-09-13 14:00:06 INFO  BankDaoImpl:289 - Obtained database connection
+2018-09-13 14:00:06 WARN  BankDaoImpl:295 - Fetcing account number
+2018-09-13 14:00:06 INFO  BankDaoImpl:303 - account number successfully fetched
+2018-09-13 14:00:11 INFO  BankDaoImpl:574 - Obtained database connection
+2018-09-13 14:00:11 WARN  BankDaoImpl:580 - To transfer fund
+2018-09-13 14:00:11 WARN  BankDaoImpl:586 - Fetching the current balance of source account
+2018-09-13 14:17:09 INFO  BankDaoImpl:329 - Obtained database connection
+2018-09-13 14:17:09 WARN  BankDaoImpl:335 - Fetcing account number
+2018-09-13 14:17:09 INFO  BankDaoImpl:343 - account number successfully fetched
+2018-09-13 14:17:09 INFO  BankDaoImpl:278 - Obtained database connection
+2018-09-13 14:17:09 WARN  BankDaoImpl:283 - Fetcing mini-statement of the account
+2018-09-13 14:17:09 WARN  BankDaoImpl:287 - About to excecute the mini-statement query
+2018-09-13 14:17:09 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:09 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:09 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:09 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:09 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:09 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:09 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:09 WARN  BankDaoImpl:313 - Closing preparedStatement
+2018-09-13 14:17:14 INFO  BankDaoImpl:329 - Obtained database connection
+2018-09-13 14:17:14 WARN  BankDaoImpl:335 - Fetcing account number
+2018-09-13 14:17:14 INFO  BankDaoImpl:343 - account number successfully fetched
+2018-09-13 14:17:20 INFO  BankDaoImpl:614 - Obtained database connection
+2018-09-13 14:17:20 WARN  BankDaoImpl:620 - To transfer fund
+2018-09-13 14:17:20 WARN  BankDaoImpl:626 - Fetching the current balance of source account
+2018-09-13 14:17:20 WARN  BankDaoImpl:638 - Fetching the current balance of destination account
+2018-09-13 14:17:20 WARN  BankDaoImpl:662 - Transaction credited in table
+2018-09-13 14:17:20 WARN  BankDaoImpl:673 - Transaction debited in table
+2018-09-13 14:17:20 WARN  BankDaoImpl:675 - Fund transferred to destination account
+2018-09-13 14:17:20 WARN  BankDaoImpl:687 - Fund transferred from the source account
+2018-09-13 14:17:25 INFO  BankDaoImpl:329 - Obtained database connection
+2018-09-13 14:17:25 WARN  BankDaoImpl:335 - Fetcing account number
+2018-09-13 14:17:25 INFO  BankDaoImpl:343 - account number successfully fetched
+2018-09-13 14:17:28 INFO  BankDaoImpl:614 - Obtained database connection
+2018-09-13 14:17:28 WARN  BankDaoImpl:620 - To transfer fund
+2018-09-13 14:17:28 WARN  BankDaoImpl:626 - Fetching the current balance of source account
+2018-09-13 14:17:28 WARN  BankDaoImpl:638 - Fetching the current balance of destination account
+2018-09-13 14:17:28 WARN  BankDaoImpl:662 - Transaction credited in table
+2018-09-13 14:17:28 WARN  BankDaoImpl:673 - Transaction debited in table
+2018-09-13 14:17:28 WARN  BankDaoImpl:675 - Fund transferred to destination account
+2018-09-13 14:17:28 WARN  BankDaoImpl:687 - Fund transferred from the source account
+2018-09-13 14:17:32 INFO  BankDaoImpl:329 - Obtained database connection
+2018-09-13 14:17:32 WARN  BankDaoImpl:335 - Fetcing account number
+2018-09-13 14:17:32 INFO  BankDaoImpl:343 - account number successfully fetched
+2018-09-13 14:17:32 INFO  BankDaoImpl:278 - Obtained database connection
+2018-09-13 14:17:32 WARN  BankDaoImpl:283 - Fetcing mini-statement of the account
+2018-09-13 14:17:32 WARN  BankDaoImpl:287 - About to excecute the mini-statement query
+2018-09-13 14:17:32 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:32 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:32 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:32 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:32 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:32 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:32 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:32 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:32 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:32 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:32 WARN  BankDaoImpl:313 - Closing preparedStatement
+2018-09-13 14:17:45 INFO  BankDaoImpl:329 - Obtained database connection
+2018-09-13 14:17:45 WARN  BankDaoImpl:335 - Fetcing account number
+2018-09-13 14:17:45 INFO  BankDaoImpl:343 - account number successfully fetched
+2018-09-13 14:17:49 INFO  BankDaoImpl:614 - Obtained database connection
+2018-09-13 14:17:49 WARN  BankDaoImpl:620 - To transfer fund
+2018-09-13 14:17:49 WARN  BankDaoImpl:626 - Fetching the current balance of source account
+2018-09-13 14:17:49 WARN  BankDaoImpl:638 - Fetching the current balance of destination account
+2018-09-13 14:17:49 WARN  BankDaoImpl:662 - Transaction credited in table
+2018-09-13 14:17:49 WARN  BankDaoImpl:673 - Transaction debited in table
+2018-09-13 14:17:49 WARN  BankDaoImpl:675 - Fund transferred to destination account
+2018-09-13 14:17:49 WARN  BankDaoImpl:687 - Fund transferred from the source account
+2018-09-13 14:17:50 INFO  BankDaoImpl:329 - Obtained database connection
+2018-09-13 14:17:50 WARN  BankDaoImpl:335 - Fetcing account number
+2018-09-13 14:17:50 INFO  BankDaoImpl:343 - account number successfully fetched
+2018-09-13 14:17:50 INFO  BankDaoImpl:278 - Obtained database connection
+2018-09-13 14:17:50 WARN  BankDaoImpl:283 - Fetcing mini-statement of the account
+2018-09-13 14:17:50 WARN  BankDaoImpl:287 - About to excecute the mini-statement query
+2018-09-13 14:17:50 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:50 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:50 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:50 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:50 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:50 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:50 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:50 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:50 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:50 INFO  BankDaoImpl:301 - Returning the list of details fetched
+2018-09-13 14:17:50 WARN  BankDaoImpl:313 - Closing preparedStatement
+2018-09-13 14:27:30 INFO  BankDaoImpl:333 - Fetching acount number
+2018-09-13 14:27:30 WARN  BankDaoImpl:339 - Fetcing account number
+2018-09-13 14:27:30 INFO  BankDaoImpl:347 - account number successfully fetched
+2018-09-13 14:27:30 INFO  BankDaoImpl:606 - Obtained database connection
+2018-09-13 14:27:30 WARN  BankDaoImpl:609 - To know the status of request for checkbook
+2018-09-13 14:34:48 INFO  BankDaoImpl:333 - Fetching acount number
+2018-09-13 14:34:48 WARN  BankDaoImpl:339 - Fetcing account number
+2018-09-13 14:34:48 INFO  BankDaoImpl:347 - account number successfully fetched
+2018-09-13 14:34:48 INFO  BankDaoImpl:275 - Fetcing mini-statement of the account
+2018-09-13 14:34:48 INFO  BankDaoImpl:279 - Obtained database connection
+2018-09-13 14:34:48 WARN  BankDaoImpl:308 - Closing preparedStatement
+2018-09-13 14:34:48 INFO  BankDaoImpl:317 - Mini statement successfully fetched
+2018-09-13 14:34:53 INFO  BankDaoImpl:333 - Fetching acount number
+2018-09-13 14:34:53 WARN  BankDaoImpl:339 - Fetcing account number
+2018-09-13 14:34:53 INFO  BankDaoImpl:347 - account number successfully fetched
+2018-09-13 14:34:53 INFO  BankDaoImpl:606 - Obtained database connection
+2018-09-13 14:34:53 WARN  BankDaoImpl:609 - To know the status of request for checkbook
+2018-09-13 14:34:58 INFO  BankDaoImpl:333 - Fetching acount number
+2018-09-13 14:34:58 WARN  BankDaoImpl:339 - Fetcing account number
+2018-09-13 14:34:58 INFO  BankDaoImpl:347 - account number successfully fetched
+2018-09-13 14:34:58 INFO  BankDaoImpl:606 - Obtained database connection
+2018-09-13 14:34:58 WARN  BankDaoImpl:609 - To know the status of request for checkbook
+2018-09-13 14:34:58 WARN  BankDaoImpl:645 - Service Id not found
+2018-09-13 14:49:36 INFO  BankDaoImpl:332 - Fetching acount number
+2018-09-13 14:49:36 WARN  BankDaoImpl:338 - Fetcing account number
+2018-09-13 14:49:36 INFO  BankDaoImpl:346 - account number successfully fetched
+2018-09-13 14:53:20 INFO  BankDaoImpl:332 - Fetching acount number
+2018-09-13 14:53:20 WARN  BankDaoImpl:338 - Fetcing account number
+2018-09-13 14:53:20 INFO  BankDaoImpl:346 - account number successfully fetched
+2018-09-13 14:53:20 INFO  BankDaoImpl:274 - Fetcing mini-statement of the account
+2018-09-13 14:53:20 INFO  BankDaoImpl:278 - Obtained database connection
+2018-09-13 14:53:20 WARN  BankDaoImpl:307 - Closing preparedStatement
+2018-09-13 14:53:20 INFO  BankDaoImpl:316 - Mini statement successfully fetched
+2018-09-13 14:53:22 INFO  BankDaoImpl:332 - Fetching acount number
+2018-09-13 14:53:22 WARN  BankDaoImpl:338 - Fetcing account number
+2018-09-13 14:53:22 INFO  BankDaoImpl:346 - account number successfully fetched
+2018-09-13 14:53:26 INFO  BankDaoImpl:371 - Obtained database connection
+2018-09-13 14:53:26 WARN  BankDaoImpl:375 - To view complete transactions of the account
+2018-09-13 14:53:26 WARN  BankDaoImpl:402 - Closing preparedStatement
+2018-09-13 14:53:30 INFO  BankDaoImpl:332 - Fetching acount number
+2018-09-13 14:53:30 WARN  BankDaoImpl:338 - Fetcing account number
+2018-09-13 14:53:30 INFO  BankDaoImpl:346 - account number successfully fetched
+2018-09-13 14:53:39 INFO  BankDaoImpl:371 - Obtained database connection
+2018-09-13 14:53:39 WARN  BankDaoImpl:375 - To view complete transactions of the account
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 WARN  BankDaoImpl:402 - Closing preparedStatement
