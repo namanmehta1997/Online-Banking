@@ -269,3 +269,6 @@
 2018-09-13 16:04:31 INFO  BankDaoImpl:326 - Fetching acount number
 2018-09-13 16:04:31 WARN  BankDaoImpl:332 - Fetcing account number
 2018-09-13 16:04:31 INFO  BankDaoImpl:340 - account number successfully fetched
+2018-09-13 16:09:41 INFO  BankDaoImpl:324 - Fetching acount number
+2018-09-13 16:09:41 WARN  BankDaoImpl:330 - Fetcing account number
+2018-09-13 16:09:41 INFO  BankDaoImpl:338 - account number successfully fetched
