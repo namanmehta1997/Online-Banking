@@ -38,18 +38,18 @@ public class OnlineBankingMain {
 			System.out.print("1.Login\n2.Quit \n");
 			System.out.print("Enter your choice: ");
 			try {
-				choice = scan.nextInt();
-			} catch (InputMismatchException exception) {
+				choice = Integer.parseInt(scan.nextLine());
+			} catch (NumberFormatException exception) {
 				System.err.println("Please enter a valid choice");
 				OnlineBankingMain.main(args);
 			}
 
 			if (choice == 1) {
 				System.out.print("UserName: ");
-				username = scan.next();
+				username = scan.nextLine();
 				System.out.print("Password: ");
 
-				String password = scan.next();
+				String password = scan.nextLine();
 				try {
 					role = bankService.getRole(username, password);
 					System.out.println(role + " identified...");
@@ -80,7 +80,7 @@ public class OnlineBankingMain {
 							System.out.println("Forgot passsword?");
 							System.out
 									.println("Enter your mother's maiden name: ");
-							String maidenName = scan.next();
+							String maidenName = scan.nextLine();
 							String defaultPassword = bankService
 									.getDefaultPassword(username, accountId,
 											maidenName);

@@ -34,43 +34,56 @@ public class Admin {
 			System.out
 					.println(" [1]Create User Account\n [2]View All Transactions\n [3]LogOut\n");
 			System.out.print("Enter your choice: ");
-			choice = scanner.nextInt();
+			try{
+				choice = Integer.parseInt(scanner.nextLine());
+			}
+			catch(NumberFormatException exception){
+				System.err.println("Please enter valid choice");
+				return;
+			}
 
 			switch (choice) {
 			case 1:
-				System.out.println("Enter UserName:");
-				String user = scanner.next();
-				System.out.println("Enter Password:");
-				String password = scanner.next();
-				System.out.println("Enter Customer Name:");
-				String customer = scanner.next();
-				System.out.println("Enter Email Id:");
-				String email = scanner.next();
-				System.out.println("Enter Address:");
-				String address = scanner.nextLine();
-				address = scanner.nextLine();
-				System.out.println("Enter Phone number:");
-				String phone = scanner.next();
-				System.out.println("Enter PAN Number:");
-				String panNumber = scanner.next();
-				System.out.println("Enter Account Balance:");
-				double accountBalance = scanner.nextDouble();
-				System.out.println("Enter Mother's Maiden Name:");
-				String maidenName = scanner.next();
+				try{
+					System.out.println("Enter UserName:");
+					String user = scanner.nextLine();
+					System.out.println("Enter Password:");
+					String password = scanner.nextLine();
+					System.out.println("Enter Customer Name:");
+					String customer = scanner.nextLine();
+					System.out.println("Enter Email Id:");
+					String email = scanner.nextLine();
+					System.out.println("Enter Address:");
+					String address = scanner.nextLine();
+					System.out.println("Enter Phone number:");
+					String phone = scanner.nextLine();
+					System.out.println("Enter PAN Number:");
+					String panNumber = scanner.nextLine();
+					System.out.println("Enter Account Balance:");
+					double accountBalance = Double.parseDouble(scanner.nextLine());
+					System.out.println("Enter Mother's Maiden Name:");
+					String maidenName = scanner.nextLine();
+					customerDTO = new CustomerDTO();
+					customerDTO.setUsername(user);
+					customerDTO.setPassword(password);
+					customerDTO.setCustomerName(customer);
+					customerDTO.setEmailId(email);
+					customerDTO.setAddress(address);
+					customerDTO.setPhoneNo(phone);
+					customerDTO.setPancard(panNumber);
+					customerDTO.setAccountBalance(accountBalance);
+					customerDTO.setSecretAnswer(maidenName);
 
+				}
+				catch (NumberFormatException e) {
+					System.err.println("Please enter valid details");
+					return;
+				}
+				
 				/**
 				 * set bean
 				 */
-				customerDTO = new CustomerDTO();
-				customerDTO.setUsername(user);
-				customerDTO.setPassword(password);
-				customerDTO.setCustomerName(customer);
-				customerDTO.setEmailId(email);
-				customerDTO.setAddress(address);
-				customerDTO.setPhoneNo(phone);
-				customerDTO.setPancard(panNumber);
-				customerDTO.setAccountBalance(accountBalance);
-				customerDTO.setSecretAnswer(maidenName);
+				
 				try {
 					if (bankService.detailsValidation(customerDTO) == false) {
 						int id = bankService.addUser(customerDTO);
@@ -91,12 +104,12 @@ public class Admin {
 					System.out
 							.println("Enter start date: (in format:dd/mm/yyyy)");
 					try {
-						String date1 = scanner.next();
+						String date1 = scanner.nextLine();
 						dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 						startDate = java.sql.Date.valueOf(LocalDate.parse(date1, dateTimeFormatter));
 
 						System.out.println("Enter end date: (in format:dd/mm/yyyy)");
-						String date2 = scanner.next();
+						String date2 = scanner.nextLine();
 						DateTimeFormatter dateTimeFormatter1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 						endDate = java.sql.Date.valueOf(LocalDate.parse(date2,dateTimeFormatter1));
 
