@@ -5,7 +5,8 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ AddUserTest.class, ViewAllTxnsTest.class, GetAccountNumberTest.class, GetMiniStatementTest.class, GetUserByNameTest.class })
+@SuiteClasses({ AddUserTest.class, ViewAllTxnsTest.class, GetAccountNumberTest.class, GetMiniStatementTest.class, 
+				GetUserByNameTest.class, ChangeAddressTest.class})
 public class DAOTests {
 
 }

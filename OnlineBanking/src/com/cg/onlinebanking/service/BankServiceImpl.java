@@ -15,15 +15,38 @@ import com.cg.onlinebanking.exceptions.BankingException;
 public class BankServiceImpl implements IBankService {
 	IBankDao dao;
 
+	/*******************************************************************************************************
+	 - Function Type	:	Constructor
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Description		:	Creates a new object of DAO
+	 ********************************************************************************************************/	
 	public BankServiceImpl() throws BankingException {
 		dao = new BankDaoImpl();
 	}
 
+	
+	/*******************************************************************************************************
+	 - Function Name	:	addUser
+	 - Input Parameters	:	CustomerDTO userDto
+	 - Return Type		:	int 
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Description		:	sending User Details to DAO
+	 ********************************************************************************************************/
 	@Override
 	public int addUser(CustomerDTO userDto) throws BankingException {
 		return dao.addUser(userDto);
 	}
-
+	
+	/*******************************************************************************************************
+	 - Function Name	:	viewAllTransactions
+	 - Input Parameters	:	Date startDate,Date endDate
+	 - Return Type		:	list
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Description		:	Instructs DAO to fetch all transactions from database
+	 ********************************************************************************************************/
 	@Override
 	public List<TransactionDTO> viewAllTransactions(Date startDate, Date endDate)
 			throws BankingException {
@@ -31,7 +54,15 @@ public class BankServiceImpl implements IBankService {
 		list = dao.viewAllTransactions(startDate, endDate);
 		return list;
 	}
-
+	
+	/*******************************************************************************************************
+	 - Function Name	:	detailsValidation
+	 - Input Parameters	:	CustomerDTO customerDTO
+	 - Return Type		:	boolean
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Description		:	Validate entered Details
+	 ********************************************************************************************************/
 	@Override
 	public boolean detailsValidation(CustomerDTO customerDTO)
 			throws BankingException {
@@ -126,23 +157,56 @@ public class BankServiceImpl implements IBankService {
 
 	}
 
+	/*******************************************************************************************************
+	 - Function Name	:	getDefaultPassword
+	 - Input Parameters	:	String username, int accountId,String maidenName
+	 - Return Type		:	String
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Description		:	Instructs DAO to retrieve DefaultPassword
+	 ********************************************************************************************************/
 	@Override
 	public String getDefaultPassword(String username, int accountId,
 			String maidenName) throws BankingException {
 		return dao.getDefaultPassword(username, accountId, maidenName);
 	}
-
+	
+	/*******************************************************************************************************
+	 - Function Name	:	getMiniStatement
+	 - Input Parameters	:	int accountId
+	 - Return Type		:	list
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Creation Date	:	
+	 - Description		:	Instruct DAO to retrieve MiniStatement
+	 ********************************************************************************************************/
 	@Override
 	public List<TransactionDTO> getMiniStatement(int accountId)
 			throws BankingException {
 		return dao.getMiniStatement(accountId);
 	}
 
+	/*******************************************************************************************************
+	 - Function Name	:	getAccountNumber
+	 - Input Parameters	:	String username
+	 - Return Type		:	int
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Description		:	Instruct DAO to retrieve AccountNumber
+	 ********************************************************************************************************/
 	@Override
 	public int getAccountNumber(String username) throws BankingException {
 		return dao.getAccountNumber(username);
 	}
 
+	/*******************************************************************************************************
+	 - Function Name	:	getDetailedTransactions
+	 - Input Parameters	:	int accountId,Date startDate, Date endDate
+	 - Return Type		:	list
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Description		:	Instruct DAO to retrieve DetailedTransactions
+	 ********************************************************************************************************/
 	@Override
 	public List<TransactionDTO> getDetailedTransactions(int accountId1,
 			Date startDate, Date endDate) throws BankingException {
@@ -151,6 +215,14 @@ public class BankServiceImpl implements IBankService {
 		return list;
 	}
 
+	/*******************************************************************************************************
+	 - Function Name	:	changeAddress
+	 - Input Parameters	:	int accountId,String address
+	 - Return Type		:	String
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Description		:	Instruct DAO to change Address
+	 ********************************************************************************************************/
 	@Override
 	public String changeAddress(int accountId2, String address)
 			throws BankingException {
@@ -158,12 +230,28 @@ public class BankServiceImpl implements IBankService {
 
 	}
 
+	/*******************************************************************************************************
+	 - Function Name	:	changeMobileNumber
+	 - Input Parameters	:	int accountId,String mobileNo
+	 - Return Type		:	String
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Description		:	Instruct DAO to change mobileNo
+	 ********************************************************************************************************/
 	@Override
 	public String changeMobileNumber(int accountId3, String mobileNo)
 			throws BankingException {
 		return dao.changeMobileNumber(accountId3, mobileNo);
 	}
 
+	/*******************************************************************************************************
+	 - Function Name	:	changePassword
+	 - Input Parameters	:	String username, int accountId,String oldPassword,String newPassword,String newPassword1
+	 - Return Type		:	String
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Description		:	Validate password and instruct DAO to change Password
+	 ********************************************************************************************************/
 	@Override
 	public String changePassword(String username, int accountId4,
 			String password1, String newPassword, String newPassword1)
@@ -179,17 +267,41 @@ public class BankServiceImpl implements IBankService {
 				newPassword1);
 	}
 
+	/*******************************************************************************************************
+	 - Function Name	:	serviceRequest
+	 - Input Parameters	:	int accountId
+	 - Return Type		:	int
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Description		:	Instruct DAO Request for a specific service
+	 ********************************************************************************************************/
 	@Override
 	public int serviceRequest(int accountId6) throws BankingException {
 		return dao.serviceRequest(accountId6);
 	}
-
+	
+	/*******************************************************************************************************
+	 - Function Name	:	trackServiceRequest
+	 - Input Parameters	:	int accountId, int serviceId
+	 - Return Type		:	String
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Description		:	Instruct DAO to track Service
+	 ********************************************************************************************************/
 	@Override
 	public String trackServiceRequest(int accountId7, int serviceId)
 			throws BankingException {
 		return dao.trackServiceRequest(accountId7, serviceId);
 	}
 
+	/*******************************************************************************************************
+	 - Function Name	:	fundTransfer
+	 - Input Parameters	:	int accountId,int desAccountId,double amount
+	 - Return Type		:	String
+	 - Throws			:  	BankingException
+	 - Author			:	
+	 - Description		:	Instruct DAO to transfer fund to other account 
+	 ********************************************************************************************************/
 	@Override
 	public String fundTransfer(int accountId8, int desAccountId, double amount)
 			throws BankingException {

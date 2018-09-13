@@ -220,7 +220,7 @@ public class BankDaoImpl implements IBankDao {
 
 	/*******************************************************************************************************
 	 - Function Name	:	getDefaultPassword
-	 - Input Parameters	:	String username,int accountId,String petName
+	 - Input Parameters	:	String username,int accountId,String maidenName
 	 - Return Type		:	String
 	 - Throws			:  	BankingException
 	 - Author			:	
@@ -452,6 +452,8 @@ public class BankDaoImpl implements IBankDao {
 				
 				connection.commit();
 			}
+			else
+				message = "Invalid entry!";
 		} catch (SQLException exception) {
 			LOGGER.error(exception.toString());
 			throw new BankingException("Could not update the address");
@@ -466,7 +468,7 @@ public class BankDaoImpl implements IBankDao {
 	 - Return Type		:	String
 	 - Throws			:  	BankingException
 	 - Author			:	
-	 - Description		:	changing Address
+	 - Description		:	changing mobileNo
 	 ********************************************************************************************************/
 	@Override
 	public String changeMobileNumber(int accountId, String mobileNo)
@@ -607,7 +609,7 @@ public class BankDaoImpl implements IBankDao {
 	 - Return Type		:	String
 	 - Throws			:  	BankingException
 	 - Author			:	
-	 - Description		:	check  status of service
+	 - Description		:	check status of service
 	 ********************************************************************************************************/
 	@Override
 	public String trackServiceRequest(int accountId, int serviceId)

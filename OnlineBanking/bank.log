@@ -1,0 +1,66 @@
+2018-09-13 16:56:41 INFO  BankDaoImpl:45 - Adding User
+2018-09-13 16:56:41 INFO  BankDaoImpl:119 - User Added Successfully
+2018-09-13 16:56:41 INFO  BankDaoImpl:141 - Viewing All the Transactions
+2018-09-13 16:56:41 INFO  BankDaoImpl:179 - Transaction successfully fetched
+2018-09-13 16:56:41 INFO  BankDaoImpl:345 - Fetching acount number
+2018-09-13 16:56:41 INFO  BankDaoImpl:367 - account number successfully fetched
+2018-09-13 16:56:41 INFO  BankDaoImpl:345 - Fetching acount number
+2018-09-13 16:56:41 INFO  BankDaoImpl:367 - account number successfully fetched
+2018-09-13 16:56:41 INFO  BankDaoImpl:290 - Fetcing mini-statement of the account
+2018-09-13 16:56:41 WARN  BankDaoImpl:321 - Closing preparedStatement
+2018-09-13 16:56:41 INFO  BankDaoImpl:330 - Mini statement successfully fetched
+2018-09-13 16:56:41 INFO  BankDaoImpl:290 - Fetcing mini-statement of the account
+2018-09-13 16:56:41 WARN  BankDaoImpl:321 - Closing preparedStatement
+2018-09-13 16:56:41 INFO  BankDaoImpl:330 - Mini statement successfully fetched
+2018-09-13 16:56:41 INFO  BankDaoImpl:197 - Reteriving UserDTO by username
+2018-09-13 16:56:41 INFO  BankDaoImpl:217 - User details fetched successfully
+2018-09-13 16:56:41 INFO  BankDaoImpl:197 - Reteriving UserDTO by username
+2018-09-13 16:56:41 INFO  BankDaoImpl:217 - User details fetched successfully
+2018-09-13 17:09:45 INFO  BankDaoImpl:442 - Proceeding to Update the Address
+2018-09-13 17:09:46 INFO  BankDaoImpl:461 - Customer address updated successfully
+2018-09-13 17:09:46 INFO  BankDaoImpl:442 - Proceeding to Update the Address
+2018-09-13 17:09:46 INFO  BankDaoImpl:461 - Customer address updated successfully
+2018-09-13 17:13:35 INFO  BankDaoImpl:442 - Proceeding to Update the Address
+2018-09-13 17:13:35 INFO  BankDaoImpl:461 - Customer address updated successfully
+2018-09-13 17:13:35 INFO  BankDaoImpl:442 - Proceeding to Update the Address
+2018-09-13 17:13:35 INFO  BankDaoImpl:461 - Customer address updated successfully
+2018-09-13 17:14:13 INFO  BankDaoImpl:45 - Adding User
+2018-09-13 17:14:13 INFO  BankDaoImpl:119 - User Added Successfully
+2018-09-13 17:14:13 INFO  BankDaoImpl:141 - Viewing All the Transactions
+2018-09-13 17:14:13 INFO  BankDaoImpl:179 - Transaction successfully fetched
+2018-09-13 17:14:13 INFO  BankDaoImpl:345 - Fetching acount number
+2018-09-13 17:14:13 INFO  BankDaoImpl:367 - account number successfully fetched
+2018-09-13 17:14:13 INFO  BankDaoImpl:345 - Fetching acount number
+2018-09-13 17:14:13 INFO  BankDaoImpl:367 - account number successfully fetched
+2018-09-13 17:14:13 INFO  BankDaoImpl:290 - Fetcing mini-statement of the account
+2018-09-13 17:14:13 WARN  BankDaoImpl:321 - Closing preparedStatement
+2018-09-13 17:14:13 INFO  BankDaoImpl:330 - Mini statement successfully fetched
+2018-09-13 17:14:13 INFO  BankDaoImpl:290 - Fetcing mini-statement of the account
+2018-09-13 17:14:13 WARN  BankDaoImpl:321 - Closing preparedStatement
+2018-09-13 17:14:13 INFO  BankDaoImpl:330 - Mini statement successfully fetched
+2018-09-13 17:14:13 INFO  BankDaoImpl:197 - Reteriving UserDTO by username
+2018-09-13 17:14:13 INFO  BankDaoImpl:217 - User details fetched successfully
+2018-09-13 17:14:13 INFO  BankDaoImpl:197 - Reteriving UserDTO by username
+2018-09-13 17:14:13 INFO  BankDaoImpl:217 - User details fetched successfully
+2018-09-13 17:15:25 INFO  BankDaoImpl:45 - Adding User
+2018-09-13 17:15:25 INFO  BankDaoImpl:119 - User Added Successfully
+2018-09-13 17:15:25 INFO  BankDaoImpl:141 - Viewing All the Transactions
+2018-09-13 17:15:25 INFO  BankDaoImpl:179 - Transaction successfully fetched
+2018-09-13 17:15:25 INFO  BankDaoImpl:345 - Fetching acount number
+2018-09-13 17:15:25 INFO  BankDaoImpl:367 - account number successfully fetched
+2018-09-13 17:15:25 INFO  BankDaoImpl:345 - Fetching acount number
+2018-09-13 17:15:25 INFO  BankDaoImpl:367 - account number successfully fetched
+2018-09-13 17:15:25 INFO  BankDaoImpl:290 - Fetcing mini-statement of the account
+2018-09-13 17:15:25 WARN  BankDaoImpl:321 - Closing preparedStatement
+2018-09-13 17:15:25 INFO  BankDaoImpl:330 - Mini statement successfully fetched
+2018-09-13 17:15:25 INFO  BankDaoImpl:290 - Fetcing mini-statement of the account
+2018-09-13 17:15:25 WARN  BankDaoImpl:321 - Closing preparedStatement
+2018-09-13 17:15:25 INFO  BankDaoImpl:330 - Mini statement successfully fetched
+2018-09-13 17:15:25 INFO  BankDaoImpl:197 - Reteriving UserDTO by username
+2018-09-13 17:15:25 INFO  BankDaoImpl:217 - User details fetched successfully
+2018-09-13 17:15:25 INFO  BankDaoImpl:197 - Reteriving UserDTO by username
+2018-09-13 17:15:25 INFO  BankDaoImpl:217 - User details fetched successfully
+2018-09-13 17:15:25 INFO  BankDaoImpl:442 - Proceeding to Update the Address
+2018-09-13 17:15:25 INFO  BankDaoImpl:461 - Customer address updated successfully
+2018-09-13 17:15:25 INFO  BankDaoImpl:442 - Proceeding to Update the Address
+2018-09-13 17:15:25 INFO  BankDaoImpl:461 - Customer address updated successfully
