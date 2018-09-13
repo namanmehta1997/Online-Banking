@@ -96,8 +96,9 @@ public class BankDaoImpl implements IBankDao {
 			}
 
 		} catch (SQLException sqlException) {
-			//System.out.println(sqlException);
+
 			LOGGER.error(sqlException.toString());
+
 			throw new BankingException("Could not add account");
 		}
 
