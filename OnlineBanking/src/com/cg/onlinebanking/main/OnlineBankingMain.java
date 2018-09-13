@@ -19,7 +19,14 @@ public class OnlineBankingMain {
 		String role1 = "admin";
 		String role2 = "user";
 		String username;
-		IBankService bankService = new BankServiceImpl();
+		IBankService bankService = null;
+		try {
+			bankService = new BankServiceImpl();
+		} catch (BankingException e) {
+			System.err.println("Can't connect to database!!! Please try again later");
+			scan.close();
+			return;
+		}
 
 		while (choice != 2) {
 			System.out

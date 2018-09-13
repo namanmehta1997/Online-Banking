@@ -11,6 +11,7 @@ public interface QueryMapper {
 	public static final String ADD_USERS = "INSERT INTO Role VALUES(?,?,?)";
 	public static final String SERVICE_SEQUENCE = "SELECT serviceIdSequence.CURRVAL FROM DUAL";
 	public static final String GET_SERVICE_STATUS = "SELECT Service_status,Service_Raised_Date FROM serviceRequest WHERE Service_ID=? AND Account_ID=?";
+	public static final String SERVICE_REQUEST = "INSERT INTO serviceRequest VALUES(serviceIdSequence.NEXTVAL,?,?,SYSDATE,?)";
 	public static final String UPDATE_STATUS = "UPDATE serviceRequest SET Service_status=? WHERE Service_ID=?";
 	public static final String UPDATE_BALANCE = "UPDATE Customer SET accountBalance=? WHERE accountNumber=?";
 	public static final String SELECT_AMOUNT = "SELECT accountBalance FROM Customer WHERE accountNumber=?";
@@ -23,6 +24,5 @@ public interface QueryMapper {
 	public static final String GET_PASSWORD = "SELECT password FROM Customer WHERE accountNumber=?";
 	public static final String CHANGE_PASSWORD = "UPDATE Customer SET password=? WHERE accountNumber=?";
 	public static final String CHANGE_PASSWORD1 = "UPDATE Role SET password=? WHERE username=?";
-	public static final String SERVICE_REQUEST = "INSERT INTO serviceRequest VALUES(serviceIdSequence.NEXTVAL,?,?,SYSDATE,?)";
 
 }

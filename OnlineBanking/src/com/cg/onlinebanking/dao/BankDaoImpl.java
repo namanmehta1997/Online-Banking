@@ -22,9 +22,10 @@ import com.cg.onlinebanking.util.DBConnection;
 public class BankDaoImpl implements IBankDao {
 
 	private final Logger LOGGER;
-
-	public BankDaoImpl() {
+	private final Connection connection;
+	public BankDaoImpl() throws BankingException {
 		LOGGER = Logger.getLogger(BankDaoImpl.class);
+		connection = DBConnection.getInstance().getConnection();
 	}
 
 	/*******************************************************************************************************
@@ -38,7 +39,6 @@ public class BankDaoImpl implements IBankDao {
 	@Override
 	public int addUser(CustomerDTO userDto) throws BankingException {
 		
-		Connection connection = DBConnection.getConnection();
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		int id = -1;
@@ -105,7 +105,6 @@ public class BankDaoImpl implements IBankDao {
 				try {
 					resultSet.close();
 					preparedStatement.close();
-					// connection.close();
 				} catch (SQLException sqlException2) {
 					throw new BankingException("Could not connect to database");
 				}
@@ -128,7 +127,6 @@ public class BankDaoImpl implements IBankDao {
 			throws BankingException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		Connection connection = DBConnection.getConnection();
 		List<TransactionDTO> list = new ArrayList<TransactionDTO>();
 
 		try {
@@ -158,7 +156,6 @@ public class BankDaoImpl implements IBankDao {
 				try {
 					resultSet.close();
 					preparedStatement.close();
-					// connection.close();
 				} catch (SQLException e) {
 					throw new BankingException("Could not fetch data");
 				}
@@ -180,9 +177,7 @@ public class BankDaoImpl implements IBankDao {
 	 ********************************************************************************************************/
 	@Override
 	public RoleDTO getUserByName(String username) throws BankingException {
-		Connection connection = DBConnection.getConnection();
 		PreparedStatement preparedStatement = null;
-		connection = DBConnection.getConnection();
 		ResultSet resultSet = null;
 
 		RoleDTO role = null;
@@ -218,7 +213,6 @@ public class BankDaoImpl implements IBankDao {
 			String maidenName) throws BankingException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		Connection connection = DBConnection.getConnection();
 		CustomerDTO customer = new CustomerDTO();
 		try {
 			preparedStatement = connection.prepareStatement(QueryMapper.GET_SECURITYANS);
@@ -274,7 +268,6 @@ public class BankDaoImpl implements IBankDao {
 		LOGGER.info("Fetcing mini-statement of the account");
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		Connection connection = DBConnection.getConnection();
 		LOGGER.info("Obtained database connection");
 		List<TransactionDTO> list = new ArrayList<TransactionDTO>();
 
@@ -328,7 +321,6 @@ public class BankDaoImpl implements IBankDao {
 	 ********************************************************************************************************/
 	@Override
 	public int getAccountNumber(String username) throws BankingException {
-		Connection connection = DBConnection.getConnection();
 		LOGGER.info("Fetching acount number");
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -367,7 +359,6 @@ public class BankDaoImpl implements IBankDao {
 			Date startDate, Date endDate) throws BankingException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		Connection connection = DBConnection.getConnection();
 		LOGGER.info("Obtained database connection");
 		List<TransactionDTO> list = new ArrayList<TransactionDTO>();
 
@@ -424,7 +415,6 @@ public class BankDaoImpl implements IBankDao {
 	public String changeAddress(int accountId, String address)
 			throws BankingException {
 		PreparedStatement preparedStatement = null;
-		Connection connection = DBConnection.getConnection();
 		LOGGER.info("Obtained database connection");
 		String message = "Successfully Updated the address";
 		try {
@@ -457,7 +447,6 @@ public class BankDaoImpl implements IBankDao {
 	public String changeMobileNumber(int accountId, String mobileNo)
 			throws BankingException {
 		PreparedStatement preparedStatement = null;
-		Connection connection = DBConnection.getConnection();
 		LOGGER.info("Obtained database connection");
 		String message = "Successfully Updated the mobile number";
 		try {
@@ -494,7 +483,6 @@ public class BankDaoImpl implements IBankDao {
 		ResultSet resultSet = null;
 		String password = "";
 		String message = "Password changed successfully";
-		Connection connection = DBConnection.getConnection();
 		LOGGER.info("Obtained database connection");
 
 		try {
@@ -558,7 +546,6 @@ public class BankDaoImpl implements IBankDao {
 	public int serviceRequest(int accountId) throws BankingException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		Connection connection = DBConnection.getConnection();
 		LOGGER.info("Obtained database connection");
 		int id = 0;
 		try {
@@ -601,7 +588,6 @@ public class BankDaoImpl implements IBankDao {
 			throws BankingException {
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
-		Connection connection = DBConnection.getConnection();
 		LOGGER.info("Obtained database connection");
 		String status = "";
 		try {
@@ -671,12 +657,11 @@ public class BankDaoImpl implements IBankDao {
 		PreparedStatement transStmt = null;
 		ResultSet resultSet = null;
 		double accountBal = 0.0;
-		Connection connection = DBConnection.getConnection();
 		LOGGER.info("Obtained database connection");
 
 		String msg = "Transaction Success";
 		double newBalance1 = 0.0;
-		double newBalance2 = 0.0;
+		double sourceAcBalanceLeft = 0.0;
 		try {
 			LOGGER.warn("To transfer fund");
 
@@ -688,8 +673,7 @@ public class BankDaoImpl implements IBankDao {
 
 			if (resultSet.next()) {
 				accountBal = resultSet.getDouble(1);
-				newBalance2 = Double.parseDouble(resultSet.getString(1))
-						- amount;
+				sourceAcBalanceLeft = accountBal-amount;
 			}
 			if ((accountBal - amount) > 1000) {
 				preparedStatement = connection
@@ -699,8 +683,7 @@ public class BankDaoImpl implements IBankDao {
 				LOGGER.warn("Fetching the current balance of destination account");
 
 				if (resultSet.next()) {
-					newBalance1 = Double.parseDouble(resultSet.getString(1))
-							+ amount;
+					newBalance1 = resultSet.getDouble(1) + amount;
 				}
 
 				preparedStatement = connection
@@ -739,7 +722,7 @@ public class BankDaoImpl implements IBankDao {
 
 				preparedStatement = connection
 						.prepareStatement(QueryMapper.UPDATE_BALANCE);
-				preparedStatement.setDouble(1, newBalance2);
+				preparedStatement.setDouble(1, sourceAcBalanceLeft);
 				preparedStatement.setInt(2, accountId);
 				int result1 = preparedStatement.executeUpdate();
 
