@@ -22,8 +22,8 @@ public class Admin {
 	private DateTimeFormatter dateTimeFormatter;
 	private IBankService bankService;
 
-	public void start(String username) throws BankingException {
-		// adminService = new AdminServiceImpl();
+	public void startAdmin(String username) throws BankingException {
+
 		bankService = new BankServiceImpl();
 		System.out.println("Welcome " + username + "\n");
 
@@ -33,7 +33,7 @@ public class Admin {
 
 			System.out
 					.println(" [1]Create User Account\n [2]View All Transactions\n [3]LogOut\n");
-			System.out.print("Choice> ");
+			System.out.print("Enter your choice: ");
 			choice = scanner.nextInt();
 
 			switch (choice) {
@@ -47,15 +47,16 @@ public class Admin {
 				System.out.println("Enter Email Id:");
 				String email = scanner.next();
 				System.out.println("Enter Address:");
-				String address = scanner.next();
+				String address = scanner.nextLine();
+				address = scanner.nextLine();
 				System.out.println("Enter Phone number:");
 				String phone = scanner.next();
 				System.out.println("Enter PAN Number:");
 				String panNumber = scanner.next();
 				System.out.println("Enter Account Balance:");
 				double accountBalance = scanner.nextDouble();
-				System.out.println("Enter the PET name:");
-				String petName = scanner.next();
+				System.out.println("Enter Mother's Maiden Name:");
+				String maidenName = scanner.next();
 
 				/**
 				 * set bean
@@ -69,7 +70,7 @@ public class Admin {
 				customerDTO.setPhoneNo(phone);
 				customerDTO.setPancard(panNumber);
 				customerDTO.setAccountBalance(accountBalance);
-				customerDTO.setSecretAnswer(petName);
+				customerDTO.setSecretAnswer(maidenName);
 				try {
 					if (bankService.detailsValidation(customerDTO) == false) {
 						int id = bankService.addUser(customerDTO);
@@ -85,32 +86,27 @@ public class Admin {
 			case 2:
 				Date endDate = null,
 				startDate = null;
-				List<TransactionDTO> list = new ArrayList<TransactionDTO>();
+				List<TransactionDTO> allTransactions = new ArrayList<TransactionDTO>();
 				try {
 					System.out
 							.println("Enter start date: (in format:dd/mm/yyyy)");
 					try {
 						String date1 = scanner.next();
-						dateTimeFormatter = DateTimeFormatter
-								.ofPattern("dd/MM/yyyy");
-						startDate = java.sql.Date.valueOf(LocalDate.parse(
-								date1, dateTimeFormatter));
+						dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+						startDate = java.sql.Date.valueOf(LocalDate.parse(date1, dateTimeFormatter));
 
-						System.out
-								.println("Enter end date: (in format:dd/mm/yyyy)");
+						System.out.println("Enter end date: (in format:dd/mm/yyyy)");
 						String date2 = scanner.next();
-						DateTimeFormatter dateTimeFormatter1 = DateTimeFormatter
-								.ofPattern("dd/MM/yyyy");
-						endDate = java.sql.Date.valueOf(LocalDate.parse(date2,
-								dateTimeFormatter1));
+						DateTimeFormatter dateTimeFormatter1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+						endDate = java.sql.Date.valueOf(LocalDate.parse(date2,dateTimeFormatter1));
 
-						list = bankService.viewAllTransactions(startDate,
+						allTransactions = bankService.viewAllTransactions(startDate,
 								endDate);
 						System.out
 								.println("Transaction Id Transaction Description  Date Of Transaction  Transaction Amount Account Number");
 						System.out
 								.println("----------------------------------------------------------------------------------------------");
-						for (TransactionDTO transactionDTO : list) {
+						for (TransactionDTO transactionDTO : allTransactions) {
 							System.out
 									.println(transactionDTO.getTransactionId()
 											+ "  	 	"
@@ -139,8 +135,7 @@ public class Admin {
 				break;
 
 			case 3:
-				System.exit(0);
-				break;
+				return;
 
 			default:
 				System.out.println("Please enter a valid option");

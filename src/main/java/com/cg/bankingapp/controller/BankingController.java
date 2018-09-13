@@ -340,7 +340,7 @@ public class BankingController {
 			userList = bankingService.getAllUser(user.getAccountId());
 			if (accno == -1) {
 				mv = new ModelAndView("fundTransferPage", "userList", userList);
-				mv.addObject("errmsg", "Please select a payee!!! ");
+				mv.addObject("errmsg", "Please select a payee! ");
 			} else {
 				if (bankingService.fundSub(user.getAccountId(), amt)) {
 
@@ -349,19 +349,19 @@ public class BankingController {
 					mv = new ModelAndView("fundTransferPage", "userList",
 							userList);
 					mv.addObject("flag", true);
-					mv.addObject("msg", "money transferred successfully!!!");
+					mv.addObject("msg", "Money transferred successfully!");
 
 				} else {
 					mv = new ModelAndView("fundTransferPage");
 					mv.addObject("errmsg",
-							"transfer amount should be less than available balance");
+							"Transfer amount should be less than available balance");
 
 				}
 			}
 		} catch (BankingException e) {
 			mv = new ModelAndView("fundTransferPage");
 			mv.addObject("errmsg",
-					"transfer amount should be less than available balance");
+					"Transfer amount should be less than available balance");
 
 		}
 		return mv;
@@ -391,19 +391,19 @@ public class BankingController {
 						mv = new ModelAndView("addPayee");
 						mv.addObject("flag", true);
 						mv.addObject("msg",
-								"payee has been added successfully!!!");
+								"Payee added successfully!");
 
 					}
 
 					else {
 						mv = new ModelAndView("addPayee");
-						mv.addObject("errmsg", "payee not added");
+						mv.addObject("errmsg", "Payee not added");
 
 					}
 				} else {
 					mv = new ModelAndView("addPayee");
 					mv.addObject("errmsg",
-							"No User available with this payee account Id");
+							"No User available with this Payee Account Id");
 
 				}
 			} else {
@@ -414,7 +414,7 @@ public class BankingController {
 
 			mv = new ModelAndView("addPayee");
 			mv.addObject("errmsg",
-					"No payee available with this payee account Id");
+					"No payee available with this Payee Account Id");
 		}
 		return mv;
 	}

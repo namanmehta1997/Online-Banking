@@ -22,11 +22,11 @@
 			<form action="fundTransfer.obj" method="post">
 				<table border="1">
 					<tr>
-						<td>Select a payee:</td>
+						<td>Select a Payee:</td>
 						<td><select name="accno">
 								<option value="-1">---SELECT---</option>
 								<c:forEach var="acc" items="${userList}">
-									<option value="${acc.payeeAccountId}">${acc.payeeAccountId}----${acc.payeeName}</option>
+									<option value="${acc.payeeAccountId}">${acc.payeeAccountId}--->${acc.payeeName}</option>
 								</c:forEach>
 						</select></td>
 						<td><a href="addPayee.obj">Add a Payee</a></td>
