@@ -15,7 +15,7 @@ import com.cg.onlinebanking.exceptions.BankingException;
 public class BankServiceImpl implements IBankService {
 	IBankDao dao;
 
-	public BankServiceImpl() {
+	public BankServiceImpl() throws BankingException {
 		dao = new BankDaoImpl();
 	}
 
@@ -83,7 +83,7 @@ public class BankServiceImpl implements IBankService {
 			errorMessage += "\nPlease enter only numbers!";
 
 		}
-		// validating email
+
 		mailId = customerDTO.getEmailId();
 		Pattern pattern = Pattern
 				.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
@@ -168,6 +168,13 @@ public class BankServiceImpl implements IBankService {
 	public String changePassword(String username, int accountId4,
 			String password1, String newPassword, String newPassword1)
 			throws BankingException {
+		Pattern passwordPattern = Pattern
+				.compile("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})");
+		Matcher passwordMatcher = passwordPattern.matcher(newPassword);
+		if(!passwordMatcher.matches()){
+			throw new BankingException("User Password should have min 6 and max 20 letters with at least one digit,small case, upper case and"
+					+ "special character!");
+		}
 		return dao.changePassword(username, accountId4, password1, newPassword,
 				newPassword1);
 	}

@@ -19,18 +19,27 @@ public class OnlineBankingMain {
 		String role1 = "admin";
 		String role2 = "user";
 		String username;
-		IBankService bankService = new BankServiceImpl();
+		IBankService bankService = null;
+		try {
+			bankService = new BankServiceImpl();
+		} catch (BankingException e) {
+			System.err.println("Can't connect to database!!! Please try again later");
+			scan.close();
+			return;
+		}
 
 		while (choice != 2) {
-			System.out.println("---------------------------------------------------");
-			System.out.println("|        Welcome to Banking System                |");
-			System.out.println("---------------------------------------------------");
+			System.out
+					.println("---------------------------------------------------");
+			System.out
+					.println("|        Welcome to Banking System                |");
+			System.out
+					.println("---------------------------------------------------");
 			System.out.print("1.Login\n2.Quit \n");
 			System.out.print("Enter your choice: ");
-			try{
+			try {
 				choice = scan.nextInt();
-			}
-			catch(InputMismatchException exception){
+			} catch (InputMismatchException exception) {
 				System.err.println("Please enter a valid choice");
 				OnlineBankingMain.main(args);
 			}
@@ -69,21 +78,22 @@ public class OnlineBankingMain {
 									.getAccountNumber(username);
 							System.err.println("Account Locked!!");
 							System.out.println("Forgot passsword?");
-							System.out.println("Enter your mother's maiden name: ");
+							System.out
+									.println("Enter your mother's maiden name: ");
 							String maidenName = scan.next();
 							String defaultPassword = bankService
 									.getDefaultPassword(username, accountId,
 											maidenName);
-							if(defaultPassword != null)
-							{
-								System.out.println("Your generated password is: "
-									+ defaultPassword);
+							if (defaultPassword != null) {
+								System.out
+										.println("Your generated password is: "
+												+ defaultPassword);
 								OnlineBankingMain.main(args);
-							}
-							else
-								System.err.println("Wrong answer to the Security Question!");
-								System.out.println("Exiting from the program...");
-								System.exit(0);
+							} else
+								System.err
+										.println("Wrong answer to the Security Question!");
+							System.out.println("Exiting from the program...");
+							System.exit(0);
 						} catch (BankingException bankingException) {
 							System.err.println(bankingException.getMessage()
 									+ ", Please try again");
