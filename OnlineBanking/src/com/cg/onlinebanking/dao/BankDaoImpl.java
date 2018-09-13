@@ -200,7 +200,6 @@ public class BankDaoImpl implements IBankDao {
 				role.setPosition(resultSet.getString(3));
 			}
 		} catch (SQLException sqlException) {
-			// log.error(e);
 			throw new BankingException("Unable To Fetch Records");
 		}
 		return role;
@@ -665,6 +664,9 @@ public class BankDaoImpl implements IBankDao {
 	@Override
 	public String fundTransfer(int accountId, int desAccountId, double amount)
 			throws BankingException {
+		if(accountId==desAccountId){
+			throw new BankingException("You can't transfer amount to yourself");
+		}
 		PreparedStatement preparedStatement = null;
 		PreparedStatement transStmt = null;
 		ResultSet resultSet = null;

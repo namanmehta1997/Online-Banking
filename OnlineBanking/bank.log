@@ -151,3 +151,38 @@
 2018-09-13 14:34:58 INFO  BankDaoImpl:606 - Obtained database connection
 2018-09-13 14:34:58 WARN  BankDaoImpl:609 - To know the status of request for checkbook
 2018-09-13 14:34:58 WARN  BankDaoImpl:645 - Service Id not found
+2018-09-13 14:49:36 INFO  BankDaoImpl:332 - Fetching acount number
+2018-09-13 14:49:36 WARN  BankDaoImpl:338 - Fetcing account number
+2018-09-13 14:49:36 INFO  BankDaoImpl:346 - account number successfully fetched
+2018-09-13 14:53:20 INFO  BankDaoImpl:332 - Fetching acount number
+2018-09-13 14:53:20 WARN  BankDaoImpl:338 - Fetcing account number
+2018-09-13 14:53:20 INFO  BankDaoImpl:346 - account number successfully fetched
+2018-09-13 14:53:20 INFO  BankDaoImpl:274 - Fetcing mini-statement of the account
+2018-09-13 14:53:20 INFO  BankDaoImpl:278 - Obtained database connection
+2018-09-13 14:53:20 WARN  BankDaoImpl:307 - Closing preparedStatement
+2018-09-13 14:53:20 INFO  BankDaoImpl:316 - Mini statement successfully fetched
+2018-09-13 14:53:22 INFO  BankDaoImpl:332 - Fetching acount number
+2018-09-13 14:53:22 WARN  BankDaoImpl:338 - Fetcing account number
+2018-09-13 14:53:22 INFO  BankDaoImpl:346 - account number successfully fetched
+2018-09-13 14:53:26 INFO  BankDaoImpl:371 - Obtained database connection
+2018-09-13 14:53:26 WARN  BankDaoImpl:375 - To view complete transactions of the account
+2018-09-13 14:53:26 WARN  BankDaoImpl:402 - Closing preparedStatement
+2018-09-13 14:53:30 INFO  BankDaoImpl:332 - Fetching acount number
+2018-09-13 14:53:30 WARN  BankDaoImpl:338 - Fetcing account number
+2018-09-13 14:53:30 INFO  BankDaoImpl:346 - account number successfully fetched
+2018-09-13 14:53:39 INFO  BankDaoImpl:371 - Obtained database connection
+2018-09-13 14:53:39 WARN  BankDaoImpl:375 - To view complete transactions of the account
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 INFO  BankDaoImpl:391 - Returning the list of transactions
+2018-09-13 14:53:39 WARN  BankDaoImpl:402 - Closing preparedStatement
