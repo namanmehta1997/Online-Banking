@@ -327,9 +327,9 @@ public class BankingController {
 			@RequestParam double amt) {
 
 		ModelAndView mv = null;
-
+		List<PayeeBean> userList = null;
 		try {
-			List<PayeeBean> userList = new ArrayList<PayeeBean>();
+			userList = new ArrayList<PayeeBean>();
 			userList = bankingService.getAllUser(user.getAccountId());
 			if (accno == -1) {
 				mv = new ModelAndView("fundTransferPage", "userList", userList);
@@ -337,7 +337,7 @@ public class BankingController {
 			} else {
 				if (bankingService.fundSub(user.getAccountId(), amt)) {
 
-					bankingService.fundTransfer(accno, amt);
+					bankingService.fundTransfer(user.getAccountId(),accno, amt);
 
 					mv = new ModelAndView("fundTransferPage", "userList",
 							userList);
@@ -354,11 +354,15 @@ public class BankingController {
 			}
 		} catch (BankingException e) {
 			mv = new ModelAndView("fundTransferPage");
-			if(e.getMessage().equals("block"))
+			if(e.getMessage().equals("block")){
 				mv.addObject("errmsg", "The payee account is blocked!");
-			else
+				mv.addObject("userList",userList);
+			}
+			else{
 				mv.addObject("errmsg",
 					"Transfer amount should be less than available balance");
+				mv.addObject("userList",userList);
+			}
 		}
 		return mv;
 	}

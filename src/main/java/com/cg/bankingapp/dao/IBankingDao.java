@@ -37,7 +37,7 @@ public interface IBankingDao {
 
 	public List<PayeeBean> getAllUser(int accountId) throws BankingException;
 
-	public boolean fundTransfer(int accno, double amount)
+	public boolean fundTransfer(int sourceAcNo,int destAcNo, double amount)
 			throws BankingException;
 
 	public boolean fundSub(int accountId, double amount)

@@ -189,7 +189,6 @@ public class BankingDaoImpl implements IBankingDao {
 		TypedQuery<PayeeBean> query = entityManager.createQuery(
 				"SELECT p FROM PayeeBean p WHERE p.accountId = :accno",
 				PayeeBean.class);
-
 		query.setParameter("accno", accountId);
 
 		return query.getResultList();
@@ -197,30 +196,40 @@ public class BankingDaoImpl implements IBankingDao {
 	}
 
 	@Override
-	public boolean fundTransfer(int accountId, double amount)
+	public boolean fundTransfer(int sourceAccountId,int destAccountId, double amount)
 			throws BankingException {
 
-		UserBean user = entityManager.find(UserBean.class, accountId);
-		if (user != null) {
-			user.setAmount(user.getAmount() + amount);
-
-			double availBalance = user.getAmount();
-
+		UserBean destUser = entityManager.find(UserBean.class, destAccountId);
+		UserBean sourceUser = entityManager.find(UserBean.class, sourceAccountId);
+		
+		if (destUser!=null && destUser.getAccStatus().equals("block"))
+			throw new BankingException("block");
+		if (destUser != null && sourceUser !=null) {
+			destUser.setAmount(destUser.getAmount() + amount);
+			double availBalance = destUser.getAmount();
 			Date date = new Date();
-			TransactionBean transaction = new TransactionBean();
-			transaction.setAccountNumber(accountId);
-			transaction.setDateOfTransaction(date);
-			transaction.setAmount(availBalance);
-			transaction.setTransactionAmount(amount);
-			transaction.setTransactionDescription("Credit");
-			transaction.setUsername(user.getUsername());
-
-			entityManager.persist(transaction);
+			TransactionBean destTransaction = new TransactionBean();
+			destTransaction.setAccountNumber(sourceAccountId);
+			destTransaction.setDateOfTransaction(date);
+			destTransaction.setAmount(availBalance);
+			destTransaction.setTransactionAmount(amount);
+			destTransaction.setTransactionDescription("Credit");
+			destTransaction.setUsername(destUser.getUsername());
+			entityManager.persist(destTransaction);
+			entityManager.flush();
+			TransactionBean sourceTransaction = new TransactionBean();
+			sourceTransaction.setAccountNumber(sourceUser.getAccountId());
+			sourceTransaction.setDateOfTransaction(date);
+			sourceUser.setAmount(sourceUser.getAmount()-amount);
+			sourceTransaction.setAmount(sourceUser.getAmount());
+			sourceTransaction.setTransactionAmount(amount);
+			sourceTransaction.setTransactionDescription("Debit");
+			sourceTransaction.setUsername(sourceUser.getUsername());
+			entityManager.persist(sourceTransaction);
 			entityManager.flush();
 			return true;
 		}
 		return false;
-
 	}
 
 	@Override
@@ -228,26 +237,12 @@ public class BankingDaoImpl implements IBankingDao {
 			throws BankingException {
 
 		UserBean user = entityManager.find(UserBean.class, accountId);
-		if (user!=null && user.getAccStatus() != "block")
-			throw new BankingException("block");
+		
 		if (user != null) {
 			double newBal = user.getAmount() - amount;
 			if (newBal < 1000)
 				return false;
 			else {
-
-				Date date = new Date();
-				TransactionBean transaction = new TransactionBean();
-				transaction.setAccountNumber(accountId);
-				transaction.setDateOfTransaction(date);
-				user.setAmount(newBal);
-				transaction.setAmount(user.getAmount());
-				transaction.setTransactionAmount(amount);
-				transaction.setTransactionDescription("Debit");
-				transaction.setUsername(user.getUsername());
-				user.setAmount(newBal);
-				entityManager.persist(transaction);
-				entityManager.flush();
 				return true;
 			}
 		}

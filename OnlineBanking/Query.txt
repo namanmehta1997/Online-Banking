@@ -1,0 +1,49 @@
+CREATE TABLE Role(
+	username VARCHAR(20) PRIMARY KEY,
+	password VARCHAR(20) NOT NULL,
+	position VARCHAR(20) NOT NULL
+);
+
+INSERT INTO Role VALUES('admin','admin-123','admin');
+
+
+CREATE TABLE serviceRequest(Service_ID NUMBER,
+Service_Description VARCHAR2(100),
+Account_ID NUMBER, 
+Service_Raised_Date DATE ,
+Service_status VARCHAR2(20));
+
+CREATE SEQUENCE serviceIdSequence
+start with 1
+increment by 1;
+
+CREATE TABLE Customer(
+username VARCHAR2(20),
+ password VARCHAR2(20), 
+customerName VARCHAR2(20),
+ email VARCHAR2(20),
+ address VARCHAR2(20), 
+phoneNo NUMBER, 
+panNumber VARCHAR2(20), 
+accountNumber NUMBER,
+accountBalance NUMBER(10,2),
+secretAnswer VARCHAR2(12));
+
+CREATE SEQUENCE accountSequence
+start with 1001
+increment by 1;
+
+CREATE TABLE Transactions(
+transactionId NUMBER,
+ transactionDescription VARCHAR2(20), 
+dateOfTransaction DATE,
+ transactionAmount NUMBER(10,2),
+ accountNumber NUMBER);
+
+CREATE SEQUENCE transactionSequence
+start with 100
+increment by 1;
+
+CREATE TABLE Payee(accountNumber NUMBER, 
+payeeAccountNumber NUMBER,
+payeeNickName VARCHAR2(30) );

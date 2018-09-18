@@ -99,10 +99,10 @@ public class BankingServiceImpl implements IBankingService {
 	}
 
 	@Override
-	public boolean fundTransfer(int accno, double amount)
+	public boolean fundTransfer(int sourceAcNo, int destAcNo, double amount)
 			throws BankingException {
 		// TODO Auto-generated method stub
-		return dao.fundTransfer(accno, amount);
+		return dao.fundTransfer(sourceAcNo,destAcNo, amount);
 	}
 
 	@Override
