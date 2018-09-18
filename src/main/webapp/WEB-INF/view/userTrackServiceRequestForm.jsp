@@ -36,25 +36,27 @@
 		</table>
 	</form>
 	<c:if test="${flag eq 2}">
+	 <c:forEach items="${serviceList}" var="serviceList">
 		<h2>Requested Service details are:</h2>
 		<table border="1">
 			<tr>
 				<td>Service Request ID:</td>
-				<td>${serviceBean.serviceId }</td>
+				<td>${serviceList.serviceId }</td>
 			</tr>
 			<tr>
 				<td>Service Request Description: </td>
-				<td>${serviceBean.serviceDescription }</td>
+				<td>${serviceList.serviceDescription }</td>
 			</tr>
 			<tr>
 				<td>Service Request Raised date: </td>
-				<td>${serviceBean.serviceRaisedDate}</td>
+				<td>${serviceList.serviceRaisedDate}</td>
 			</tr>
 			<tr>
 				<td>Service Request Status: </td>
-				<td>${serviceBean.serviceStatus}</td>
+				<td>${serviceList.serviceStatus}</td>
 			</tr>
 		</table>
+	 </c:forEach>
 	</c:if>
 	<span style="color:red;font-size:30px;">${errmsg}</span>
 

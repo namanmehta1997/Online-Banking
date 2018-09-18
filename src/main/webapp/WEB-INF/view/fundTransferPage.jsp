@@ -21,6 +21,18 @@
 		<div>
 			<form action="fundTransfer.obj" method="post">
 				<table border="1">
+				<!-- -------------------------------------------------------------- -->
+					<%-- <tr>
+						<td>Select your account:</td>
+						<td><select name="acctype">
+								<option value="-1">---SELECT---</option>
+								<c:forEach var="acc" items="${userList}">
+									<option value="${acc.payeeAccountType}">${acc.payeeAccountType}</option>
+								</c:forEach>
+						</select></td>
+						<td><a href="selectAccType.obj">Select Account</a></td>
+					</tr> --%>
+					<!-- -------------------------------------------------------------- -->
 					<tr>
 						<td>Select a Payee:</td>
 						<td><select name="accno">

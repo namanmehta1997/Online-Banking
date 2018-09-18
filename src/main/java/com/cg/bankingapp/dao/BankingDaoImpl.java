@@ -1,5 +1,6 @@
 package com.cg.bankingapp.dao;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -130,14 +131,13 @@ public class BankingDaoImpl implements IBankingDao {
 				ServiceRequestBean.class);
 		query.setParameter("accno", accountId2);
 		List<ServiceRequestBean> serviceRequest = query.getResultList();
-		if (serviceRequest.size() != 0) {
-			if (serviceRequest.get(0).getAccountId() == accountId1)
-				return serviceRequest.get(0);
-
-			else
-				return null;
-		} else
-			return null;
+		List<ServiceRequestBean> serviceList = new ArrayList<ServiceRequestBean>();
+		for(ServiceRequestBean serRequestBean : serviceRequest){
+			if(serRequestBean.getAccountId() == accountId1){
+				serviceList.add(serRequestBean);
+			}
+		}
+		return serviceList;
 	}
 
 	@Override
@@ -213,6 +213,7 @@ public class BankingDaoImpl implements IBankingDao {
 			transaction.setAmount(availBalance);
 			transaction.setTransactionAmount(amount);
 			transaction.setTransactionDescription("Credit");
+			transaction.setUsername(user.getUsername());
 
 			entityManager.persist(transaction);
 			entityManager.flush();
@@ -227,11 +228,11 @@ public class BankingDaoImpl implements IBankingDao {
 			throws BankingException {
 
 		UserBean user = entityManager.find(UserBean.class, accountId);
-
+		if (user!=null && user.getAccStatus() != "block")
+			throw new BankingException("block");
 		if (user != null) {
-			user.setAmount(user.getAmount() - amount);
-			double availBalance = user.getAmount();
-			if (availBalance < amount)
+			double newBal = user.getAmount() - amount;
+			if (newBal < 1000)
 				return false;
 			else {
 
@@ -239,10 +240,12 @@ public class BankingDaoImpl implements IBankingDao {
 				TransactionBean transaction = new TransactionBean();
 				transaction.setAccountNumber(accountId);
 				transaction.setDateOfTransaction(date);
-				transaction.setAmount(availBalance);
+				user.setAmount(newBal);
+				transaction.setAmount(user.getAmount());
 				transaction.setTransactionAmount(amount);
 				transaction.setTransactionDescription("Debit");
-
+				transaction.setUsername(user.getUsername());
+				user.setAmount(newBal);
 				entityManager.persist(transaction);
 				entityManager.flush();
 				return true;
@@ -389,7 +392,6 @@ public class BankingDaoImpl implements IBankingDao {
 	public boolean checkSecurity(String ans, String username)
 			throws BankingException {
 		ans = ans.trim();
-		System.out.println(username);
 		TypedQuery<UserBean> query = entityManager.createQuery(
 				"SELECT user FROM"
 						+ " UserBean user WHERE user.username=:username",

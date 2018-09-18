@@ -52,7 +52,7 @@ public interface IBankingService {
 	
 	public List<TransactionBean> getAllTransactions(String startDate1,String endDate1) throws BankingException;
 
-	public ServiceRequestBean checkServiceExistAcc(int accountId1, int accountId2) throws BankingException;
+	public List<ServiceRequestBean> checkServiceExistAcc(int accountId1, int accountId2) throws BankingException;
 	
 
 	public boolean checkSecurity(String ans, String username) throws BankingException;

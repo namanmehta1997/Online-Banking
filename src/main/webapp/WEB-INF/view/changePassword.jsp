@@ -22,6 +22,9 @@
 			<table align="center">
 
 			<tr>
+				<td><input type="hidden" name="username" value="${newUser.username}" required/></td>
+			</tr>
+			<tr>
 				<td><b>Enter Old Password</b>:</td>
 				<td><input type="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required/></td>
 				<form:errors path="password" cssStyle="color:red"></form:errors>

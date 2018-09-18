@@ -254,7 +254,7 @@ public class BankingController {
 	@RequestMapping("/userChangePassword")
 	public ModelAndView changePasswordPage() {
 		UserBean newUser = new UserBean();
-
+		newUser.setUsername(user.getUsername());
 		return new ModelAndView("changePassword", "newUser", newUser);
 
 	}
@@ -264,50 +264,43 @@ public class BankingController {
 			@RequestParam String newPassword1,
 			@RequestParam String newPassword2, @RequestParam String username) {
 		ModelAndView mv = null;
-		try {
-			if (user == null || user.getPassword() == null) {
-				if (newPassword1.equals(newPassword2)) {
-					boolean flag = bankingService.changePasswordByUsername(
-							newPassword2, username);
-					if (flag) {
-						mv = new ModelAndView("LoginUserForm", "user",
-								new UserBean());
-						mv.addObject("password", true);
-						return mv;
-					}
-				} else {
-					mv = new ModelAndView("changeForgotPassword");
-					mv.addObject("errmsg", "Passwords did not match!!!");
+		if (user == null || user.getPassword() == null) {
+			if (newPassword1.equals(newPassword2)) {
+				boolean flag = bankingService.changePasswordByUsername(
+						newPassword2, username);
+				if (flag) {
+					mv = new ModelAndView("LoginUserForm", "user",
+							new UserBean());
+					mv.addObject("password", true);
 					return mv;
 				}
+			} else {
+				mv = new ModelAndView("changeForgotPassword");
+				mv.addObject("errmsg", "Passwords did not match!!!");
+				return mv;
 			}
-			if (user.getPassword().equals(password)) {
-				if (newPassword1.equals(newPassword2)) {
-					boolean flag = bankingService.changePassword(newPassword1,
-							user.getAccountId());
-					if (flag) {
-						mv = new ModelAndView("changePassword");
+		}
+		if (user.getPassword().equals(password)) {
+			if (newPassword1.equals(newPassword2)) {
+				boolean flag = bankingService.changePasswordByUsername(newPassword2, username);
+				if (flag) {
+					mv = new ModelAndView("changePassword");
 
-						mv.addObject("flag", true);
+					mv.addObject("flag", true);
 
-					} else {
-						mv = new ModelAndView("changePassword");
-						mv.addObject("errmsg",
-								"New password should be different!!!");
-					}
 				} else {
 					mv = new ModelAndView("changePassword");
-					mv.addObject("errmsg", "Passwords did not match!!!");
+					mv.addObject("errmsg",
+							"New password should be different!!!");
 				}
 			} else {
 				mv = new ModelAndView("changePassword");
-				mv.addObject("errmsg",
-						"Old Password is not correct,Please try again!!!");
+				mv.addObject("errmsg", "Passwords did not match!!!");
 			}
-		} catch (BankingException e) {
+		} else {
 			mv = new ModelAndView("changePassword");
-			mv.addObject("errmsg", "Password didn't change,Please try again!!!");
-
+			mv.addObject("errmsg",
+					"Old Password is not correct,Please try again!!!");
 		}
 
 		return mv;
@@ -352,7 +345,8 @@ public class BankingController {
 					mv.addObject("msg", "Money transferred successfully!");
 
 				} else {
-					mv = new ModelAndView("fundTransferPage");
+					mv = new ModelAndView("fundTransferPage", "userList",
+							userList);
 					mv.addObject("errmsg",
 							"Transfer amount should be less than available balance");
 
@@ -360,9 +354,11 @@ public class BankingController {
 			}
 		} catch (BankingException e) {
 			mv = new ModelAndView("fundTransferPage");
-			mv.addObject("errmsg",
+			if(e.getMessage().equals("block"))
+				mv.addObject("errmsg", "The payee account is blocked!");
+			else
+				mv.addObject("errmsg",
 					"Transfer amount should be less than available balance");
-
 		}
 		return mv;
 	}
@@ -524,14 +520,14 @@ public class BankingController {
 				}
 			} else if (serviceIdstr.isEmpty() == true) {
 				int accountId = Integer.parseInt(accountIdstr);
-				ServiceRequestBean serviceBean = bankingService
+				List<ServiceRequestBean> serviceList = bankingService
 						.checkServiceExistAcc(user.getAccountId(), accountId);
 
-				if (serviceBean != null) {
-
+				if (!serviceList.isEmpty()) {
+					
 					mv = new ModelAndView("userTrackServiceRequestForm");
 					mv.addObject("flag", "2");
-					mv.addObject("serviceBean", serviceBean);
+					mv.addObject("serviceList", serviceList);
 
 				} else {
 
@@ -603,7 +599,6 @@ public class BankingController {
 		try {
 			if (!result.hasErrors()) {
 				newUser.setAccStatus("active");
-				System.out.println("Account status active!");
 				int accId = bankingService.addUser(newUser);
 				if (accId != -1 && accId != 0) {
 					mv = new ModelAndView("createNewAccountForm", "newUser",

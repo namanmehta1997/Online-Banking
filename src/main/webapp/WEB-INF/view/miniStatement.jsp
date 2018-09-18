@@ -48,7 +48,6 @@
 				<th>Transaction Description</th>
 				<th>Date of transaction</th>
 				<th>Transaction Amount</th>
-				<th>Account Number</th>
 				<th>Available Balance</th>
 			</tr>
 			<c:forEach items="${transactionList}" var="list">
@@ -58,7 +57,6 @@
 					<td>${list.transactionDescription}</td>
 					<td>${list.dateOfTransaction}</td>
 					<td>${list.transactionAmount}</td>
-					<td>${list.accountNumber}</td>
 					<td>${list.amount}</td>
 				</tr>
 			</c:forEach>

@@ -79,7 +79,7 @@ public class BankingServiceImpl implements IBankingService {
 	}
 	
 	@Override
-	public ServiceRequestBean checkServiceExistAcc(int accountId1, int accountId2) 
+	public List<ServiceRequestBean> checkServiceExistAcc(int accountId1, int accountId2) 
 			throws BankingException {
 		return dao.checkServiceExistAcc(accountId1, accountId2);
 	}
