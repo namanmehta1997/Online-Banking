@@ -505,15 +505,18 @@ public class BankingController {
 		try {
 
 			if (serviceIdstr.isEmpty() == false) {
+				System.out.println(serviceIdstr);
+				System.out.println(user.getAccountId());
 				int serviceId = Integer.parseInt(serviceIdstr);
 				ServiceRequestBean serviceBean = bankingService
 						.checkServiceExist(user.getAccountId(), serviceId);
 
 				if (serviceBean != null) {
-
 					mv = new ModelAndView("userTrackServiceRequestForm");
 					mv.addObject("flag", "2");
-					mv.addObject("serviceBean", serviceBean);
+					List<ServiceRequestBean> serviceList = new ArrayList<ServiceRequestBean>();
+					serviceList.add(serviceBean);
+					mv.addObject("serviceList", serviceList);
 
 				} else {
 
