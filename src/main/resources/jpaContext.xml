@@ -7,7 +7,6 @@
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
 
-	<context:annotation-config />
 	<context:component-scan base-package="com.cg.bankingapp" />
 
 	<!-- This bean is required to load ORM persistence and related annotations -->

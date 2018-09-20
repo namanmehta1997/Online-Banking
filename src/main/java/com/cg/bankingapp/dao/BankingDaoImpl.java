@@ -1,5 +1,6 @@
 package com.cg.bankingapp.dao;
 
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -8,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.cg.bankingapp.entities.AdminBean;
@@ -19,6 +21,7 @@ import com.cg.bankingapp.exception.BankingException;
 
 @Repository
 public class BankingDaoImpl implements IBankingDao {
+	private final Logger LOGGER = Logger.getLogger(BankingDaoImpl.class);
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -34,6 +37,7 @@ public class BankingDaoImpl implements IBankingDao {
 		List<UserBean> list = query.getResultList();
 
 		if (!list.isEmpty() && list.get(0).getPassword().equals(password)) {
+			LOGGER.info("User credentials checked successfully");
 			return list.get(0);
 		}
 		return null;
@@ -49,6 +53,7 @@ public class BankingDaoImpl implements IBankingDao {
 						TransactionBean.class);
 		query.setParameter("username", username);
 		query = query.setMaxResults(10);
+		LOGGER.info("Mini statement printed successfully");
 
 		return query.getResultList();
 	}
@@ -69,6 +74,7 @@ public class BankingDaoImpl implements IBankingDao {
 		query.setParameter("accno", accountId);
 		query.setParameter("start", startDate);
 		query.setParameter("end", endDate);
+		LOGGER.info("Detailed statement printed successfully");
 		return query.getResultList();
 
 	}
@@ -82,8 +88,11 @@ public class BankingDaoImpl implements IBankingDao {
 				ServiceRequestBean.class);
 		query.setParameter("accno", accountNumber);
 		ServiceRequestBean serviceRequest = query.getSingleResult();
-		if (serviceRequest != null)
+		if (serviceRequest != null){
+			
+			LOGGER.info("Check book status accepted successfully");
 			return serviceRequest.getServiceStatus();
+		}
 		else
 			return null;
 
@@ -102,6 +111,7 @@ public class BankingDaoImpl implements IBankingDao {
 		serviceRequest.setServiceDescription(serviceDescription);
 		serviceRequest.setServiceStatus("open");
 		entityManager.merge(serviceRequest);
+		LOGGER.info("Check book status raised successfully");
 
 		return serviceRequest.getServiceId();
 
@@ -115,6 +125,7 @@ public class BankingDaoImpl implements IBankingDao {
 				.find(ServiceRequestBean.class, serviceId);
 		if (serviceRequest != null) {
 			if (accountId == serviceRequest.getAccountId()) {
+				LOGGER.info("Service request checked successfully");
 				return entityManager.find(ServiceRequestBean.class, serviceId);
 			} else {
 				return null;
@@ -134,9 +145,11 @@ public class BankingDaoImpl implements IBankingDao {
 		List<ServiceRequestBean> serviceList = new ArrayList<ServiceRequestBean>();
 		for(ServiceRequestBean serRequestBean : serviceRequest){
 			if(serRequestBean.getAccountId() == accountId1){
+				
 				serviceList.add(serRequestBean);
 			}
 		}
+		LOGGER.info("Service request existance checked successfully");
 		return serviceList;
 	}
 
@@ -148,8 +161,11 @@ public class BankingDaoImpl implements IBankingDao {
 		user.setAddress(address);
 		user.setPhoneNo(phoneNo);
 		entityManager.merge(user);
-		if (entityManager.merge(user) != null)
+		if (entityManager.merge(user) != null){
+			
+			LOGGER.info("User details changed successfully");
 			return user;
+		}
 		else
 			return null;
 
@@ -163,6 +179,7 @@ public class BankingDaoImpl implements IBankingDao {
 		if (user != null && !user.getPassword().equals(password)) {
 			user.setPassword(password);
 			entityManager.merge(user);
+			LOGGER.info("Password changed successfully");
 			return true;
 		}
 		return false;
@@ -195,7 +212,7 @@ public class BankingDaoImpl implements IBankingDao {
 				"SELECT p FROM PayeeBean p WHERE p.accountId = :accno",
 				PayeeBean.class);
 		query.setParameter("accno", accountId);
-
+		LOGGER.info("User details received successfully");
 		return query.getResultList();
 
 	}
@@ -203,12 +220,16 @@ public class BankingDaoImpl implements IBankingDao {
 	@Override
 	public boolean fundTransfer(int sourceAccountId,int destAccountId, double amount)
 			throws BankingException {
+		
 
 		UserBean destUser = entityManager.find(UserBean.class, destAccountId);
 		UserBean sourceUser = entityManager.find(UserBean.class, sourceAccountId);
 		
-		if (destUser!=null && destUser.getAccStatus().equals("block"))
+		if (destUser!=null && destUser.getAccStatus().equals("block")){
+			LOGGER.error("Transaction failed as payee account is blocked");	
 			throw new BankingException("block");
+			
+		}
 		if (destUser != null && sourceUser !=null) {
 			destUser.setAmount(destUser.getAmount() + amount);
 			double availBalance = destUser.getAmount();
@@ -232,6 +253,7 @@ public class BankingDaoImpl implements IBankingDao {
 			sourceTransaction.setUsername(sourceUser.getUsername());
 			entityManager.persist(sourceTransaction);
 			entityManager.flush();
+			LOGGER.info("Transaction successfully added into the database ");
 			return true;
 		}
 		return false;
@@ -248,6 +270,7 @@ public class BankingDaoImpl implements IBankingDao {
 			if (newBal < 1000)
 				return false;
 			else {
+				LOGGER.info("User account balance checked successfully");
 				return true;
 			}
 		}
@@ -259,6 +282,7 @@ public class BankingDaoImpl implements IBankingDao {
 
 		entityManager.persist(payee);
 		entityManager.flush();
+		LOGGER.info("Payee added  successfully");
 		return true;
 
 	}
@@ -278,6 +302,7 @@ public class BankingDaoImpl implements IBankingDao {
 
 			List<PayeeBean> list = query.getResultList();
 			if (list.isEmpty()) {
+				LOGGER.info("Payee checked successfully");
 				return true;
 			}
 		}
@@ -293,6 +318,7 @@ public class BankingDaoImpl implements IBankingDao {
 		AdminBean admin1 = entityManager.find(AdminBean.class,
 				admin.getUsername());
 		if (admin1 != null && admin1.getPassword().equals(admin.getPassword())) {
+			LOGGER.info("Admin credentials checked successfully");
 			return true;
 		}
 		return false;
@@ -325,6 +351,7 @@ public class BankingDaoImpl implements IBankingDao {
 			if(flag){
 				entityManager.persist(user);
 				entityManager.flush();
+				
 			}
 			else{
 				return -1;
@@ -350,6 +377,7 @@ public class BankingDaoImpl implements IBankingDao {
 		serv.setServiceStatus("not issued");
 		entityManager.persist(serv);
 		entityManager.flush();
+		LOGGER.info("User added successfully");
 
 		return user.getAccountId();
 	}
@@ -368,6 +396,7 @@ public class BankingDaoImpl implements IBankingDao {
 						TransactionBean.class);
 		query.setParameter("start", startDate1);
 		query.setParameter("end", endDate1);
+		LOGGER.info("All transactions retrieved successfully");
 		return query.getResultList();
 
 	}
@@ -402,6 +431,7 @@ public class BankingDaoImpl implements IBankingDao {
 
 		for (UserBean user : users) {
 			if (user.getSecurityAns().equalsIgnoreCase(ans)) {
+				LOGGER.info("Security answer checked successfully");
 				return true;
 			}
 		}
@@ -420,6 +450,7 @@ public class BankingDaoImpl implements IBankingDao {
 		for (UserBean user : users) {
 			user.setPassword(newPassword2);
 			entityManager.flush();
+			LOGGER.info("Password changed by user successfully");
 		}
 		return true;
 	}
