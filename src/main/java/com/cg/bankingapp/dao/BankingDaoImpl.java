@@ -176,11 +176,16 @@ public class BankingDaoImpl implements IBankingDao {
 				"AUG", "SEP", "OCT", "NOV", "DEC" };
 
 		String year = date.substring(2, 4);
+		try{
+			int mon = Integer.parseInt(date.substring(5, 7));
+			String mm = month[mon - 1];
+			String day = date.substring(8, 10);
+			finalDate = day + '-' + mm + '-' + year;
+		}
+		catch(Exception exception){
+			throw new BankingException("Enter correct value");
+		}
 
-		int mon = Integer.parseInt(date.substring(5, 7));
-		String mm = month[mon - 1];
-		String day = date.substring(8, 10);
-		finalDate = day + '-' + mm + '-' + year;
 		return finalDate;
 	}
 
@@ -209,7 +214,7 @@ public class BankingDaoImpl implements IBankingDao {
 			double availBalance = destUser.getAmount();
 			Date date = new Date();
 			TransactionBean destTransaction = new TransactionBean();
-			destTransaction.setAccountNumber(sourceAccountId);
+			destTransaction.setAccountNumber(destAccountId);
 			destTransaction.setDateOfTransaction(date);
 			destTransaction.setAmount(availBalance);
 			destTransaction.setTransactionAmount(amount);
@@ -280,9 +285,7 @@ public class BankingDaoImpl implements IBankingDao {
 
 	}
 
-	/*************************************
-	 * admin dao implementation
-	 *****************************************/
+
 	@Override
 	public boolean checkAdminCredentials(AdminBean admin)
 			throws BankingException {

@@ -90,7 +90,7 @@
 	<center><span style="color:red;font-size:30px;">${errmsg}</span></center>
 	<c:if test="${flag eq true}">
 		<center>
-			<h3>Your account has been created. Your account id is ${accId}</h3>
+			<h3 style="color:blue">Your account has been created. Your account id is ${accId}</h3>
 		</center>
 	</c:if>
 </body>

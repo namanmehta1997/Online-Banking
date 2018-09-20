@@ -331,9 +331,12 @@ public class BankingController {
 		try {
 			userList = new ArrayList<PayeeBean>();
 			userList = bankingService.getAllUser(user.getAccountId());
-			if (accno == -1) {
+			if (accno == -1 || amt == 0) {
 				mv = new ModelAndView("fundTransferPage", "userList", userList);
-				mv.addObject("errmsg", "Please select a payee! ");
+				if(amt!=0)
+					mv.addObject("errmsg", "Please select a payee! ");
+				else
+					mv.addObject("errmsg", "Amount can't be Zero!");
 			} else {
 				if (bankingService.fundSub(user.getAccountId(), amt)) {
 
@@ -348,7 +351,7 @@ public class BankingController {
 					mv = new ModelAndView("fundTransferPage", "userList",
 							userList);
 					mv.addObject("errmsg",
-							"Transfer amount should be less than available balance");
+							"Minimum Balance in the account should be One Thousand.");
 
 				}
 			}
@@ -360,7 +363,7 @@ public class BankingController {
 			}
 			else{
 				mv.addObject("errmsg",
-					"Transfer amount should be less than available balance");
+					"Something went wrong");
 				mv.addObject("userList",userList);
 			}
 		}
@@ -629,6 +632,7 @@ public class BankingController {
 							"Username already exist!!! Please provide correct info or take another username");
 				}
 				else if(accId == 0){
+					mv = new ModelAndView("createNewAccountForm", "newUser",newUser);
 					typeList = new ArrayList<String>();
 					typeList.add("Savings Account");
 					typeList.add("Current Account");

@@ -86,7 +86,7 @@
 	</form:form>
 	<center><span style="color:red;font-size:30px;">${errmsg}</span></center>
 	<c:if test="${flag eq true}">
-		<center><h2>Address and Mobile number updated successfully!!!</h2></center>
+		<center><h2 style="color:green">Address and Mobile number updated successfully!!!</h2></center>
 	</c:if>
 	</center>
 </body>

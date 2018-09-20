@@ -13,7 +13,7 @@
 <a id="logout" title="Logout" href="LoginUserForm.obj"><img src="<c:url value="/resources/images/logout.png" />"/></a> 	
 	<hr>
 	
-		<a href="userViewMiniStatement.obj" class="user">Mini Statement</a><br><br>
+		<a href="userViewMiniStatement.obj" class="user">Mini/Detailed Statement</a><br><br>
 		<a href="userChangeDetails.obj" class="user">Change Address/Phone Number</a><br><br>
 		<a href="userRequestChequeBook.obj" class="user">Request Cheque Book</a><br><br>
 		<a href="userTrackServiceRequestForm.obj" class="user">Track Service Request</a><br><br>
