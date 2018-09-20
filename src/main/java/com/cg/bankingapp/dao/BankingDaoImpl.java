@@ -374,15 +374,18 @@ public class BankingDaoImpl implements IBankingDao {
 
 	@Override
 	public boolean blockUser(String username) throws BankingException {
+		System.out.println("Block");
 		TypedQuery<UserBean> query = entityManager.createQuery(
 				"SELECT user FROM UserBean user WHERE user.username=:username",
 				UserBean.class);
+		System.out.println("Block");
 		query.setParameter("username", username);
 		List<UserBean> users = query.getResultList();
 		for (UserBean user : users) {
 			user.setAccStatus("block");
 			entityManager.flush();
 		}
+		System.out.println("Block");
 		return true;
 	}
 

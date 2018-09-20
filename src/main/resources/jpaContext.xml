@@ -35,7 +35,6 @@
 			<map>
 				<entry key="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect" />
 				<entry key="hibernate.hbm2ddl.auto" value="update" />
-				<!-- <entry key="hibernate.show_sql" value="true" /> -->
 			</map>
 		</property>
 	</bean>
@@ -49,7 +48,6 @@
 
 	<!-- This is required to handle transactions via Annotations like @Transactional -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
-
 	<!-- <jpa:repositories base-package="com.cg.mvc.dao" entity-manager-factory-ref="entityManagerFactory" 
 		transaction-manager-ref="transactionManager"/> -->
 

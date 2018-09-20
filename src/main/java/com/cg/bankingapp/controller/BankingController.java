@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +29,6 @@ import com.cg.bankingapp.service.IBankingService;
 public class BankingController {
 
 	ArrayList<String> typeList;
-
 	@Autowired
 	IBankingService bankingService;
 
