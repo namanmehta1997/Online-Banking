@@ -1,0 +1,31 @@
+Prototype Inheritance......
+
+JS has no class implementation, it may has included the class keyword in ES6 but its not the same.
+In JS you directly create the constructor and create object from it.
+Every function has a property called prototype.
+
+eg:
+  
+//baseclass
+var Job = function(){
+    this.pays = true;
+};
+
+//prototype method
+Job.prototype.print = function(){
+    console.log(this.page: 'Please' : 'Thank You');
+};
+
+//subclass
+var TechJob = function(title,pays){
+    Job.call(this);  //make it the parent class
+    
+    this.title = 'title';
+    this.pays  =  'pays';
+};
+
+TechJob.prototype = Object.create(Job.prototype); //to inherit the prototype property of parent class
+TechJob.prototype.constructor = TechJob; //set a constructor for subclass
+
+
+In the prototype inheritance chain if the sub class is having the same protype property than it will be executed from the prototype property of sub-class and it wont go to the parent.
