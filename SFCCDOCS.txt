@@ -1,0 +1,101 @@
+DATA CENTER---CONTAINS---POD---REALM
+			            CONTAINS--PIG & SIG
+
+PIG  ***dEVELOPMENT***   		 ***sTAGING***  			
+
+     developer use this 	 use this for configuration, data   	      
+     instance to test 	        enrichment,data import and upload             
+     processes without 		  code to prepare for testing in       	     
+     impacting the      	 Decelopment instance. data         	         production storefront	 replication from staging to dev
+					 or production.      									
+        ***pRODUCTION***
+      
+	this is the live
+	instance used as 
+	the actual ecommerce
+	storefront.
+
+
+SIG --             ***sANDBOXES***
+
+        every realm has 5 sandboxes but can accomodate more,
+        not as good in performance and storage as PIGs
+        used to develop and test code.
+
+
+pLATFORM TOOLS:   **BUSINESS MANAGER**
+               
+               used for administrative tasks by merchants and 
+               developers.
+
+
+			****CONTROLLERS:****
+
+	   controllers are server-side scripts to handle the storefront requests. Controllers provide the flow to the application and create instances of models and view to proceess the each dtorefront request and provide the appropriate response.
+
+Controllers are written in javascript and Salesforce b2C Commercw script.
+ 2 type of controllers SFRA and SGJC
+
+use require for better performance
+
+not to do:
+Call other controllers, not recommended coz controller functionality is self contained to avoid circullar dependencies.
+
+calling pipelets within a controller coz still there are pipelets that dont have equivalent B2C Commerce scrip methods.
+       
+
+*****sECURE REQUESTS:******
+
+coontroller function is only called if it has a public propert set as 'true'.
+example:
+	exports.World = function() {};
+`	exports.World.public = true;
+
+*****GAURDS:*****
+
+For controllers Sitegensis brought gaurd to wrap the controller functions when they are exported.
+act as filter, by allow certain access like;
+
+  require HTTPS
+  require or forbid a certain HTTP request method like GET,POST
+  require current costumer to be logged in
+  require that the func. might only be executed as remote imclude and not as     any other top level request.
+
+example:
+	exports.StartCheckout = guard.ensure(['get'], startCheckout);
+   exports.EditProfile = guard.ensure(['get','https','loggedIn'],editProfile);
+
+
+*****Global VAriables:*****
+
+Controllers do not have access to pdict, but they do have access to global variables, via top
+ level package Global class.
+
+VAriable -- Type                        DesCription
+
+customer -- dw.customer.Customer     The current customer
+
+request  -- dw.system.Request        the current HTTP request
+                                  var httpUserAgent = request.httpUserAgent;
+
+response -- dw.system.Response      the current HTTP response 
+                  response.redirect(dw.web.URLUtils.http('Account-Show'));
+
+session  -- dw.system.Session       the current session
+                 exports.onSession = function(){
+                     session.custom.device = getDeviceType();
+                     return new Status(Status.OK);};
+
+
+*****REquest pARAMETER AND pAGE mETA dATA
+
+Expression                    Type                  Description
+
+request.httpParameterMap  dw.web.HttpParameterMap  The replacement for the
+                                                   CurrentHttpParameterMap
+                                                   variable in the pdict
+
+request.pageMetaData      dw.web.PageMetaData      The replacement for the 
+                                                   CurrentPageMetaData 
+                                                   variable in the pdict.
+	
