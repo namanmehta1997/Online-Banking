@@ -1,0 +1,46 @@
+1.	how developer import the manually created catalog from original developer – developer will be in same realm. – global export..show in admin site imp/exp…dev 2 selects and import…confirmation, ok….
+2.	3 things u can do with content import n export - content slot, content asset, folders, product n static images? content asset, folders, product n static images
+3.	how to export the site catalog only not master catalog in BM catlog impex or site impex? Choose the site catalog > export specific or entire catalog. Two options to do ..admin > export the site catalog as global or not global ….or product & catalog > impex > export to local desktop,.and upload and import into another machine…
+4.	3 things u need to set a server connection, username, pass, hostname? Host, BM username, BM password
+5.	logger for debug (dw.system.Logger.getLogger("profile").debug("asdfsf {0}",http.statuscode)
+6.	logger to print status code http.statuscode..
+7.	discover credit card disable for particular site – choose the site Ordering > payment methods > CC > enabled = No..then repeat as neeed for other stores.
+8.	multiple site lang de resources which directory – template/resources
+9.	what 4 sequences to do when you add custom attributes searchable. incremental index, wait, add searhch attribu, reindex…..1) crest system object 2) add searchable attributes 3) rebuilding or reindex > wait for incremental >
+10.	which is two efficient method - Productsearchmodel.xxx ProductsearchHits.xxx ? or category.getproducts, productmgt.getqueryallprducts? Productsearchmodel.xxx ProductsearchHits
+11.	content link function to include the content from other template ----url, httpurl - $include()$
+12.	http form for REST API web service with encoded? – HTTP form
+13.	wich protocal to be used for external - soap/web dav/xxx – SOAP/REST or FTP/SFTP
+14.	order payments or site preference for payment related questions – ordering section
+15.	wants to change the content slot - instead of static content, needs to dusplay the top 5 sellable..what two things u do,  recommendations drop down and rendering template? Recommendation from drop down , recommender and rendering template
+16.	OCAPI url .com and .net - .net
+17.	read the product and process from iphone ..how you do - ocapi , web service, web dav, etc - OCAPI
+18.	resource bundle filename for de under which path - default/resources or templates/resources? Template/resources
+19.	how to debug the controllers - new script debug – double click in the editor
+20.	site import & export or just import and export – depends of what object…if any custom attributes – see the BM scrren shot…
+21.	catridge path of new overide method app_xx, client_xxx, app_storefront, app_ui , etc – client-xxx, app-xxx then all necessary..
+22.	how to see the cache – storefront toolkit > cache information > G R B
+23.	if storefront sees the forced quato error what developer should do? change code to correct, do nothing, call rep, change config in bm – change code to correct. This happens in sandbox.
+24.	web service is failling for long time.. how to determine – only from logs or Service status – green or red statys but it shows for 15 mins..
+25.	developer suspect ths logical error - where to see....check the log, debugger, or print all values, etc – syntax/lexical are in logs but logic is through debugger
+26.	log file name  - log.info("xyz","errorxx")....custominfo-blade or customxyz or customererrorxx or error  - custom-xyz-
+27.	2 efficient way of connecting to external system - asy, sync , set connect time, - Async and
+28.	how to handle the timeout error in external services, admin add the timeout and circuit....service unavailable, try catch,  - ServiceUnableException -
+29.	some service = true setting in business manager, -
+30.	what multiple things u do if ur catridge is uploaded but not working as expected - correct version as active? – check active version
+31.	OCAPI - add to cart...what needs to be changed to work - resource=/baskets/**, method=["get"], readattriutes="**", writeattributes="**" --- baskets/product/* or items in any of read or write or method - get, post, etc
+32.	how to get the inventory for particualar product - inventory_list, product/, inventory_xxx, inventory_xxx – inventory_lists
+33.	1model 101 containers, 3model 200 cont, 5model 300 cont - as "The Basics"...how to set up the unquiue comnimation in bm - add product bundle, add product set, etc – product bundle
+34.	how to accomodate the region code in order history - extend order object or create custom object ---????
+35.	some values needs to be in throught of checkout pages - which way to store -- session, cookie, request, object? Session or request
+36.	how to use the custom tag of what first step - utils/modules – import module
+37.	lazy script load - $.ajax or require, importpackage? require
+38.	modify the incorrect code... ????
+39.	controllers how to measure the perfornce in technical report - number of hits, average time, etc – average time
+40.	what is purpose of using productsearchmodel instead of getallproduct - 1 choice - uses search index, reduce app server call, etc -  search index
+41.	storetoolkit > cache information to find out the cache - how do we know if it cached?
+42.	how to ensure the https, post method in controllers ... ensure.gaurd(https, post)
+43.	rendertemplates - ???
+44.	controllers questions - ??
+45.	invnetory perpectual during holiday sales...how? perpetual
+46.	Putting value in pdict like (myProduct, product) or ("myProduct", product) , (product, myProduct)
