@@ -1,0 +1,158 @@
+https://hackathon-lightningstarts-dev-ed.my.salesforce.com/01p2E00000Bf0RIQAZ 
+https://gist.github.com/emoran/9074450
+
+Test DAta Factory:
+=============================================================================================================
+    public static List<ccrz__E_Product__c> createProducts(Integer num){
+        List<ccrz__E_Product__c> products = new List<ccrz__E_Product__c>();
+        CAP_Storefront__mdt storefront = [SELECT Accelerator__c FROM CAP_Storefront__mdt LIMIT 1];
+        for(Integer i=0;i<num;i++){
+           ccrz__E_Product__c prod = new ccrz__E_Product__c(Name = 'Test Product' +i,
+                                                           	ccrz__SKU__c = 'TESTPROD'+DateTime.now().getTime(),
+                                                           	ccrz__Quantityperunit__c = 1,
+                                                           	ccrz__ProductType__c = 'Product',
+                                                            ccrz__Storefront__c = storefront.Accelerator__c,
+                                                           	ccrz__StartDate__c = Date.today(),
+                                                           	ccrz__EndDate__c = Date.today().addYears(2),
+                                                            ccrz__ProductStatus__c = 'Released');
+            products.add(prod);
+        }
+        insert products;
+        return products;
+    }
+===============================================================================================================
+
+
+    public static List<ccrz__E_PriceList__c> createPriceLists(Integer num){
+        List<ccrz__E_PriceList__c> priceLists = new List<ccrz__E_PriceList__c>();
+        CAP_Storefront__mdt storefront = [SELECT Accelerator__c FROM CAP_Storefront__mdt LIMIT 1];
+        for(Integer i=0;i<num;i++){
+           ccrz__E_PriceList__c pricelist = new ccrz__E_PriceList__c(Name = 'Test PriceList' +i,
+                                                            		ccrz__Storefront__c = storefront.Accelerator__c,
+                                                            		ccrz__StartDate__c = Date.today(),
+                                                            		ccrz__EndDate__c = Date.today().addYears(2));
+            priceLists.add(pricelist);
+        }
+        insert priceLists;
+        return priceLists;
+    }
+
+=============================================================================================================
+ public static List<ccrz__E_Product__c> createProducts(Integer num){
+        List<ccrz__E_Product__c> products = new List<ccrz__E_Product__c>();
+        ccrz__E_AccountGroup__c accGroup = new ccrz__E_AccountGroup__c(Name = 'Test AccountGroup',ccrz__PriceListSelectionMethod__c = 'Best Price');
+        insert accGroup;
+        CAP_Storefront__mdt storefront = [SELECT Accelerator__c FROM CAP_Storefront__mdt LIMIT 1];
+        ccrz__E_PriceList__c pricelist = new ccrz__E_PriceList__c(Name = 'Test PriceList',
+                                                            	  ccrz__Storefront__c = storefront.Accelerator__c,
+                                                            	  ccrz__StartDate__c = Date.today(),
+                                                            	  ccrz__EndDate__c = Date.today().addYears(2));
+        insert pricelist;
+        
+        for(Integer i=0;i<num;i++){
+           ccrz__E_Product__c prod = new ccrz__E_Product__c(Name = 'Test Product' +i,
+                                                            ccrz__SKU__c = 'TESTPROD'+DateTime.now().getTime(),
+                                                            ccrz__Quantityperunit__c = 1,
+                                                            ccrz__ProductType__c = 'Product',
+                                                            ccrz__Storefront__c = storefront.Accelerator__c,
+                                                            ccrz__StartDate__c = Date.today(),
+                                                            ccrz__EndDate__c = Date.today().addYears(2),
+                                                            ccrz__ProductStatus__c = 'Released');
+            products.add(prod);
+        }
+        insert products;
+        List<ccrz__E_PriceListItem__c> priceListItems = new List<ccrz__E_PriceListItem__c>();
+        for(Integer i=0;i<num;i++){
+           ccrz__E_PriceListItem__c priceListItem = new ccrz__E_PriceListItem__c(ccrz__Pricelist__c = pricelist.Id,
+                                                                                 ccrz__StartDate__c = Date.today(),
+                                                            					 ccrz__EndDate__c = Date.today().addYears(2),
+                                                            					 ccrz__Price__c = 250 +10*(i));
+            priceListItems.add(priceListItem);
+        }
+        
+        return products;
+    }
+=======================================================================================================
+Class.ccrz.cc_util_CloudCraze.getStorefrontSettings: line 129, column 1
+Class.ccrz.cc_CallContext.loadStorefrontSettings: line 259, column 1
+Class.ccrz.cc_CallContext.__sfdc_storeFrontSettings: line 239, column 1
+Class.ccrz.cc_util_Locale.processAPILocale: line 483, column 1
+Class.ccrz.ccService.processLocale: line 146, column 1
+Class.ccrz.ccService.processLocale: line 143, column 1
+Class.ccrz.ccServiceProduct8.fetch: line 69, column 1
+Class.ccrz.ccService.fetch: line 783, column 1
+Class.ccrz.ccServiceProduct.fetch: line 29, column 1
+Class.ccrz.ccAPIProduct.fetch: line 192, column 1
+Class.CAP_View_Requisition_List.fetchRequisitionLists: line 26, column 1
+Class.CAP_View_Requisition_ListTest.testFetchRequisitionListWithReqListPresent: line 19, column 1
+======================================================================================================
+Class.ccrz.cc_util_CloudCraze.getStorefrontSettings: line 129, column 1
+Class.ccrz.cc_CallContext.loadStorefrontSettings: line 259, column 1
+Class.ccrz.cc_CallContext.__sfdc_storeFrontSettings: line 239, column 1
+Class.ccrz.cc_util_Locale.processAPILocale: line 483, column 1
+Class.ccrz.ccService.processLocale: line 146, column 1
+Class.ccrz.ccService.processLocale: line 143, column 1
+Class.ccrz.ccServiceProduct8.fetch: line 69, column 1
+Class.ccrz.ccService.fetch: line 783, column 1
+Class.ccrz.ccServiceProduct.fetch: line 29, column 1
+Class.ccrz.ccAPIProduct.fetch: line 192, column 1
+Class.CAP_View_Requisition_List.fetchRequisitionLists: line 26, column 1
+Class.CAP_View_Requisition_ListTest.testFetchRequisitionListWithReqListPresent: line 20, column 1
+=================================================================================================================
+    public static ccrz.cc_RemoteActionContext createRemoteActionObject(){
+        ccrz.cc_RemoteActionContext ctx  = new ccrz.cc_RemoteActionContext();
+        CAP_Profile__mdt prof=[SELECT Customer_Community_Profile__c FROM CAP_Profile__mdt LIMIT 1];
+        CAP_Storefront__mdt storefront = [SELECT Accelerator__c FROM CAP_Storefront__mdt LIMIT 1];
+        Profile pr = [SELECT ID FROM Profile WHERE Name=:prof.Customer_Community_Profile__c];
+        String uniqueUserName = 'standarduser' + DateTime.now().getTime() + '@testorg.com';
+        Account acc = new Account(Name = 'Test Account'+DateTime.now().getTime());
+        insert acc;
+        Contact con = new Contact(LastName='Testing', Email='standarduser@testorg.com',AccountId=acc.Id,Role__c = 'Buyer');
+        insert con;
+        User u = new User(Alias = 'standt', Email='standarduser@testorg.com',
+        EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US',
+        LocaleSidKey='en_US', ProfileId = pr.Id,
+        TimeZoneSidKey='America/Los_Angeles',ContactId=con.Id,
+        UserName=uniqueUserName);
+        insert u;
+        ccrz__E_AccountGroup__c accGroup = new ccrz__E_AccountGroup__c(Name = 'Test AccountGroup',ccrz__PriceListSelectionMethod__c = 'Best Price');
+        insert accGroup;
+        ccrz__E_Seller__c seller = new ccrz__E_Seller__c(Name = 'Test Seller',
+                                                         ccrz__Account__c = acc.Id,
+                                                         ccrz__Enabled__c = True,
+                                                         ccrz__WebsiteURL__c = 'http://cloudcraze.com',
+                                                         ccrz__EffectiveStart__c = Datetime.now(),
+                                                         ccrz__EffectiveEnd__c = Datetime.now().addYears(2));
+        insert seller;
+        ccrz__E_PriceList__c pricelist = new ccrz__E_PriceList__c(Name = 'Test PriceList',
+                                                                  ccrz__Seller__c = seller.Id,
+                                                                  ccrz__Storefront__c = storefront.Accelerator__c,
+                                                                  ccrz__StartDate__c = Date.today(),
+                                                                  ccrz__EndDate__c = Date.today().addYears(2));
+        insert pricelist;
+        priceListId  = pricelist.Id;
+        ccrz__E_AccountGroupPriceList__c accGroupPriceList = new ccrz__E_AccountGroupPriceList__c(ccrz__AccountGroup__c = accGroup.Id,
+                                                                                                  ccrz__Sequence__c = 500,
+                                                                                                  ccrz__Pricelist__c = pricelist.Id,
+                                                                                                  ccrz__StartDate__c = Date.today(),
+                                                                                                  ccrz__EndDate__c = Date.today().addYears(2));
+        insert accGroupPriceList;
+        Map<String,Object> returnData = ccrz.ccAPIUser.getStorefrontSettings(new Map<String,Object>{
+    		ccrz.ccApi.API_VERSION => 9,
+            ccrz.ccAPIStorefront.PARAM_STOREFRONT => storefront.Accelerator__c
+		});
+        System.runAs(u){
+            ccrz.cc_CallContext.currUserId = userInfo.getUserId();
+            ccrz.cc_CallContext.storefront = storefront.Accelerator__c;
+            ccrz.cc_CallContext.currAccountId = acc.Id;
+            ccrz.cc_CallContext.currAccountGroup = accGroup;
+            ccrz.cc_CallContext.effAccountId = accGroup.Id;
+			ccrz.cc_CallContext.userLocale = userInfo.getLocale();
+         /*   ccrz.cc_CallContext.storefrontSettings = getStorefrontSettings(new Map<String,Object>{
+    		ccrz.ccApi.API_VERSION => 9,
+            ccrz.ccAPIStorefront.PARAM_STOREFRONT => storefront.Accelerator__c
+		});*/
+            userid = userInfo.getUserId();
+        }
+        return ctx;
+    }
